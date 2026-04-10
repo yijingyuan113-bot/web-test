@@ -207,20 +207,7 @@ let favorites = [];
 
 // 白名单用户列表
 const whitelistUsers = [
-  "admin",
-  "user1",
-  "user2",
-  "SQEstudent",
-  "x7b2p9k",
-  "3z8n5q1",
-  "y4t6m7w",
-  "9a3f1s5",
-  "c6v8r2d",
-  "4g7h9j3",
-  "n5k2p8o",
-  "2w6e4r9",
-  "m8t3y5u",
-  "6i9o3p1"
+  "Lucia"
 ];
 
 function getUser(username) {
@@ -809,11 +796,6 @@ let currentIndex = 0;
 let currentCategory = '未选择';
 
 function startPractice(cate) {
-  if (!hasPaidAccess()) {
-    alert('当前账号尚未完成付费授权，题库练习功能暂不可用。');
-    return;
-  }
-
   if (cate === 'all') {
     currentSet = allQuestions;
     currentCategory = '全部题库';
@@ -823,6 +805,14 @@ function startPractice(cate) {
   } else {
     currentSet = questions.filter(q => q.cate === cate);
     currentCategory = cate || 'FLK1';
+  }
+  
+  // 游客模式下限制题库数量为30题
+  if (currentUserEmail === 'guest') {
+    if (currentSet.length > 30) {
+      currentSet = currentSet.slice(0, 30);
+      alert('游客模式下仅开放30题，登录后可访问全部题库');
+    }
   }
   
   if (document.getElementById('shuffleCheck').checked) {
@@ -889,7 +879,7 @@ function toggleFavorite() {
 }
 
 function loadFavorites() {
-  if (!currentUserEmail) {
+  if (!currentUserEmail || currentUserEmail === 'guest') {
     favorites = [];
     return;
   }
@@ -898,8 +888,26 @@ function loadFavorites() {
 }
 
 function saveFavorites() {
-  if (!currentUserEmail) return;
+  if (!currentUserEmail || currentUserEmail === 'guest') return;
   localStorage.setItem(`favorites_${currentUserEmail}`, JSON.stringify(favorites));
+}
+
+function toggleFavorite() {
+  if (!currentUserEmail || currentUserEmail === 'guest') {
+    alert('游客模式下无法保存收藏，请登录后再使用此功能');
+    return;
+  }
+  if (!currentSet.length) return;
+  const q = currentSet[currentIndex];
+  const index = favorites.indexOf(q.id);
+  if (index > -1) {
+    favorites.splice(index, 1);
+    document.getElementById('favoriteBtn').textContent = '⭐ 收藏';
+  } else {
+    favorites.push(q.id);
+    document.getElementById('favoriteBtn').textContent = '⭐ 已收藏';
+  }
+  saveFavorites();
 }
 
 function renderFavorites() {
