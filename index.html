@@ -131,8 +131,23 @@
   <!-- 1. 课程模块 -->
   <div id="tab-course" class="hidden bg-white p-5 rounded shadow mb-6">
     <h3 class="font-bold text-lg mb-3">📘 SQE 课程模块</h3>
-    <p class="text-sm text-gray-500 mb-4">以下内容按考试科目结构整理，提供中英文对照学习。</p>
-    <div id="courseContent" class="space-y-4 text-sm"></div>
+    <p class="text-sm text-gray-500 mb-4">上传和管理各科目的PDF教材。</p>
+    
+    <!-- PDF上传区域 - 仅Lucia用户可见 -->
+    <div id="pdfUploadSection" class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <h4 class="font-medium mb-3">上传PDF教材</h4>
+      <div class="flex gap-2 mb-3">
+        <input type="file" id="pdfFile" accept=".pdf" class="flex-1">
+        <button onclick="uploadPDF()" class="bg-blue-600 text-white px-4 py-2 rounded">上传</button>
+      </div>
+      <input type="text" id="pdfTitle" placeholder="输入教材标题（例如：FLK1 法律基础）" class="w-full p-2 border rounded mb-2">
+      <p class="text-xs text-gray-500">支持PDF格式文件，建议文件大小不超过50MB</p>
+    </div>
+    
+    <!-- PDF文件列表 -->
+    <div id="pdfList" class="space-y-4">
+      <!-- PDF文件将在这里显示 -->
+    </div>
   </div>
 
   <!-- 2. 题库练习模块 -->
@@ -471,6 +486,8 @@ function logout() {
   document.getElementById('userName').innerText = '';
   // 重置模块状态
   updateModuleAccess();
+  // 更新上传区域的可见性
+  updateUploadSectionVisibility();
 }
 
 // 直接进入系统
@@ -514,6 +531,16 @@ function goTab(tab) {
     document.getElementById("tab-"+currentTab).classList.add("hidden");
     document.getElementById("tab-"+tab).classList.remove("hidden");
     currentTab = tab;
+    
+    // 当切换到课程模块时，更新上传区域的可见性
+    if (tab === 'course') {
+      updateUploadSectionVisibility();
+    }
+    
+    // 当切换到课程模块时，更新上传区域的可见性
+    if (tab === 'course') {
+      updateUploadSectionVisibility();
+    }
     if (tab === 'practice' || tab === 'notes') updateModuleAccess();
     if (tab === 'favorites') renderFavorites();
     if (tab === 'notes') displayAllNotes();
@@ -565,68 +592,8 @@ let examNotes = {
   ]
 };
 
-let courseModules = [
-  {
-    title_cn: "英国法律体系",
-    title_en: "English Legal System",
-    notes: [
-      {cn: "Parliament是英国法律制度的最高权力机构", en: "Parliament is the supreme authority in the UK legal system."},
-      {cn: "议会主权是英国宪法的基础", en: "Parliamentary sovereignty is the foundation of the UK constitution."},
-      {cn: "普通法是英国法律制度的重要组成部分", en: "Common law is an important component of the UK legal system."}
-    ]
-  },
-  {
-    title_cn: "法律制定与下位法",
-    title_en: "Legislation and Subordinate Law",
-    notes: [
-      {cn: "法案（Acts of Parliament）是议会的立法成果", en: "Acts of Parliament are legislation created by Parliament."},
-      {cn: "从属法律包括法定规则和其他法规", en: "Subordinate legislation includes statutory rules and other delegated regulations."},
-      {cn: "法定工具主要通过 Statutory Instruments 实施", en: "Statutory Instruments are the main means of implementing delegated powers."},
-      {cn: "地方条例由地方当局制定和执行", en: "Bylaws are made and enforced by local authorities."}
-    ]
-  },
-  {
-    title_cn: "法律解释规则",
-    title_en: "Rules of Legal Interpretation",
-    notes: [
-      {cn: "字面解释规则根据条文的字面含义", en: "The Literal Rule interprets statutes according to their plain meaning."},
-      {cn: "黄金规则在字面解释不合理时修正", en: "The Golden Rule adjusts literal meanings when a literal interpretation would be absurd."},
-      {cn: "恶行规则考虑立法目的", en: "The Mischief Rule focuses on the purpose of the statute."},
-      {cn: "目的解释规则强调法律的目的", en: "The Purposive Approach emphasizes the purpose behind the law."},
-      {cn: "转义规则和其他辅助规则帮助解释法律", en: "Ejusdem generis and other aids help with legal interpretation."}
-    ]
-  },
-  {
-    title_cn: "法律援引与法源",
-    title_en: "Legal Aids and Sources",
-    notes: [
-      {cn: "固有援引指法律条文本身的辅助材料", en: "Intrinsic aids are interpretive tools found within the statute itself."},
-      {cn: "外来援引指条文之外的参考资料", en: "Extrinsic aids are materials outside the statute used to explain its meaning."}
-    ]
-  },
-  {
-    title_cn: "法律专业人士与法院体系",
-    title_en: "Legal Professionals and the Court System",
-    notes: [
-      {cn: "大律师（Barristers）是专注出庭的高级法律专业人士", en: "Barristers are specialist advocates who appear in court."},
-      {cn: "律师（Solicitors）负责客户咨询和事务处理", en: "Solicitors handle client advice and legal work."},
-      {cn: "法律执行人（Legal Executives）是法律事务的专业助理", en: "Legal executives are trained legal advisers assisting with casework."},
-      {cn: "治安法官和法官执行不同层级的司法职能", en: "Magistrates and judges perform judicial functions at different levels."},
-      {cn: "总检察长（Attorney General）是政府的首席法律顾问", en: "The Attorney General is the government’s chief legal adviser."}
-    ]
-  },
-  {
-    title_cn: "英国法院体系",
-    title_en: "UK Court System",
-    notes: [
-      {cn: "高等法院（High Court）是处理重大民事案件的高级法院", en: "The High Court deals with major civil cases."},
-      {cn: "上诉法院（Court of Appeal）处理更低法院的上诉", en: "The Court of Appeal hears appeals from lower courts."},
-      {cn: "刑事诉讼程序遵循法定的程序规则", en: "Criminal procedure follows statutory procedural rules."},
-      {cn: "民事诉讼程序由民事诉讼规则（CPR）管制", en: "Civil litigation is governed by the Civil Procedure Rules (CPR)."},
-      {cn: "不同法院对不同类型案件拥有不同管辖权", en: "Different courts have jurisdiction over different types of cases."}
-    ]
-  }
-];
+// PDF教材管理
+let pdfFiles = [];
 
 function initNotes() {
   // 初始化笔记按钮
@@ -677,34 +644,172 @@ function displayNotesByTopic(topic) {
   document.getElementById('notesContent').innerHTML = html;
 }
 
+// 初始化PDF列表
 function initCourse() {
-  const container = document.getElementById('courseContent');
-  if (!container) return;
+  loadPDFFiles();
+  renderPDFFiles();
+  updateUploadSectionVisibility();
+}
 
+// 更新上传区域的可见性
+function updateUploadSectionVisibility() {
+  const uploadSection = document.getElementById('pdfUploadSection');
+  if (!uploadSection) return;
+  
+  // 只有Lucia用户可以上传
+  if (currentUserEmail === 'Lucia') {
+    uploadSection.style.display = 'block';
+  } else {
+    uploadSection.style.display = 'none';
+  }
+}
+
+// 加载PDF文件列表
+function loadPDFFiles() {
+  const stored = localStorage.getItem('pdfFiles');
+  if (stored) {
+    pdfFiles = JSON.parse(stored);
+  }
+}
+
+// 保存PDF文件列表
+function savePDFFiles() {
+  localStorage.setItem('pdfFiles', JSON.stringify(pdfFiles));
+}
+
+// 上传PDF文件
+function uploadPDF() {
+  const fileInput = document.getElementById('pdfFile');
+  const titleInput = document.getElementById('pdfTitle');
+  
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert('请选择要上传的PDF文件');
+    return;
+  }
+  
+  const title = titleInput.value.trim();
+  if (!title) {
+    alert('请输入教材标题');
+    return;
+  }
+  
+  const file = fileInput.files[0];
+  
+  // 检查文件类型
+  if (file.type !== 'application/pdf') {
+    alert('请上传PDF格式的文件');
+    return;
+  }
+  
+  // 检查文件大小（50MB限制）
+  if (file.size > 50 * 1024 * 1024) {
+    alert('文件大小不能超过50MB');
+    return;
+  }
+  
+  // 使用FileReader读取文件内容
+  const reader = new FileReader();
+  
+  reader.onload = function(e) {
+    try {
+      const pdfData = e.target.result;
+      
+      // 创建PDF文件对象
+      const pdfFile = {
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        title: title,
+        filename: file.name,
+        size: file.size,
+        data: pdfData,
+        uploadDate: new Date().toISOString()
+      };
+      
+      // 添加到PDF文件列表
+      pdfFiles.push(pdfFile);
+      savePDFFiles();
+      renderPDFFiles();
+      
+      // 清空输入
+      fileInput.value = '';
+      titleInput.value = '';
+      
+      alert('PDF文件上传成功');
+    } catch (error) {
+      alert('文件上传失败，请重试');
+      console.error('上传错误:', error);
+    }
+  };
+  
+  reader.onerror = function() {
+    alert('文件读取失败');
+  };
+  
+  reader.readAsDataURL(file);
+}
+
+// 渲染PDF文件列表
+function renderPDFFiles() {
+  const container = document.getElementById('pdfList');
+  if (!container) return;
+  
+  if (pdfFiles.length === 0) {
+    container.innerHTML = '<p class="text-gray-500 text-center">暂无PDF教材，请上传</p>';
+    return;
+  }
+  
+  // 按标题排序
+  pdfFiles.sort((a, b) => a.title.localeCompare(b.title));
+  
   let html = '';
-  courseModules.forEach((module, index) => {
+  pdfFiles.forEach(pdf => {
+    // 格式化文件大小
+    const sizeKB = (pdf.size / 1024).toFixed(2);
+    const sizeMB = (pdf.size / (1024 * 1024)).toFixed(2);
+    const sizeText = sizeMB < 1 ? `${sizeKB} KB` : `${sizeMB} MB`;
+    
+    // 格式化上传日期
+    const uploadDate = new Date(pdf.uploadDate).toLocaleString();
+    
     html += `
       <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
-        <div class="mb-3">
-          <h4 class="font-semibold text-lg text-blue-700">${index + 1}. ${module.title_cn}</h4>
-          <p class="text-sm text-gray-500">${module.title_en}</p>
-        </div>
-        <div class="grid gap-3">
-    `;
-    module.notes.forEach(note => {
-      html += `
-          <div class="p-3 bg-white rounded-lg border border-gray-200">
-            <p class="font-medium text-gray-800">${note.cn}</p>
-            <p class="text-sm text-gray-600 mt-1">${note.en}</p>
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 class="font-semibold text-lg text-blue-700">${pdf.title}</h4>
+            <p class="text-sm text-gray-500 mb-2">${pdf.filename} (${sizeText})</p>
+            <p class="text-xs text-gray-500">上传时间: ${uploadDate}</p>
           </div>
-      `;
-    });
-    html += `
+          <div class="flex gap-2">
+            <button onclick="downloadPDF(${pdf.id})" class="bg-green-600 text-white px-3 py-1 rounded text-sm">下载</button>
+            <button onclick="deletePDF(${pdf.id})" class="bg-red-600 text-white px-3 py-1 rounded text-sm">删除</button>
+          </div>
         </div>
       </div>
     `;
   });
+  
   container.innerHTML = html;
+}
+
+// 下载PDF文件
+function downloadPDF(id) {
+  const pdf = pdfFiles.find(p => p.id === id);
+  if (!pdf) return;
+  
+  // 创建下载链接
+  const link = document.createElement('a');
+  link.href = pdf.data;
+  link.download = pdf.filename;
+  link.click();
+}
+
+// 删除PDF文件
+function deletePDF(id) {
+  if (confirm('确定要删除这个PDF文件吗？')) {
+    pdfFiles = pdfFiles.filter(p => p.id !== id);
+    savePDFFiles();
+    renderPDFFiles();
+    alert('PDF文件已删除');
+  }
 }
 
 
