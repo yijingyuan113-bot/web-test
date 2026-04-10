@@ -54,7 +54,14 @@
       <h2 class="text-2xl font-bold mb-4">邮箱注册 / 登录</h2>
       <input id="username" type="text" placeholder="用户名" class="w-full p-2 border rounded mb-3">
       <input id="email" type="email" placeholder="邮箱地址" class="w-full p-2 border rounded mb-3">
-      <p class="text-xs text-gray-500 mb-4">请使用邮箱注册登录，用户管理由管理员后续接入。题库与笔记模块需付费授权后方可打开。</p>
+      <div id="verificationSection" class="hidden mb-3">
+        <input id="verificationCode" type="text" placeholder="验证码" class="w-full p-2 border rounded mb-2">
+        <div class="flex gap-2">
+          <button onclick="sendVerificationCode()" class="flex-1 bg-green-600 text-white py-2 rounded text-sm">发送验证码</button>
+          <span id="countdown" class="text-xs text-gray-500 flex items-center"></span>
+        </div>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">请使用邮箱注册登录，系统将发送验证码到您的邮箱进行验证。</p>
       <button onclick="login()" class="w-full bg-blue-600 text-white py-2 rounded">注册/登录</button>
 
 <!-- 主应用 -->
@@ -203,6 +210,51 @@ function showLogin() {
   document.getElementById('loginModal').classList.remove('hidden');
 }
 
+let verificationCode = '';
+let countdownTimer = null;
+
+function sendVerificationCode() {
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  
+  if (!email || !emailRegex.test(email)) {
+    alert('请输入有效的邮箱地址');
+    return;
+  }
+  
+  // 生成6位随机验证码
+  verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+  
+  // 模拟发送邮件（实际项目中需要后端实现）
+  console.log(`验证码已发送到 ${email}: ${verificationCode}`);
+  alert(`验证码已发送到您的邮箱: ${verificationCode}`);
+  
+  // 开始倒计时
+  startCountdown();
+}
+
+function startCountdown() {
+  let seconds = 60;
+  const countdownElement = document.getElementById('countdown');
+  const sendButton = document.querySelector('button[onclick="sendVerificationCode()"]');
+  
+  sendButton.disabled = true;
+  countdownElement.textContent = `60秒后可重发`;
+  
+  if (countdownTimer) clearInterval(countdownTimer);
+  
+  countdownTimer = setInterval(() => {
+    seconds--;
+    countdownElement.textContent = `${seconds}秒后可重发`;
+    
+    if (seconds <= 0) {
+      clearInterval(countdownTimer);
+      sendButton.disabled = false;
+      countdownElement.textContent = '';
+    }
+  }, 1000);
+}
+
 function login() {
   const username = document.getElementById('username').value.trim();
   const email = document.getElementById('email').value.trim().toLowerCase();
@@ -218,11 +270,30 @@ function login() {
   }
 
   let user = getUser(email);
+  
+  // 新用户需要验证
   if (!user) {
+    // 显示验证码输入框
+    document.getElementById('verificationSection').classList.remove('hidden');
+    
+    // 检查验证码
+    const code = document.getElementById('verificationCode').value.trim();
+    if (!code) {
+      alert('请输入验证码');
+      return;
+    }
+    
+    if (code !== verificationCode) {
+      alert('验证码错误');
+      return;
+    }
+    
+    // 创建新用户并标记为已验证
     user = {
       email,
       name: username,
-      paid: false
+      paid: false,
+      verified: true
     };
     setUser(user);
   } else if (user.name !== username) {
