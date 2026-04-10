@@ -272,44 +272,66 @@ function switchTab(tab) {
 
 // 登录功能
 function login() {
-  const username = document.getElementById('loginUsername').value.trim();
-
-  if (!username) {
-    alert('请输入用户名');
-    return;
-  }
-
-  let user = getUser(username);
-  
-  if (!user) {
-    alert('用户名不在白名单中，请联系管理员');
-    return;
-  }
-
-  currentUser = user.name;
-  currentUserEmail = username; // 使用用户名作为标识
-  
-  // 记住登录状态
-  if (document.getElementById('rememberMe').checked) {
-    localStorage.setItem('rememberedUser', JSON.stringify({
-      username: user.name
-    }));
-  }
-  
-  document.getElementById('userName').innerText = user.name;
-  document.getElementById('loginModal').classList.add('hidden');
-  document.getElementById('home').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  loadFavorites();
-  initNotes();
-  updateModuleAccess();
   try {
-    initCourse();
-    showAllVocab();
-  } catch(e) {
-    console.error('模块初始化失败:', e);
+    const username = document.getElementById('loginUsername').value.trim();
+
+    if (!username) {
+      alert('请输入用户名');
+      return;
+    }
+
+    let user = getUser(username);
+    
+    if (!user) {
+      alert('用户名不在白名单中，请联系管理员');
+      return;
+    }
+
+    currentUser = user.name;
+    currentUserEmail = username; // 使用用户名作为标识
+    
+    // 记住登录状态
+    if (document.getElementById('rememberMe').checked) {
+      localStorage.setItem('rememberedUser', JSON.stringify({
+        username: user.name
+      }));
+    }
+    
+    console.log('登录成功，用户:', user.name);
+    
+    // 确保DOM元素存在
+    const userNameElement = document.getElementById('userName');
+    const loginModalElement = document.getElementById('loginModal');
+    const homeElement = document.getElementById('home');
+    const appElement = document.getElementById('app');
+    
+    if (userNameElement) userNameElement.innerText = user.name;
+    if (loginModalElement) loginModalElement.classList.add('hidden');
+    if (homeElement) homeElement.style.display = 'none';
+    if (appElement) {
+      appElement.style.display = 'block';
+      console.log('app元素已显示');
+    }
+    
+    // 初始化模块
+    loadFavorites();
+    initNotes();
+    updateModuleAccess();
+    
+    try {
+      initCourse();
+      showAllVocab();
+    } catch(e) {
+      console.error('模块初始化失败:', e);
+    }
+    
+    console.log('准备切换到practice模块');
+    goTab('practice');
+    console.log('切换模块完成');
+  } catch (error) {
+    console.error('登录失败:', error);
+    alert('登录失败，请刷新页面重试');
   }
-  goTab('practice');
 }
 
 // 注册功能（已禁用）
@@ -363,21 +385,43 @@ function logout() {
 
 // 直接进入系统
 function directEnter() {
-  currentUser = "Guest";
-  currentUserEmail = "guest";
-  document.getElementById('userName').innerText = currentUser;
-  document.getElementById('home').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  loadFavorites();
-  initNotes();
-  updateModuleAccess();
   try {
-    initCourse();
-    showAllVocab();
-  } catch(e) {
-    console.error('模块初始化失败:', e);
+    currentUser = "Guest";
+    currentUserEmail = "guest";
+    
+    console.log('直接进入系统');
+    
+    // 确保DOM元素存在
+    const userNameElement = document.getElementById('userName');
+    const homeElement = document.getElementById('home');
+    const appElement = document.getElementById('app');
+    
+    if (userNameElement) userNameElement.innerText = currentUser;
+    if (homeElement) homeElement.style.display = 'none';
+    if (appElement) {
+      appElement.style.display = 'block';
+      console.log('app元素已显示');
+    }
+    
+    // 初始化模块
+    loadFavorites();
+    initNotes();
+    updateModuleAccess();
+    
+    try {
+      initCourse();
+      showAllVocab();
+    } catch(e) {
+      console.error('模块初始化失败:', e);
+    }
+    
+    console.log('准备切换到practice模块');
+    goTab('practice');
+    console.log('切换模块完成');
+  } catch (error) {
+    console.error('直接进入失败:', error);
+    alert('进入失败，请刷新页面重试');
   }
-  goTab('practice');
 }
 
 // ====================== 模块切换 ======================
