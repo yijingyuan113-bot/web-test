@@ -256,24 +256,29 @@
           <div>
             <h5 class="font-medium mb-2">FLK1 - 法律基础</h5>
             <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>英国法律体系与法律来源</li>
-              <li>立法与法律解释</li>
-              <li>合同法基础</li>
-              <li>侵权法与责任</li>
-              <li>法律职业与法院架构</li>
+              <li>英格兰和威尔士法律体系</li>
+              <li>宪法和行政法及欧盟法</li>
+              <li>职业道德和专业行为</li>
+              <li>法律服务</li>
+              <li>合同法</li>
+              <li>侵权法</li>
+              <li>争议解决</li>
+              <li>商业法和实务</li>
+              <li>税法</li>
             </ul>
           </div>
           <div>
             <h5 class="font-medium mb-2">FLK2 - 法律实务</h5>
             <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>专业伦理与法律服务</li>
-              <li>民事与刑事诉讼程序</li>
-              <li>财产法与租赁/土地实务</li>
-              <li>信托、遗产与公司法实务</li>
-              <li>案件分析与实务题训练</li>
+              <li>土地法</li>
+              <li>财产实务</li>
+              <li>遗嘱和遗产管理</li>
+              <li>信托法</li>
+              <li>律师账户</li>
             </ul>
           </div>
         </div>
+        <p class="text-sm text-gray-500 mt-3">* 考试形式：FLK1和FLK2各180道选择题，每部分分上下半场，每半场90道题，考试时间153分钟</p>
       </div>
       
       <!-- 考试时间 -->
@@ -281,10 +286,11 @@
         <h4 class="font-semibold text-lg mb-2 text-blue-700">考试时间</h4>
         <p class="text-gray-700 mb-3">SQE 考试每年举行多次，具体时间可在 SRA 官网查询。</p>
         <ul class="list-disc list-inside text-gray-700 space-y-1">
-          <li>FLK1：通常为 2 天，每天 3 小时</li>
-          <li>FLK2：通常为 2 天，每天 3 小时</li>
+          <li>FLK1：一天内完成，分上下半场，每半场90道题，考试时间153分钟</li>
+          <li>FLK2：一天内完成，分上下半场，每半场90道题，考试时间153分钟</li>
           <li>考试形式：计算机化考试（CBT）</li>
           <li>成绩公布：考试后 6-8 周</li>
+          <li>考试频率：每年举行四次（1月、4月、7月、10月）</li>
         </ul>
       </div>
       
@@ -307,6 +313,8 @@
           <li>FLK1：约 £1,558</li>
           <li>FLK2：约 £2,422</li>
           <li>费用可能会有调整，请以 SRA 官网最新信息为准</li>
+          <li>考试费用需要通过 Pearson VUE 平台支付</li>
+          <li>考生必须在首次通过SQE1后的六年内通过SQE2，否则SQE1成绩将失效</li>
         </ul>
       </div>
       
@@ -319,6 +327,35 @@
           <li>参加专业的 SQE 培训课程</li>
           <li>进行充分的模拟测试和练习</li>
           <li>关注 SRA 官网的最新考试信息和政策变化</li>
+        </ul>
+      </div>
+      
+      <!-- SQE2 考试介绍 -->
+      <div class="p-4 bg-gray-50 rounded-lg">
+        <h4 class="font-semibold text-lg mb-2 text-blue-700">SQE2 考试介绍</h4>
+        <p class="text-gray-700 mb-3">SQE2 是法律实务技能评估（Practical Legal Skills），采用模拟真实律师工作场景的方式进行测试。</p>
+        
+        <h5 class="font-medium mb-2">考试形式</h5>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 mb-3">
+          <li>考试持续5天，其中口试2天，笔试3天</li>
+          <li>考试频率：每年举行四次（1月、4月、7月、10月）</li>
+        </ul>
+        
+        <h5 class="font-medium mb-2">评估的六大法律技能</h5>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 mb-3">
+          <li>客户面谈（Client Interviewing）</li>
+          <li>辩护/演说（Advocacy）</li>
+          <li>个案与事务分析（Case and Matter Analysis）</li>
+          <li>法律研究（Legal Research）</li>
+          <li>法律写作（Legal Writing）</li>
+          <li>法律起草（Legal Drafting）</li>
+        </ul>
+        
+        <h5 class="font-medium mb-2">其他要求</h5>
+        <ul class="list-disc list-inside text-gray-700 space-y-1">
+          <li>考生必须在首次通过SQE1后的六年内通过SQE2</li>
+          <li>主要考察法律技能、法律职业道德和职业操守</li>
+          <li>需达到整体及格线才能通过SQE2</li>
         </ul>
       </div>
     </div>
@@ -2307,6 +2344,29 @@ function vocabSearch() {
       </div>`;
     });
   }
+  document.getElementById('vocabList').innerHTML = html;
+}
+
+// 打乱单词函数
+function shuffleVocab() {
+  // 创建词汇数组的副本
+  const shuffledVocab = [...vocabulary];
+  
+  // 使用Fisher-Yates洗牌算法打乱数组
+  for (let i = shuffledVocab.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledVocab[i], shuffledVocab[j]] = [shuffledVocab[j], shuffledVocab[i]];
+  }
+  
+  // 显示打乱后的单词
+  let html = '';
+  shuffledVocab.forEach(word => {
+    html += `<div class="p-3 bg-green-50 rounded border-l-4 border-green-600">
+        <div class="font-bold text-green-800">${word.en}</div>
+        <div class="text-gray-700 text-sm mt-1">${word.cn}</div>
+      </div>`;
+  });
+  
   document.getElementById('vocabList').innerHTML = html;
 }
 
