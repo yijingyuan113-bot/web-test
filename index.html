@@ -19,7 +19,10 @@
     <div class="mb-12">
       <h1 class="text-4xl md:text-5xl font-light mb-6 text-gray-800">SQE 英国律师资格考试学习平台</h1>
       <p class="text-lg text-gray-600 mb-8">课程 | 题库 | 笔记 三合一学习系统</p>
-      <button onclick="showLogin()" class="bg-gray-100 text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 border border-gray-200">登录 开始学习</button>
+      <div class="flex gap-4 justify-center">
+        <button onclick="showLogin()" class="bg-gray-100 text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 border border-gray-200">登录 开始学习</button>
+        <button onclick="directEnter()" class="bg-gray-100 text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 border border-gray-200">直接进入</button>
+      </div>
     </div>
     
     <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
@@ -228,6 +231,8 @@ function getUser(username) {
 
 function hasPaidAccess() {
   if (!currentUserEmail) return false;
+  // 直接进入的用户也有付费权限
+  if (currentUserEmail === "guest") return true;
   const user = getUser(currentUserEmail);
   return user && user.paid === true;
 }
@@ -342,6 +347,19 @@ function logout() {
   favorites = [];
   document.getElementById('app').classList.add('hidden');
   document.getElementById('home').classList.remove('hidden');
+}
+
+// 直接进入系统
+function directEnter() {
+  currentUser = "Guest";
+  currentUserEmail = "guest";
+  document.getElementById('userName').innerText = currentUser;
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  loadFavorites();
+  initNotes();
+  updateModuleAccess();
+  goTab('course');
 }
 
 // ====================== 模块切换 ======================
