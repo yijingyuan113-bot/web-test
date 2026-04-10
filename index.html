@@ -25,62 +25,7 @@
       </div>
     </div>
     
-    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
-      <h2 class="text-2xl font-light mb-4 text-gray-800">SQE 考试简介</h2>
-      <p class="mb-6 text-gray-600 leading-relaxed">SQE（Solicitors Qualifying Examination）是英国律师资格考试，分为 FLK1 和 FLK2 两部分。FLK1 侧重法律基础、法律体系、法源、契约和侵权等知识；FLK2 侧重实践能力、专业伦理、民事诉讼、刑事诉讼、财产与合同实务等应用题。</p>
-      
-      <div class="mb-8">
-        <h3 class="text-xl font-medium mb-4 text-gray-800">FLK1 - 法律基础（Foundation of Legal Knowledge 1）</h3>
-        <div class="grid gap-6 md:grid-cols-2">
-          <div class="bg-gray-50 p-5 rounded-lg">
-            <h4 class="font-medium mb-3 text-gray-700">中文内容</h4>
-            <ul class="list-disc list-inside text-gray-600 space-y-2">
-              <li>英国法律体系与法律来源</li>
-              <li>立法与法律解释</li>
-              <li>合同法基础</li>
-              <li>侵权法与责任</li>
-              <li>法律职业与法院架构</li>
-            </ul>
-          </div>
-          <div class="bg-gray-50 p-5 rounded-lg">
-            <h4 class="font-medium mb-3 text-gray-700">English Content</h4>
-            <ul class="list-disc list-inside text-gray-600 space-y-2">
-              <li>English Legal System and Legal Sources</li>
-              <li>Legislation and Legal Interpretation</li>
-              <li>Foundations of Contract Law</li>
-              <li>Tort Law and Liability</li>
-              <li>Legal Professions and Court Structure</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <div class="mb-4">
-        <h3 class="text-xl font-medium mb-4 text-gray-800">FLK2 - 法律实务（Foundation of Legal Knowledge 2）</h3>
-        <div class="grid gap-6 md:grid-cols-2">
-          <div class="bg-gray-50 p-5 rounded-lg">
-            <h4 class="font-medium mb-3 text-gray-700">中文内容</h4>
-            <ul class="list-disc list-inside text-gray-600 space-y-2">
-              <li>专业伦理与法律服务</li>
-              <li>民事与刑事诉讼程序</li>
-              <li>财产法与租赁/土地实务</li>
-              <li>信托、遗产与公司法实务</li>
-              <li>案件分析与实务题训练</li>
-            </ul>
-          </div>
-          <div class="bg-gray-50 p-5 rounded-lg">
-            <h4 class="font-medium mb-3 text-gray-700">English Content</h4>
-            <ul class="list-disc list-inside text-gray-600 space-y-2">
-              <li>Professional Ethics and Legal Services</li>
-              <li>Civil and Criminal Procedure</li>
-              <li>Property Law and Land Practice</li>
-              <li>Trusts, Probate and Company Law Practice</li>
-              <li>Case Analysis and Practical Training</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>
 
@@ -239,6 +184,7 @@
       <div class="flex gap-2">
         <button onclick="showAllVocab()" class="bg-blue-600 text-white px-4 py-2 rounded text-sm">全部显示</button>
         <button onclick="vocabSearch()" class="bg-gray-600 text-white px-4 py-2 rounded text-sm">搜索</button>
+        <button onclick="shuffleVocab()" class="bg-yellow-500 text-white px-4 py-2 rounded text-sm">打乱单词</button>
       </div>
     </div>
     <div id="vocabList" class="grid grid-cols-1 md:grid-cols-2 gap-3 p-3" style="max-height: 70vh; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 0.375rem;">
@@ -252,30 +198,65 @@
       <!-- 考试内容 -->
       <div class="p-4 bg-gray-50 rounded-lg">
         <h4 class="font-semibold text-lg mb-2 text-blue-700">考试内容</h4>
-        <div class="grid gap-4 md:grid-cols-2">
-          <div>
-            <h5 class="font-medium mb-2">FLK1 - 法律基础</h5>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>英格兰和威尔士法律体系</li>
-              <li>宪法和行政法及欧盟法</li>
-              <li>职业道德和专业行为</li>
-              <li>法律服务</li>
-              <li>合同法</li>
-              <li>侵权法</li>
-              <li>争议解决</li>
-              <li>商业法和实务</li>
-              <li>税法</li>
-            </ul>
+        <p class="mb-6 text-gray-600 leading-relaxed">SQE（Solicitors Qualifying Examination）是英国律师资格考试，分为 FLK1 和 FLK2 两部分。FLK1 侧重法律基础、法律体系、法源、契约和侵权等知识；FLK2 侧重实践能力、专业伦理、民事诉讼、刑事诉讼、财产与合同实务等应用题。</p>
+        
+        <div class="mb-8">
+          <h5 class="font-medium mb-4 text-gray-800">FLK1 - 法律基础（Foundation of Legal Knowledge 1）</h5>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="bg-white p-5 rounded-lg border border-gray-200">
+              <h6 class="font-medium mb-3 text-gray-700">中文内容</h6>
+              <ul class="list-disc list-inside text-gray-600 space-y-2">
+                <li>英格兰和威尔士法律体系</li>
+                <li>宪法和行政法及欧盟法</li>
+                <li>职业道德和专业行为</li>
+                <li>法律服务</li>
+                <li>合同法</li>
+                <li>侵权法</li>
+                <li>争议解决</li>
+                <li>商业法和实务</li>
+                <li>税法</li>
+              </ul>
+            </div>
+            <div class="bg-white p-5 rounded-lg border border-gray-200">
+              <h6 class="font-medium mb-3 text-gray-700">English Content</h6>
+              <ul class="list-disc list-inside text-gray-600 space-y-2">
+                <li>English Legal System and Legal Sources</li>
+                <li>Constitutional and Administrative Law and EU Law</li>
+                <li>Ethics and Professional Conduct</li>
+                <li>Legal Service</li>
+                <li>Contract Law</li>
+                <li>Tort Law</li>
+                <li>Dispute Resolution</li>
+                <li>Business Law and Practice</li>
+                <li>Tax Law</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h5 class="font-medium mb-2">FLK2 - 法律实务</h5>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-              <li>土地法</li>
-              <li>财产实务</li>
-              <li>遗嘱和遗产管理</li>
-              <li>信托法</li>
-              <li>律师账户</li>
-            </ul>
+        </div>
+        
+        <div class="mb-4">
+          <h5 class="font-medium mb-4 text-gray-800">FLK2 - 法律实务（Foundation of Legal Knowledge 2）</h5>
+          <div class="grid gap-6 md:grid-cols-2">
+            <div class="bg-white p-5 rounded-lg border border-gray-200">
+              <h6 class="font-medium mb-3 text-gray-700">中文内容</h6>
+              <ul class="list-disc list-inside text-gray-600 space-y-2">
+                <li>土地法</li>
+                <li>财产实务</li>
+                <li>遗嘱和遗产管理</li>
+                <li>信托法</li>
+                <li>律师账户</li>
+              </ul>
+            </div>
+            <div class="bg-white p-5 rounded-lg border border-gray-200">
+              <h6 class="font-medium mb-3 text-gray-700">English Content</h6>
+              <ul class="list-disc list-inside text-gray-600 space-y-2">
+                <li>Land Law</li>
+                <li>Property Practice</li>
+                <li>Wills and the Administration of Estates</li>
+                <li>Trusts</li>
+                <li>Solicitors Accounts</li>
+              </ul>
+            </div>
           </div>
         </div>
         <p class="text-sm text-gray-500 mt-3">* 考试形式：FLK1和FLK2各180道选择题，每部分分上下半场，每半场90道题，考试时间153分钟</p>
