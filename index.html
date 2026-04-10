@@ -14,18 +14,21 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
 <!-- 首页 -->
-<div id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600">
-  <div class="text-center text-white">
-    <h1 class="text-4xl font-bold mb-4">SQE 英国律师资格考试学习平台</h1>
-    <p class="text-xl mb-8">课程 | 题库 | 笔记 三合一学习系统</p>
-    <button onclick="showLogin()" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">注册/登录 开始学习</button>
-    <div class="mt-8 bg-white bg-opacity-90 text-left text-blue-900 rounded-xl p-6 mx-auto max-w-3xl shadow-lg">
-      <h2 class="text-2xl font-bold mb-3">SQE 考试简介</h2>
-      <p class="mb-4 text-sm text-gray-700">SQE（Solicitors Qualifying Examination）是英国律师资格考试，分为 FLK1 和 FLK2 两部分。FLK1 侧重法律基础、法律体系、法源、契约和侵权等知识；FLK2 侧重实践能力、专业伦理、民事诉讼、刑事诉讼、财产与合同实务等应用题。</p>
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 class="font-semibold mb-2">FLK1 包括</h3>
-          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+<div id="home" class="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+  <div class="text-center max-w-4xl mx-auto px-4">
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-light mb-6 text-gray-800">SQE 英国律师资格考试学习平台</h1>
+      <p class="text-lg text-gray-600 mb-8">课程 | 题库 | 笔记 三合一学习系统</p>
+      <button onclick="showLogin()" class="bg-gray-100 text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors duration-300 border border-gray-200">登录 开始学习</button>
+    </div>
+    
+    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+      <h2 class="text-2xl font-light mb-4 text-gray-800">SQE 考试简介</h2>
+      <p class="mb-6 text-gray-600 leading-relaxed">SQE（Solicitors Qualifying Examination）是英国律师资格考试，分为 FLK1 和 FLK2 两部分。FLK1 侧重法律基础、法律体系、法源、契约和侵权等知识；FLK2 侧重实践能力、专业伦理、民事诉讼、刑事诉讼、财产与合同实务等应用题。</p>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="bg-gray-50 p-5 rounded-lg">
+          <h3 class="font-medium mb-3 text-gray-700">FLK1 包括</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
             <li>英国法律体系与法律来源</li>
             <li>立法与法律解释</li>
             <li>合同法基础</li>
@@ -33,9 +36,9 @@
             <li>法律职业与法院架构</li>
           </ul>
         </div>
-        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <h3 class="font-semibold mb-2">FLK2 包括</h3>
-          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+        <div class="bg-gray-50 p-5 rounded-lg">
+          <h3 class="font-medium mb-3 text-gray-700">FLK2 包括</h3>
+          <ul class="list-disc list-inside text-gray-600 space-y-2">
             <li>专业伦理与法律服务</li>
             <li>民事与刑事诉讼程序</li>
             <li>财产法与租赁/土地实务</li>
@@ -61,29 +64,18 @@
       
       <!-- 登录表单 -->
       <div id="loginForm">
-        <input id="loginEmail" type="email" placeholder="邮箱地址" class="w-full p-2 border rounded mb-3">
-        <input id="loginPassword" type="password" placeholder="密码" class="w-full p-2 border rounded mb-3">
+        <input id="loginUsername" type="text" placeholder="用户名" class="w-full p-2 border rounded mb-3">
         <div class="flex items-center mb-4">
           <input type="checkbox" id="rememberMe" class="mr-2">
-          <label for="rememberMe" class="text-sm">记住密码</label>
+          <label for="rememberMe" class="text-sm">记住登录状态</label>
         </div>
         <button onclick="login()" class="w-full bg-blue-600 text-white py-2 rounded">登录</button>
       </div>
       
       <!-- 注册表单 -->
       <div id="registerForm" class="hidden">
-        <input id="registerUsername" type="text" placeholder="用户名" class="w-full p-2 border rounded mb-3">
-        <input id="registerEmail" type="email" placeholder="邮箱地址" class="w-full p-2 border rounded mb-3">
-        <input id="registerPassword" type="password" placeholder="设置密码" class="w-full p-2 border rounded mb-3">
-        <div id="verificationSection" class="mb-3">
-          <input id="verificationCode" type="text" placeholder="验证码" class="w-full p-2 border rounded mb-2">
-          <div class="flex gap-2">
-            <button onclick="sendVerificationCode()" class="flex-1 bg-green-600 text-white py-2 rounded text-sm">发送验证码</button>
-            <span id="countdown" class="text-xs text-gray-500 flex items-center"></span>
-          </div>
-        </div>
-        <p class="text-xs text-gray-500 mb-4">请使用邮箱注册，系统将发送验证码到您的邮箱进行验证。</p>
-        <button onclick="register()" class="w-full bg-green-600 text-white py-2 rounded">邮箱注册</button>
+        <p class="text-center text-gray-600 mb-4">系统已改为白名单登录<br>请联系管理员添加用户名到白名单</p>
+        <button onclick="switchTab('login')" class="w-full bg-gray-600 text-white py-2 rounded">返回登录</button>
       </div>
 
 <!-- 主应用 -->
@@ -208,24 +200,30 @@ let currentUser = null;
 let currentUserEmail = null;
 let favorites = [];
 
-function getUsers() {
-  const stored = localStorage.getItem('sqeUsers');
-  return stored ? JSON.parse(stored) : {};
-}
+// 白名单用户列表
+const whitelistUsers = [
+  "admin",
+  "user1",
+  "user2",
+  "SQEstudent",
+  "x7b2p9k",
+  "3z8n5q1",
+  "y4t6m7w",
+  "9a3f1s5",
+  "c6v8r2d",
+  "4g7h9j3",
+  "n5k2p8o",
+  "2w6e4r9",
+  "m8t3y5u",
+  "6i9o3p1"
+];
 
-function saveUsers(users) {
-  localStorage.setItem('sqeUsers', JSON.stringify(users));
-}
-
-function getUser(email) {
-  const users = getUsers();
-  return users[email] || null;
-}
-
-function setUser(user) {
-  const users = getUsers();
-  users[user.email] = user;
-  saveUsers(users);
+function getUser(username) {
+  // 检查用户是否在白名单中
+  if (whitelistUsers.includes(username)) {
+    return { name: username, paid: true };
+  }
+  return null;
 }
 
 function hasPaidAccess() {
@@ -247,61 +245,9 @@ function showLogin() {
   document.getElementById('loginModal').classList.remove('hidden');
 }
 
-let verificationCode = '';
-let countdownTimer = null;
-
-function sendVerificationCode() {
-  const email = document.getElementById('email').value.trim().toLowerCase();
-  const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-  
-  if (!email || !emailRegex.test(email)) {
-    alert('请输入有效的邮箱地址');
-    return;
-  }
-  
-  // 生成6位随机验证码
-  verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-  
-  // 模拟发送邮件（实际项目中需要后端实现）
-  console.log(`验证码已发送到 ${email}: ${verificationCode}`);
-  alert(`验证码已发送到您的邮箱: ${verificationCode}`);
-  
-  // 开始倒计时
-  startCountdown();
-}
-
-function startCountdown() {
-  let seconds = 60;
-  const countdownElement = document.getElementById('countdown');
-  const sendButton = document.querySelector('button[onclick="sendVerificationCode()"]');
-  
-  sendButton.disabled = true;
-  countdownElement.textContent = `60秒后可重发`;
-  
-  if (countdownTimer) clearInterval(countdownTimer);
-  
-  countdownTimer = setInterval(() => {
-    seconds--;
-    countdownElement.textContent = `${seconds}秒后可重发`;
-    
-    if (seconds <= 0) {
-      clearInterval(countdownTimer);
-      sendButton.disabled = false;
-      countdownElement.textContent = '';
-    }
-  }, 1000);
-}
-
-// 简单的密码加密函数
+// 白名单登录不需要密码和验证码
 function hashPassword(password) {
-  // 简单的哈希处理，实际项目中应使用更安全的加密方式
-  let hash = 0;
-  for (let i = 0; i < password.length; i++) {
-    const char = password.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
-  }
-  return hash.toString();
+  return "";
 }
 
 // 切换登录/注册标签
@@ -321,45 +267,31 @@ function switchTab(tab) {
 
 // 登录功能
 function login() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  const password = document.getElementById('loginPassword').value.trim();
-  const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+  const username = document.getElementById('loginUsername').value.trim();
 
-  if (!email || !emailRegex.test(email)) {
-    alert('请输入有效的邮箱地址');
-    return;
-  }
-  if (!password) {
-    alert('请输入密码');
+  if (!username) {
+    alert('请输入用户名');
     return;
   }
 
-  let user = getUser(email);
+  let user = getUser(username);
   
   if (!user) {
-    alert('该邮箱尚未注册，请先注册');
-    switchTab('register');
-    return;
-  }
-  
-  // 验证密码
-  if (user.password !== hashPassword(password)) {
-    alert('密码错误');
+    alert('用户名不在白名单中，请联系管理员');
     return;
   }
 
   currentUser = user.name;
-  currentUserEmail = user.email;
+  currentUserEmail = username; // 使用用户名作为标识
   
-  // 记住密码
+  // 记住登录状态
   if (document.getElementById('rememberMe').checked) {
     localStorage.setItem('rememberedUser', JSON.stringify({
-      email: user.email,
-      password: user.password
+      username: user.name
     }));
   }
   
-  document.getElementById('userName').innerText = `${user.name} (${user.email})`;
+  document.getElementById('userName').innerText = user.name;
   document.getElementById('loginModal').classList.add('hidden');
   document.getElementById('home').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
@@ -369,57 +301,10 @@ function login() {
   goTab('course');
 }
 
-// 注册功能
+// 注册功能（已禁用）
 function register() {
-  const username = document.getElementById('registerUsername').value.trim();
-  const email = document.getElementById('registerEmail').value.trim().toLowerCase();
-  const password = document.getElementById('registerPassword').value.trim();
-  const code = document.getElementById('verificationCode').value.trim();
-  const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
-  if (!username) {
-    alert('请输入用户名');
-    return;
-  }
-  if (!email || !emailRegex.test(email)) {
-    alert('请输入有效的邮箱地址');
-    return;
-  }
-  if (!password) {
-    alert('请设置密码');
-    return;
-  }
-  if (!code) {
-    alert('请输入验证码');
-    return;
-  }
-  
-  if (code !== verificationCode) {
-    alert('验证码错误');
-    return;
-  }
-
-  let user = getUser(email);
-  if (user) {
-    alert('该邮箱已注册，请直接登录');
-    switchTab('login');
-    return;
-  }
-  
-  // 创建新用户并标记为已验证
-  user = {
-    email,
-    name: username,
-    password: hashPassword(password),
-    paid: false,
-    verified: true
-  };
-  setUser(user);
-
-  alert('注册成功！请登录');
+  alert('系统已改为白名单登录，请联系管理员添加用户名');
   switchTab('login');
-  // 自动填充邮箱
-  document.getElementById('loginEmail').value = email;
 }
 
 // 检查是否有记住的用户
@@ -428,11 +313,11 @@ function checkRememberedUser() {
   if (remembered) {
     try {
       const userData = JSON.parse(remembered);
-      const user = getUser(userData.email);
-      if (user && user.password === userData.password) {
+      const user = getUser(userData.username);
+      if (user) {
         currentUser = user.name;
-        currentUserEmail = user.email;
-        document.getElementById('userName').innerText = `${user.name} (${user.email})`;
+        currentUserEmail = user.name;
+        document.getElementById('userName').innerText = user.name;
         document.getElementById('home').classList.add('hidden');
         document.getElementById('app').classList.remove('hidden');
         loadFavorites();
@@ -2034,7 +1919,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.onload = () => { 
-  noteBox.value = localStorage.getItem("sqeNotes") || ""; 
+  // 检查记住的用户
+  checkRememberedUser();
   // 初始化
   try { showAllVocab(); } catch(e) {}
 };
