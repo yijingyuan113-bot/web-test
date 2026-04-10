@@ -303,6 +303,12 @@ function login() {
   loadFavorites();
   initNotes();
   updateModuleAccess();
+  try {
+    initCourse();
+    showAllVocab();
+  } catch(e) {
+    console.error('模块初始化失败:', e);
+  }
   goTab('practice');
 }
 
@@ -328,6 +334,12 @@ function checkRememberedUser() {
         loadFavorites();
   initNotes();
   updateModuleAccess();
+  try {
+    initCourse();
+    showAllVocab();
+  } catch(e) {
+    console.error('模块初始化失败:', e);
+  }
   goTab('practice');
       }
     } catch (error) {
@@ -359,19 +371,30 @@ function directEnter() {
   loadFavorites();
   initNotes();
   updateModuleAccess();
+  try {
+    initCourse();
+    showAllVocab();
+  } catch(e) {
+    console.error('模块初始化失败:', e);
+  }
   goTab('practice');
 }
 
 // ====================== 模块切换 ======================
 let currentTab = "course";
 function goTab(tab) {
-  document.getElementById("tab-"+currentTab).classList.add("hidden");
-  document.getElementById("tab-"+tab).classList.remove("hidden");
-  currentTab = tab;
-  if (tab === 'practice' || tab === 'notes') updateModuleAccess();
-  if (tab === 'favorites') renderFavorites();
-  if (tab === 'notes' && hasPaidAccess()) displayAllNotes();
-  if (tab === 'course') initCourse();
+  try {
+    document.getElementById("tab-"+currentTab).classList.add("hidden");
+    document.getElementById("tab-"+tab).classList.remove("hidden");
+    currentTab = tab;
+    if (tab === 'practice' || tab === 'notes') updateModuleAccess();
+    if (tab === 'favorites') renderFavorites();
+    if (tab === 'notes' && hasPaidAccess()) displayAllNotes();
+    if (tab === 'course') initCourse();
+    if (tab === 'vocabulary') showAllVocab();
+  } catch(e) {
+    console.error('切换模块失败:', e);
+  }
 }
 
 // ====================== 笔记模块 ======================
@@ -886,9 +909,7 @@ function prevQuestion() { currentIndex > 0 && (currentIndex--, renderQuestion())
 function nextQuestion() { currentIndex < currentSet.length - 1 && (currentIndex++, renderQuestion()); }
 
 // ====================== 笔记自动保存 ======================
-const noteBox = document.getElementById("noteBox");
-function saveNote() { localStorage.setItem("sqeNotes", noteBox.value); }
-function clearNote() { noteBox.value = ""; saveNote(); }
+// 移除未使用的noteBox相关代码，因为HTML中没有noteBox元素
 
 // ====================== 法律英语词汇库 ======================
 let vocabulary = [
@@ -1940,7 +1961,12 @@ window.onload = () => {
   // 检查记住的用户
   checkRememberedUser();
   // 初始化
-  try { showAllVocab(); } catch(e) {}
+  try { 
+    showAllVocab(); 
+    updateQuestionCounts();
+  } catch(e) {
+    console.error('初始化失败:', e);
+  }
 };
 </script>
 </body>
