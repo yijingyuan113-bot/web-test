@@ -862,7 +862,8 @@ function deletePDF(id) {
 
 
 // ====================== 题库数据（133题完整） ======================
-let questions = [
+// 从localStorage加载题目
+let questions = JSON.parse(localStorage.getItem('flk1Questions')) || [
 {id:1,cate:"FLK1",q_en:"An architect received a leaflet from website designers advertising their services. The leaflet stated that they could build a website for £500. The architect telephoned the company and asked them to build him a website. He signed and returned a tear-off slip from the leaflet which stated that he accepted their quotation. Which best describes the legal position?",q_cn:"一名建筑师收到网站设计公司的服务宣传单，宣传单写明可500英镑建网站。建筑师致电要求建网站，并签署寄回回执表示接受报价。哪项正确描述法律关系？",options:[{en:"The leaflet constituted an offer.",cn:"宣传单构成要约。"},{en:"The quotation constituted an offer which the architect accepted by signing and returning the tear-off slip.",cn:"报价构成要约，建筑师签署回执构成承诺。"},{en:"A contract was concluded on the architect’s standard terms.",cn:"合同按建筑师标准条款成立。"},{en:"The architect’s letter requesting design services constituted an offer.",cn:"建筑师的请求构成要约。"}],ans:"B",exp_cn:"报价属于要约，回执签署构成承诺。",exp_en:"The quotation is an offer; signing the slip is acceptance."},
 {id:2,cate:"FLK1",q_en:"A company created a floating charge over all assets in favour of a supplier, to secure the price of goods supplied. The charge was not registered. Six months later, the company created a fixed charge over the same assets in favour of a bank to secure a loan. The bank’s charge was registered. The company has now gone into administration. Which creditor has priority?",q_cn:"公司为供应商设立全部资产浮动抵押但未登记。六个月后为银行设立固定抵押并登记。公司进入管理程序。谁优先？",options:[{en:"The unregistered charge is void against the company.",cn:"未登记抵押对公司无效。"},{en:"The bank has priority as the unregistered charge is void against the administrator and the bank.",cn:"银行优先，未登记浮动抵押对管理人和银行无效。"},{en:"The supplier has priority because the bank had notice.",cn:"供应商优先，因银行知情。"},{en:"Priority is determined by the order of creation of the charges.",cn:"按设立时间确定优先。"}],ans:"B",exp_cn:"未登记浮动抵押对后登记抵押权人及管理人无效。",exp_en:"Unregistered floating charge is void against a later registered charge holder and administrator."},
 {id:3,cate:"FLK1",q_en:"A claimant in a negligence action seeks to withhold inspection of a letter written by an expert instructed by the claimant’s solicitor before the claim was issued. On what basis can inspection be withheld?",q_cn:"原告在过失索赔中希望拒绝对方查阅律师诉前委托专家出具的信函。可基于何种理由？",options:[{en:"Legal advice privilege applies.",cn:"法律咨询特权。"},{en:"Disclosure would be disproportionate.",cn:"披露不成比例。"},{en:"Litigation privilege applies because the document was created for the dominant purpose of litigation.",cn:"诉讼特权，文件主要为诉讼制作。"},{en:"The letter is in the possession of the managing director.",cn:"信函由执行董事持有。"}],ans:"C",exp_cn:"诉讼特权适用于为现有或预期诉讼而制作的文件。",exp_en:"Litigation privilege applies where document is created for dominant purpose of existing or contemplated litigation."},
@@ -871,7 +872,7 @@ let questions = [
 ];
 
 // FLK2题库 - 83个题目
-let flk2Questions = [
+let flk2Questions = JSON.parse(localStorage.getItem('flk2Questions')) || [
 {"id": 1, "cate": "FLK2", "q_en": "A burglary takes place at a jewellery shop in the early hours of the morning. The police were called to the incident by the manager of a bar which is situated opposite the jewellery shop ten metres away. The manager of the bar viewed the burglary via the bar’s closed circuit television (CCTV) system, however no recording of the burglary is available because the CCTV system was faulty. The manager gave a statement to the police indicating that, despite the poor street lighting, he recognised the offender as a man who used to work in the bar until one year ago. He names the man to the police. The man, who has previous convictions for burglary, is arrested by the police. In his police interview under caution, the man agrees that he used to work in the bar, but denies that he committed the burglary. The police are considering whether to hold an identification procedure. Would an identification procedure serve a useful purpose in this case?", "q_cn": "凌晨珠宝店发生入室盗窃，街对面酒吧的经理报警，经理通过酒吧的 CCTV 看到了盗窃，但是 CCTV 坏了没录下来。 经理告诉警察，虽然路灯很暗，但是他认出了小偷，是一年前在酒吧工作过的人，警察逮捕了这个有盗窃前科的人，他承认在酒吧工作过，但是否认盗窃，警察考虑要不要做身份辨认程序。 身份辨认程序对本案有用吗？", "options": [{"en": "Yes, because the manager viewed the burglary via a CCTV camera which failed to record the incident.", "cn": "是，因为经理通过 CCTV 看到了，只是没录下来。"}, {"en": "No, because the man is known to the manager.", "cn": "否，因为经理认识这个人。"}, {"en": "Yes, because the man is known to the police.", "cn": "是，因为警察认识这个人。"}, {"en": "No, because the lighting at the time of the offence was poor.", "cn": "否，因为当时的灯光不好。"}, {"en": "No, because the distance between the jewellery shop and the bar was too great.", "cn": "否，因为距离太远了。"}], "ans": "B", "exp_cn": "错误。本案中，经理已经认出了嫌疑人，知道他是谁，不需要再做辨认了。|正确。身份辨认程序的目的是，当证人不知道嫌疑人是谁的时候，用来确认嫌疑人是不是证人看到的那个人，本案中，经理已经认出了嫌疑人，知道他的身份，所以辨认程序没有用了。|错误。警察认识不影响，核心是证人已经认出了嫌疑人。|错误。灯光不好不影响，因为经理已经认出了，不需要辨认。|错误。距离不影响，经理已经认出了。", "exp_en": ""},
 {"id": 2, "cate": "FLK2", "q_en": "A man was convicted in the Magistrates’ Court of theft four months ago. He received a suspended sentence order of six months’ custody. The operational period of the suspended sentence is 12 months. A requirement to complete 80 hours of unpaid work was attached to the suspended sentence order and the man has completed the unpaid work. The man has now been convicted in the Magistrates’ Court for an offence of criminal damage committed one month ago. Can the Magistrates’ Court now activate the custodial sentence?", "q_cn": "男子四个月前在治安法院被判盗窃罪，获得了 6 个月的缓刑，缓刑期 12 个月，附加了 80 小时的无偿劳动，他已经完成了。 现在他又因为一个月前的刑事损坏罪被定罪，治安法院能不能激活之前的监禁刑？", "options": [{"en": "Yes, because the man has committed an offence during the operational period of the suspended sentence order.", "cn": "是，因为他在缓刑期内又犯了新罪。"}, {"en": "No, because the new offence is non-imprisonable.", "cn": "否，因为新罪不能判监禁。"}, {"en": "No, because the man has completed the requirement attached to the suspended sentence order.", "cn": "否，因为他已经完成了缓刑的附加要求。"}, {"en": "No, because the operational period of the suspended sentence order is still running.", "cn": "否，因为缓刑期还在运行。"}, {"en": "Yes, because the man has committed an offence within the six month period of custody imposed.", "cn": "是，因为他在 6 个月的监禁期内犯了新罪。"}], "ans": "A", "exp_cn": "正确。缓刑的规则是，如果在缓刑的 operational period 内，又犯了新的罪，那么法院就可以激活之前的监禁刑，本案中，新罪是在 12 个月的缓刑期内犯的，所以可以激活。|错误。不管新罪能不能判监禁，只要在缓刑期内犯新罪，就可以激活。|错误。完成附加要求不影响，只要在缓刑期内犯新罪，就可以激活。|错误。正是因为还在运行，所以犯新罪才会激活。|错误。是缓刑的 12 个月的 operational period，不是监禁期。", "exp_en": ""},
 {"id": 3, "cate": "FLK2", "q_en": "A man died leaving a will by which he left all his estate to three trustees to hold on trust for the four children of his best friend. The children are to inherit at the age of 18. Two of the children have reached the age of 18 and have received their share of the trust fund. The other two children are still under the age of 18. The trust fund comprises a portfolio of shares. One of the trustees has just died. Which of the following best describes whether it is necessary for a replacement trustee to be appointed?", "q_cn": "男子去世，留下遗嘱，把遗产给三个受托人，信托给好友的四个孩子，孩子 18 岁继承，两个已经满 18，拿到了份额，两个还没满，信托资产是股票，一个受托人去世了。 要不要任命新的受托人？", "options": [{"en": "A replacement trustee must be appointed because some of the beneficiaries are still under the age of 18.", "cn": "必须任命，因为有些受益人还未成年。"}, {"en": "A replacement trustee must be appointed because three trustees were originally appointed and there are now only two trustees.", "cn": "必须任命，因为原来有三个，现在只剩两个。"}, {"en": "There is no requirement to appoint a replacement trustee because the trust came into effect after the man’s death and not during his lifetime.", "cn": "不需要，因为信托是去世后生效的，不是生前。"}, {"en": "There is no requirement to appoint a replacement trustee because there is no land in the trust investments.", "cn": "不需要，因为信托里没有土地。"}, {"en": "There is no requirement to appoint a replacement trustee because there are two surviving trustees.", "cn": "不需要，因为还有两个活着的受托人。"}], "ans": "E", "exp_cn": "错误。未成年受益人不代表必须要有新的受托人，只要剩下的受托人够就行。|错误。信托的受托人，最少只需要一个，最多没有上限，两个受托人足够，不需要必须补到三个。|错误。不管是生前还是遗嘱信托，规则都一样。|错误。有没有土地不影响，受托人数量的规则一样。|正确。法律规定，信托的受托人，只要至少有一个就可以，两个足够，不需要必须任命新的，剩下的两个可以继续管理信托。", "exp_en": ""},
@@ -967,6 +968,78 @@ function updateQuestionCounts() {
   document.getElementById('flk2Count').textContent = flk2Questions.length;
 }
 
+// 解析千问格式的题目
+function parseQianWenFormat(text) {
+  const questions = [];
+  const questionBlocks = text.split('\n\n\n');
+  
+  questionBlocks.forEach(block => {
+    if (!block.trim()) return;
+    
+    try {
+      // 提取题目编号和类别
+      const qNumMatch = block.match(/Question (\d+) - ([^\n]+)/);
+      if (!qNumMatch) return;
+      
+      const qNum = qNumMatch[1];
+      const category = qNumMatch[2];
+      
+      // 提取英文题目
+      const enQuestionMatch = block.match(/Question:\s*(.+?)\n\n/ms);
+      const q_en = enQuestionMatch ? enQuestionMatch[1].trim() : '';
+      
+      // 提取中文题目
+      const cnQuestionMatch = block.match(/第\d+题 - [^\n]+\nQuestion:\s*.+?\n\n(.+?)\nOptions:/ms);
+      const q_cn = cnQuestionMatch ? cnQuestionMatch[1].trim() : '';
+      
+      // 提取选项
+      const optionsMatch = block.match(/Options:\s*(.+?)\nCorrect Answer:/ms);
+      if (!optionsMatch) return;
+      
+      const optionsText = optionsMatch[1];
+      const optionsLines = optionsText.split('\n').filter(line => line.trim());
+      const options = [];
+      
+      optionsLines.forEach(line => {
+        const optMatch = line.match(/([A-E])\.\s*(.+?)\n\s*\1\.\s*(.+)/);
+        if (optMatch) {
+          options.push({
+            en: optMatch[2].trim(),
+            cn: optMatch[3].trim()
+          });
+        }
+      });
+      
+      // 提取正确答案
+      const answerMatch = block.match(/Correct Answer:\s*([A-E])/);
+      const ans = answerMatch ? answerMatch[1] : '';
+      
+      // 提取解析
+      const analysisMatch = block.match(/Analysis:\s*(.+?)\s*$/ms);
+      const analysisText = analysisMatch ? analysisMatch[1].trim() : '';
+      const analysisLines = analysisText.split('\n');
+      const exp_en = analysisLines.filter(line => !line.match(/[\u4e00-\u9fa5]/)).join(' ').trim();
+      const exp_cn = analysisLines.filter(line => line.match(/[\u4e00-\u9fa5]/)).join(' ').trim();
+      
+      // 创建题目对象
+      if (q_en && q_cn && options.length > 0 && ans) {
+        questions.push({
+          q_en,
+          q_cn,
+          options,
+          ans,
+          exp_cn,
+          exp_en
+        });
+      }
+    } catch (error) {
+      console.error('解析题目失败:', error);
+    }
+  });
+  
+  return questions;
+}
+
 // 导入题库文件
 function importQuestions() {
   const fileInput = document.getElementById('questionFile');
@@ -980,9 +1053,21 @@ function importQuestions() {
   
   reader.onload = function(e) {
     try {
-      const importedQuestions = JSON.parse(e.target.result);
+      let importedQuestions = [];
       
-      if (!Array.isArray(importedQuestions)) {
+      // 首先尝试JSON解析
+      try {
+        importedQuestions = JSON.parse(e.target.result);
+        if (!Array.isArray(importedQuestions)) {
+          throw new Error('Not an array');
+        }
+      } catch (jsonError) {
+        // JSON解析失败，尝试千问格式解析
+        console.log('JSON解析失败，尝试千问格式解析');
+        importedQuestions = parseQianWenFormat(e.target.result);
+      }
+      
+      if (!Array.isArray(importedQuestions) || importedQuestions.length === 0) {
         alert('无效的题库文件格式');
         return;
       }
@@ -1025,6 +1110,10 @@ function importQuestions() {
       // 更新合并题库
       allQuestions = questions.concat(flk2Questions);
       updateQuestionCounts();
+      
+      // 保存到localStorage
+      localStorage.setItem('flk1Questions', JSON.stringify(questions));
+      localStorage.setItem('flk2Questions', JSON.stringify(flk2Questions));
       
       alert(`成功导入 ${importedCount} 道题目`);
     } catch (error) {
@@ -1099,6 +1188,10 @@ function fetchOnlineQuestions() {
       // 更新合并题库
       allQuestions = questions.concat(flk2Questions);
       updateQuestionCounts();
+      
+      // 保存到localStorage
+      localStorage.setItem('flk1Questions', JSON.stringify(questions));
+      localStorage.setItem('flk2Questions', JSON.stringify(flk2Questions));
       
       // 记录今天已经获取过题目
       localStorage.setItem('lastFetchDate', today);
