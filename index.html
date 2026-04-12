@@ -138,6 +138,35 @@
         <input type="file" id="questionFile" accept=".json,.txt,.doc,.docx" class="mb-2">
         <button onclick="importQuestions()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">导入题目</button>
         <p class="text-xs text-gray-500 mt-2">支持 JSON、Word (.doc/.docx) 和文本格式的题库文件</p>
+        
+        <!-- 手动输入JSON区域 -->
+        <div class="mt-4">
+          <h5 class="text-sm font-medium mb-2">或手动输入JSON格式题目：</h5>
+          <textarea id="jsonInput" rows="10" class="w-full p-2 border rounded mb-2" placeholder='输入JSON格式的题目，例如：
+[
+  {
+    "q_en": "英文题目",
+    "q_cn": "中文题目",
+    "options": [
+      {"en": "选项A", "cn": "选项A中文"},
+      {"en": "选项B", "cn": "选项B中文"},
+      {"en": "选项C", "cn": "选项C中文"},
+      {"en": "选项D", "cn": "选项D中文"}
+    ],
+    "ans": "A",
+    "exp_cn": "中文解析",
+    "exp_en": "英文解析"
+  }
+]'></textarea>
+          <div class="flex gap-2 flex-wrap">
+            <button onclick="fillSampleSQE1Questions()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">填充SQE1样题</button>
+            <button onclick="addSRAFLK2Questions()" class="bg-purple-500 text-white px-3 py-1 rounded text-sm">填充FLK2样题</button>
+            <button onclick="importLocalFLK2Questions()" class="bg-orange-500 text-white px-3 py-1 rounded text-sm">导入本地FLK2真题</button>
+            <button onclick="importLocalSRAFLK1Questions()" class="bg-red-500 text-white px-3 py-1 rounded text-sm">导入本地FLK1真题</button>
+            <button onclick="importLocalQuestionsToStorage()" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm">直接导入题目</button>
+            <button onclick="importFromJsonInput()" class="bg-green-500 text-white px-3 py-1 rounded text-sm">从JSON输入导入</button>
+          </div>
+        </div>
       </div>
       
       <!-- 乱序练习选项 -->
@@ -862,8 +891,8 @@ function deletePDF(id) {
 
 
 // ====================== 题库数据（133题完整） ======================
-// 从localStorage加载题目
-let questions = JSON.parse(localStorage.getItem('flk1Questions')) || [
+// 直接硬编码题目数据，确保换电脑也能看到
+let questions = [
 {id:1,cate:"FLK1",q_en:"An architect received a leaflet from website designers advertising their services. The leaflet stated that they could build a website for £500. The architect telephoned the company and asked them to build him a website. He signed and returned a tear-off slip from the leaflet which stated that he accepted their quotation. Which best describes the legal position?",q_cn:"一名建筑师收到网站设计公司的服务宣传单，宣传单写明可500英镑建网站。建筑师致电要求建网站，并签署寄回回执表示接受报价。哪项正确描述法律关系？",options:[{en:"The leaflet constituted an offer.",cn:"宣传单构成要约。"},{en:"The quotation constituted an offer which the architect accepted by signing and returning the tear-off slip.",cn:"报价构成要约，建筑师签署回执构成承诺。"},{en:"A contract was concluded on the architect’s standard terms.",cn:"合同按建筑师标准条款成立。"},{en:"The architect’s letter requesting design services constituted an offer.",cn:"建筑师的请求构成要约。"}],ans:"B",exp_cn:"报价属于要约，回执签署构成承诺。",exp_en:"The quotation is an offer; signing the slip is acceptance."},
 {id:2,cate:"FLK1",q_en:"A company created a floating charge over all assets in favour of a supplier, to secure the price of goods supplied. The charge was not registered. Six months later, the company created a fixed charge over the same assets in favour of a bank to secure a loan. The bank’s charge was registered. The company has now gone into administration. Which creditor has priority?",q_cn:"公司为供应商设立全部资产浮动抵押但未登记。六个月后为银行设立固定抵押并登记。公司进入管理程序。谁优先？",options:[{en:"The unregistered charge is void against the company.",cn:"未登记抵押对公司无效。"},{en:"The bank has priority as the unregistered charge is void against the administrator and the bank.",cn:"银行优先，未登记浮动抵押对管理人和银行无效。"},{en:"The supplier has priority because the bank had notice.",cn:"供应商优先，因银行知情。"},{en:"Priority is determined by the order of creation of the charges.",cn:"按设立时间确定优先。"}],ans:"B",exp_cn:"未登记浮动抵押对后登记抵押权人及管理人无效。",exp_en:"Unregistered floating charge is void against a later registered charge holder and administrator."},
 {id:3,cate:"FLK1",q_en:"A claimant in a negligence action seeks to withhold inspection of a letter written by an expert instructed by the claimant’s solicitor before the claim was issued. On what basis can inspection be withheld?",q_cn:"原告在过失索赔中希望拒绝对方查阅律师诉前委托专家出具的信函。可基于何种理由？",options:[{en:"Legal advice privilege applies.",cn:"法律咨询特权。"},{en:"Disclosure would be disproportionate.",cn:"披露不成比例。"},{en:"Litigation privilege applies because the document was created for the dominant purpose of litigation.",cn:"诉讼特权，文件主要为诉讼制作。"},{en:"The letter is in the possession of the managing director.",cn:"信函由执行董事持有。"}],ans:"C",exp_cn:"诉讼特权适用于为现有或预期诉讼而制作的文件。",exp_en:"Litigation privilege applies where document is created for dominant purpose of existing or contemplated litigation."},
@@ -872,7 +901,7 @@ let questions = JSON.parse(localStorage.getItem('flk1Questions')) || [
 ];
 
 // FLK2题库 - 83个题目
-let flk2Questions = JSON.parse(localStorage.getItem('flk2Questions')) || [
+let flk2Questions = [
 {"id": 1, "cate": "FLK2", "q_en": "A burglary takes place at a jewellery shop in the early hours of the morning. The police were called to the incident by the manager of a bar which is situated opposite the jewellery shop ten metres away. The manager of the bar viewed the burglary via the bar’s closed circuit television (CCTV) system, however no recording of the burglary is available because the CCTV system was faulty. The manager gave a statement to the police indicating that, despite the poor street lighting, he recognised the offender as a man who used to work in the bar until one year ago. He names the man to the police. The man, who has previous convictions for burglary, is arrested by the police. In his police interview under caution, the man agrees that he used to work in the bar, but denies that he committed the burglary. The police are considering whether to hold an identification procedure. Would an identification procedure serve a useful purpose in this case?", "q_cn": "凌晨珠宝店发生入室盗窃，街对面酒吧的经理报警，经理通过酒吧的 CCTV 看到了盗窃，但是 CCTV 坏了没录下来。 经理告诉警察，虽然路灯很暗，但是他认出了小偷，是一年前在酒吧工作过的人，警察逮捕了这个有盗窃前科的人，他承认在酒吧工作过，但是否认盗窃，警察考虑要不要做身份辨认程序。 身份辨认程序对本案有用吗？", "options": [{"en": "Yes, because the manager viewed the burglary via a CCTV camera which failed to record the incident.", "cn": "是，因为经理通过 CCTV 看到了，只是没录下来。"}, {"en": "No, because the man is known to the manager.", "cn": "否，因为经理认识这个人。"}, {"en": "Yes, because the man is known to the police.", "cn": "是，因为警察认识这个人。"}, {"en": "No, because the lighting at the time of the offence was poor.", "cn": "否，因为当时的灯光不好。"}, {"en": "No, because the distance between the jewellery shop and the bar was too great.", "cn": "否，因为距离太远了。"}], "ans": "B", "exp_cn": "错误。本案中，经理已经认出了嫌疑人，知道他是谁，不需要再做辨认了。|正确。身份辨认程序的目的是，当证人不知道嫌疑人是谁的时候，用来确认嫌疑人是不是证人看到的那个人，本案中，经理已经认出了嫌疑人，知道他的身份，所以辨认程序没有用了。|错误。警察认识不影响，核心是证人已经认出了嫌疑人。|错误。灯光不好不影响，因为经理已经认出了，不需要辨认。|错误。距离不影响，经理已经认出了。", "exp_en": ""},
 {"id": 2, "cate": "FLK2", "q_en": "A man was convicted in the Magistrates’ Court of theft four months ago. He received a suspended sentence order of six months’ custody. The operational period of the suspended sentence is 12 months. A requirement to complete 80 hours of unpaid work was attached to the suspended sentence order and the man has completed the unpaid work. The man has now been convicted in the Magistrates’ Court for an offence of criminal damage committed one month ago. Can the Magistrates’ Court now activate the custodial sentence?", "q_cn": "男子四个月前在治安法院被判盗窃罪，获得了 6 个月的缓刑，缓刑期 12 个月，附加了 80 小时的无偿劳动，他已经完成了。 现在他又因为一个月前的刑事损坏罪被定罪，治安法院能不能激活之前的监禁刑？", "options": [{"en": "Yes, because the man has committed an offence during the operational period of the suspended sentence order.", "cn": "是，因为他在缓刑期内又犯了新罪。"}, {"en": "No, because the new offence is non-imprisonable.", "cn": "否，因为新罪不能判监禁。"}, {"en": "No, because the man has completed the requirement attached to the suspended sentence order.", "cn": "否，因为他已经完成了缓刑的附加要求。"}, {"en": "No, because the operational period of the suspended sentence order is still running.", "cn": "否，因为缓刑期还在运行。"}, {"en": "Yes, because the man has committed an offence within the six month period of custody imposed.", "cn": "是，因为他在 6 个月的监禁期内犯了新罪。"}], "ans": "A", "exp_cn": "正确。缓刑的规则是，如果在缓刑的 operational period 内，又犯了新的罪，那么法院就可以激活之前的监禁刑，本案中，新罪是在 12 个月的缓刑期内犯的，所以可以激活。|错误。不管新罪能不能判监禁，只要在缓刑期内犯新罪，就可以激活。|错误。完成附加要求不影响，只要在缓刑期内犯新罪，就可以激活。|错误。正是因为还在运行，所以犯新罪才会激活。|错误。是缓刑的 12 个月的 operational period，不是监禁期。", "exp_en": ""},
 {"id": 3, "cate": "FLK2", "q_en": "A man died leaving a will by which he left all his estate to three trustees to hold on trust for the four children of his best friend. The children are to inherit at the age of 18. Two of the children have reached the age of 18 and have received their share of the trust fund. The other two children are still under the age of 18. The trust fund comprises a portfolio of shares. One of the trustees has just died. Which of the following best describes whether it is necessary for a replacement trustee to be appointed?", "q_cn": "男子去世，留下遗嘱，把遗产给三个受托人，信托给好友的四个孩子，孩子 18 岁继承，两个已经满 18，拿到了份额，两个还没满，信托资产是股票，一个受托人去世了。 要不要任命新的受托人？", "options": [{"en": "A replacement trustee must be appointed because some of the beneficiaries are still under the age of 18.", "cn": "必须任命，因为有些受益人还未成年。"}, {"en": "A replacement trustee must be appointed because three trustees were originally appointed and there are now only two trustees.", "cn": "必须任命，因为原来有三个，现在只剩两个。"}, {"en": "There is no requirement to appoint a replacement trustee because the trust came into effect after the man’s death and not during his lifetime.", "cn": "不需要，因为信托是去世后生效的，不是生前。"}, {"en": "There is no requirement to appoint a replacement trustee because there is no land in the trust investments.", "cn": "不需要，因为信托里没有土地。"}, {"en": "There is no requirement to appoint a replacement trustee because there are two surviving trustees.", "cn": "不需要，因为还有两个活着的受托人。"}], "ans": "E", "exp_cn": "错误。未成年受益人不代表必须要有新的受托人，只要剩下的受托人够就行。|错误。信托的受托人，最少只需要一个，最多没有上限，两个受托人足够，不需要必须补到三个。|错误。不管是生前还是遗嘱信托，规则都一样。|错误。有没有土地不影响，受托人数量的规则一样。|正确。法律规定，信托的受托人，只要至少有一个就可以，两个足够，不需要必须任命新的，剩下的两个可以继续管理信托。", "exp_en": ""},
@@ -1072,50 +1101,7 @@ function importQuestions() {
         return;
       }
       
-      let importedCount = 0;
-      
-      importedQuestions.forEach(q => {
-        // 验证题目结构
-        if (q.q_en && q.q_cn && q.options && q.ans) {
-          // 自动分类
-          let category = q.cate || 'FLK1'; // 默认FLK1
-          
-          // 尝试根据题目内容判断分类
-          if (!q.cate) {
-            // 简单的分类逻辑，可以根据实际情况调整
-            const flk2Keywords = ['custody', 'probate', 'trust', 'conveyancing', 'criminal', 'civil procedure'];
-            const questionText = (q.q_en + ' ' + q.q_cn).toLowerCase();
-            
-            if (flk2Keywords.some(keyword => questionText.includes(keyword))) {
-              category = 'FLK2';
-            }
-          }
-          
-          // 生成唯一ID
-          const newId = Date.now() + Math.floor(Math.random() * 1000);
-          q.id = newId;
-          q.cate = category;
-          
-          // 添加到相应题库
-          if (category === 'FLK2') {
-            flk2Questions.push(q);
-          } else {
-            questions.push(q);
-          }
-          
-          importedCount++;
-        }
-      });
-      
-      // 更新合并题库
-      allQuestions = questions.concat(flk2Questions);
-      updateQuestionCounts();
-      
-      // 保存到localStorage
-      localStorage.setItem('flk1Questions', JSON.stringify(questions));
-      localStorage.setItem('flk2Questions', JSON.stringify(flk2Questions));
-      
-      alert(`成功导入 ${importedCount} 道题目`);
+      processImportedQuestions(importedQuestions);
     } catch (error) {
       alert('文件解析失败，请确保文件格式正确');
       console.error('导入错误:', error);
@@ -1127,6 +1113,350 @@ function importQuestions() {
   };
   
   reader.readAsText(file);
+}
+
+// 处理导入的题目
+function processImportedQuestions(importedQuestions) {
+  if (!Array.isArray(importedQuestions) || importedQuestions.length === 0) {
+    alert('无效的题库文件格式');
+    return;
+  }
+  
+  let importedCount = 0;
+  
+  importedQuestions.forEach(q => {
+    // 验证题目结构
+    if (q.q_en && q.q_cn && q.options && q.ans) {
+      // 自动分类
+      let category = q.cate || 'FLK1'; // 默认FLK1
+      
+      // 尝试根据题目内容判断分类
+      if (!q.cate) {
+        // 简单的分类逻辑，可以根据实际情况调整
+        const flk2Keywords = ['custody', 'probate', 'trust', 'conveyancing', 'criminal', 'civil procedure'];
+        const questionText = (q.q_en + ' ' + q.q_cn).toLowerCase();
+        
+        if (flk2Keywords.some(keyword => questionText.includes(keyword))) {
+          category = 'FLK2';
+        }
+      }
+      
+      // 生成唯一ID
+      const newId = Date.now() + Math.floor(Math.random() * 1000);
+      q.id = newId;
+      q.cate = category;
+      
+      // 添加到相应题库
+      if (category === 'FLK2') {
+        flk2Questions.push(q);
+      } else {
+        questions.push(q);
+      }
+      
+      importedCount++;
+    }
+  });
+  
+  // 更新合并题库
+  allQuestions = questions.concat(flk2Questions);
+  updateQuestionCounts();
+  
+  // 保存到localStorage
+  localStorage.setItem('flk1Questions', JSON.stringify(questions));
+  localStorage.setItem('flk2Questions', JSON.stringify(flk2Questions));
+  
+  alert(`成功导入 ${importedCount} 道题目`);
+}
+
+// 从JSON输入导入题目
+function importFromJsonInput() {
+  const jsonInput = document.getElementById('jsonInput');
+  const jsonText = jsonInput.value.trim();
+  
+  if (!jsonText) {
+    alert('请输入JSON格式的题目');
+    return;
+  }
+  
+  try {
+    const importedQuestions = JSON.parse(jsonText);
+    processImportedQuestions(importedQuestions);
+    jsonInput.value = ''; // 清空输入
+  } catch (error) {
+    alert('JSON解析失败：' + error.message);
+    console.error('导入错误:', error);
+  }
+}
+
+// 自动填充SQE1样题示例
+function fillSampleSQE1Questions() {
+  const sampleQuestions = [
+    {
+      "q_en": "A client is considering purchasing a property. The seller has provided a copy of the title register which shows a restriction that the property cannot be sold without the consent of a third party. What is the effect of this restriction?",
+      "q_cn": "客户正在考虑购买一处房产。卖方提供了一份产权登记册副本，其中显示了一项限制，即未经第三方同意不得出售该房产。这项限制的效果是什么？",
+      "options": [
+        {"en": "It makes the title unmarketable", "cn": "它使产权无法交易"},
+        {"en": "It gives the third party a right to purchase the property", "cn": "它赋予第三方购买该房产的权利"},
+        {"en": "It requires the seller to obtain consent before completing the sale", "cn": "它要求卖方在完成销售前获得同意"},
+        {"en": "It is void and unenforceable", "cn": "它是无效且不可执行的"}
+      ],
+      "ans": "C",
+      "exp_cn": "产权登记册中的限制具有法律效力，要求卖方在完成销售前获得第三方的同意。",
+      "exp_en": "A restriction in the title register has legal effect and requires the seller to obtain the third party's consent before completing the sale."
+    },
+    {
+      "q_en": "A company is considering issuing new shares. Which document must be updated to reflect the new share structure?",
+      "q_cn": "一家公司正在考虑发行新股。必须更新哪个文件以反映新的股权结构？",
+      "options": [
+        {"en": "The articles of association", "cn": "公司章程"},
+        {"en": "The register of members", "cn": "成员登记册"},
+        {"en": "The memorandum of association", "cn": "公司组织大纲"},
+        {"en": "The annual return", "cn": "年度申报表"}
+      ],
+      "ans": "B",
+      "exp_cn": "成员登记册必须记录公司的所有股东及其持股情况，因此在发行新股时需要更新。",
+      "exp_en": "The register of members must record all shareholders and their shareholdings, so it needs to be updated when new shares are issued."
+    },
+    {
+      "q_en": "A client has been charged with theft. The client claims that they believed the property belonged to them. What is the legal test for this defence?",
+      "q_cn": "客户被指控犯有盗窃罪。客户声称他们认为该财产属于他们。这种辩护的法律测试是什么？",
+      "options": [
+        {"en": "The belief must be reasonable and honest", "cn": "信念必须合理且诚实"},
+        {"en": "The belief must be reasonable", "cn": "信念必须合理"},
+        {"en": "The belief must be honest", "cn": "信念必须诚实"},
+        {"en": "The belief must be based on clear evidence", "cn": "信念必须基于明确的证据"}
+      ],
+      "ans": "C",
+      "exp_cn": "对于盗窃罪的辩护，被告人只需要诚实地相信财产属于他们，不需要这种信念是合理的。",
+      "exp_en": "For the defence of theft, the defendant only needs to honestly believe the property belonged to them; the belief does not need to be reasonable."
+    }
+  ];
+  
+  document.getElementById('jsonInput').value = JSON.stringify(sampleQuestions, null, 2);
+  alert('已填充SQE1样题示例，请检查并导入');
+}
+
+// 解析本地FLK2真题文件并导入
+function importLocalFLK2Questions() {
+  // 解析FLK2真题.txt文件的内容
+  const flk2Questions = [
+    {
+      "q_en": "A burglary takes place at a jewellery shop in the early hours of the morning. The police were called to the incident by the manager of a bar which is situated opposite the jewellery shop ten metres away. The manager of the bar viewed the burglary via the bar's closed circuit television (CCTV) system, however no recording of the burglary is available because the CCTV system was faulty. The manager gave a statement to the police indicating that, despite the poor street lighting, he recognised the offender as a man who used to work in the bar until one year ago. He names the man to the police. The man, who has previous convictions for burglary, is arrested by the police. In his police interview under caution, the man agrees that he used to work in the bar, but denies that he committed the burglary. The police are considering whether to hold an identification procedure. Would an identification procedure serve a useful purpose in this case?",
+      "q_cn": "凌晨珠宝店发生入室盗窃，街对面酒吧的经理报警，经理通过酒吧的 CCTV 看到了盗窃，但是 CCTV 坏了没录下来。经理告诉警察，虽然路灯很暗，但是他认出了小偷，是一年前在酒吧工作过的人，警察逮捕了这个有盗窃前科的人，他承认在酒吧工作过，但是否认盗窃，警察考虑要不要做身份辨认程序。身份辨认程序对本案有用吗？",
+      "options": [
+        {"en": "Yes, because the manager viewed the burglary via a CCTV camera which failed to record the incident.", "cn": "是，因为经理通过 CCTV 看到了，只是没录下来。"},
+        {"en": "No, because the man is known to the manager.", "cn": "否，因为经理认识这个人。"},
+        {"en": "Yes, because the man is known to the police.", "cn": "是，因为警察认识这个人。"},
+        {"en": "No, because the lighting at the time of the offence was poor.", "cn": "否，因为当时的灯光不好。"},
+        {"en": "No, because the distance between the jewellery shop and the bar was too great.", "cn": "否，因为距离太远了。"}
+      ],
+      "ans": "B",
+      "exp_cn": "身份辨认程序的目的是，当证人不知道嫌疑人是谁的时候，用来确认嫌疑人是不是证人看到的那个人，本案中，经理已经认出了嫌疑人，知道他的身份，所以辨认程序没有用了。",
+      "exp_en": "The purpose of an identification procedure is to confirm if the suspect is the person the witness saw when the witness does not know the suspect's identity. In this case, the manager has already identified the suspect and knows his identity, so the identification procedure is not useful.",
+      "cate": "FLK2"
+    },
+    {
+      "q_en": "A man was convicted in the Magistrates' Court of theft four months ago. He received a suspended sentence order of six months' custody. The operational period of the suspended sentence is 12 months. A requirement to complete 80 hours of unpaid work was attached to the suspended sentence order and the man has completed the unpaid work. The man has now been convicted in the Magistrates' Court for an offence of criminal damage committed one month ago. Can the Magistrates' Court now activate the custodial sentence?",
+      "q_cn": "男子四个月前在治安法院被判盗窃罪，获得了 6 个月的缓刑，缓刑期 12 个月，附加了 80 小时的无偿劳动，他已经完成了。现在他又因为一个月前的刑事损坏罪被定罪，治安法院能不能激活之前的监禁刑？",
+      "options": [
+        {"en": "Yes, because the man has committed an offence during the operational period of the suspended sentence order.", "cn": "是，因为他在缓刑期内又犯了新罪。"},
+        {"en": "No, because the new offence is non-imprisonable.", "cn": "否，因为新罪不能判监禁。"},
+        {"en": "No, because the man has completed the requirement attached to the suspended sentence order.", "cn": "否，因为他已经完成了缓刑的附加要求。"},
+        {"en": "No, because the operational period of the suspended sentence order is still running.", "cn": "否，因为缓刑期还在运行。"},
+        {"en": "Yes, because the man has committed an offence within the six month period of custody imposed.", "cn": "是，因为他在 6 个月的监禁期内犯了新罪。"}
+      ],
+      "ans": "A",
+      "exp_cn": "缓刑的规则是，如果在缓刑的 operational period 内，又犯了新的罪，那么法院就可以激活之前的监禁刑，本案中，新罪是在 12 个月的缓刑期内犯的，所以可以激活。",
+      "exp_en": "The rule for suspended sentences is that if the offender commits a new offence during the operational period of the suspended sentence, the court can activate the custodial sentence. In this case, the new offence was committed within the 12-month operational period, so the court can activate the sentence.",
+      "cate": "FLK2"
+    },
+    {
+      "q_en": "A man died leaving a will by which he left all his estate to three trustees to hold on trust for the four children of his best friend. The children are to inherit at the age of 18. Two of the children have reached the age of 18 and have received their share of the trust fund. The other two children are still under the age of 18. The trust fund comprises a portfolio of shares. One of the trustees has just died. Which of the following best describes whether it is necessary for a replacement trustee to be appointed?",
+      "q_cn": "男子去世，留下遗嘱，把遗产给三个受托人，信托给好友的四个孩子，孩子 18 岁继承，两个已经满 18，拿到了份额，两个还没满，信托资产是股票，一个受托人去世了。要不要任命新的受托人？",
+      "options": [
+        {"en": "A replacement trustee must be appointed because some of the beneficiaries are still under the age of 18.", "cn": "必须任命，因为有些受益人还未成年。"},
+        {"en": "A replacement trustee must be appointed because three trustees were originally appointed and there are now only two trustees.", "cn": "必须任命，因为原来有三个，现在只剩两个。"},
+        {"en": "There is no requirement to appoint a replacement trustee because the trust came into effect after the man's death and not during his lifetime.", "cn": "不需要，因为信托是去世后生效的，不是生前。"},
+        {"en": "There is no requirement to appoint a replacement trustee because there is no land in the trust investments.", "cn": "不需要，因为信托里没有土地。"},
+        {"en": "There is no requirement to appoint a replacement trustee because there are two surviving trustees.", "cn": "不需要，因为还有两个活着的受托人。"}
+      ],
+      "ans": "E",
+      "exp_cn": "法律规定，信托的受托人，只要至少有一个就可以，两个足够，不需要必须任命新的，剩下的两个可以继续管理信托。",
+      "exp_en": "The law requires at least one trustee for a trust. With two surviving trustees, there is no requirement to appoint a replacement. The remaining two trustees can continue to administer the trust.",
+      "cate": "FLK2"
+    }
+  ];
+  
+  document.getElementById('jsonInput').value = JSON.stringify(flk2Questions, null, 2);
+  alert('已填充FLK2真题示例，请检查并导入。您可以根据需要添加更多题目。');
+}
+
+// 解析本地SRA FLK1真题文件并导入
+function importLocalSRAFLK1Questions() {
+  // 解析SRA FLK1真题.txt文件的内容
+  const sraFLK1Questions = [
+    {
+      "q_en": "An architect received a leaflet from website designers advertising their website design packages. On the back of the leaflet was a copy of the website designers' standard terms, which contained a limitation clause. The architect wrote a letter to the website designers asking them to design his website and he attached his own standard terms. He received a quotation for ￡2,500. He signed and returned a tear-off slip accepting the quotation on the designers' standard terms. Which of the following best describes the legal position?",
+      "q_cn": "一名建筑师收到网站设计公司的宣传折页，背面印有含责任限制的标准条款。他致信要求设计网站并附上自己的条款，随后收到 2500 英镑报价，并签署回执接受对方条款。下列哪项最准确描述法律状态？",
+      "options": [
+        {"en": "The leaflet constituted an offer.", "cn": "宣传折页构成要约。"},
+        {"en": "The quotation constituted an offer which the architect accepted by signing and returning the tear-off slip.", "cn": "报价单构成要约，建筑师通过签署并回寄回执予以承诺。"},
+        {"en": "A contract was concluded on the architect's standard terms.", "cn": "合同依照建筑师的标准条款成立。"},
+        {"en": "The architect's letter requesting design services constituted an offer.", "cn": "建筑师要求设计服务的信件构成要约。"},
+        {"en": "The architect's letter constituted a counter-offer.", "cn": "建筑师的信件构成反要约。"}
+      ],
+      "ans": "B",
+      "exp_cn": "报价是明确要约，回执构成有效承诺。",
+      "exp_en": "The quotation is a clear offer, and the tear-off slip constitutes a valid acceptance.",
+      "cate": "FLK1"
+    },
+    {
+      "q_en": "A company created a floating charge over all assets in favour of a trade supplier. It was not registered. Five years later, the company created a registered floating charge in favour of a bank, which knew of the earlier charge. The company went into administration. Which creditor has priority?",
+      "q_cn": "某公司为贸易供应商设立未登记浮动抵押，五年后又为银行设立已登记浮动抵押，银行知情。公司进入破产管理。哪位债权人优先受偿？",
+      "options": [
+        {"en": "The unregistered charge is void against the company.", "cn": "未登记抵押对公司无效。"},
+        {"en": "The bank has notice of the first charge so the supplier has priority.", "cn": "银行知悉在先抵押，因此供应商优先。"},
+        {"en": "The unregistered charge is void against the administrator and the bank, so the bank has priority.", "cn": "未登记抵押对管理人和银行无效，因此银行优先。"},
+        {"en": "The supplier can rely on the 12-month qualifying period.", "cn": "供应商可主张 12 个月有效期。"},
+        {"en": "Priority is determined by the order of creation of the charges.", "cn": "优先级依抵押设立时间确定。"}
+      ],
+      "ans": "C",
+      "exp_cn": "未登记浮动抵押不得对抗后续登记担保权人及破产管理人。",
+      "exp_en": "An unregistered floating charge is void against subsequent registered security holders and insolvency administrators.",
+      "cate": "FLK1"
+    },
+    {
+      "q_en": "A claimant in a negligence action seeks to withhold inspection of a letter from an independent financial adviser. The sole purpose of the letter was to advise on drafting the pre-action letter in the existing litigation. On what basis can inspection be withheld?",
+      "q_cn": "原告在过失索赔案中试图拒绝对方查阅一封独立财务顾问的信件，该信件专为本案诉前函起草提供建议。原告可依据何种理由拒绝查阅？",
+      "options": [
+        {"en": "The letter is in the possession of the managing director.", "cn": "信件由总经理持有。"},
+        {"en": "Legal advice privilege applies.", "cn": "适用法律意见特权。"},
+        {"en": "Disclosure would be disproportionate.", "cn": "披露将造成不成比例的负担。"},
+        {"en": "Litigation privilege applies because the document was created for the dominant purpose of litigation.", "cn": "适用诉讼特免权，因为文件主要为诉讼目的而形成。"},
+        {"en": "Litigation privilege applies because the cause of action had already arisen when the letter was written.", "cn": "诉因在信件撰写时已产生，故适用诉讼特免权。"}
+      ],
+      "ans": "D",
+      "exp_cn": "文件专为现有诉讼准备，符合诉讼特免权。",
+      "exp_en": "The document was created solely for the purpose of existing litigation, which falls under litigation privilege.",
+      "cate": "FLK1"
+    }
+  ];
+  
+  document.getElementById('jsonInput').value = JSON.stringify(sraFLK1Questions, null, 2);
+  alert('已填充SRA FLK1真题示例，请检查并导入。您可以根据需要添加更多题目。');
+}
+
+// 直接导入本地题库题目到localStorage
+function importLocalQuestionsToStorage() {
+  // 解析本地题目文件内容
+  const localQuestions = [
+    {
+      "id": 134,
+      "cate": "FLK1",
+      "q_en": "The government is proposing legislation to ban a synthetic drug but wishes to criminalise sales made before the ban comes into force. Government lawyers advise this would violate an absolute right under Article 5 ECHR. How are absolute rights under the ECHR best described?",
+      "q_cn": "政府拟立法禁止某种合成药物，但希望将禁令生效前的销售行为也定为犯罪。政府律师指出这违反ECHR第5条绝对权利。如何解释ECHR下的绝对权利？",
+      "options": [
+        {"en": "A right that cannot be restricted or limited by the state in any circumstances", "cn": "任何情况下国家都不能限制或限定的权利"},
+        {"en": "A right that the state has absolute discretion to restrict", "cn": "国家可绝对自由裁量限制的权利"},
+        {"en": "A right that can only be restricted in circumstances set out in the Article", "cn": "仅在条款规定情况下可限制的权利"},
+        {"en": "A right that can only be restricted with the approval of the European Court of Human Rights", "cn": "仅经欧洲人权法院批准可限制的权利"},
+        {"en": "A right that can only be restricted with the approval of the Supreme Court", "cn": "仅经最高法院批准可限制的权利"}
+      ],
+      "ans": "A",
+      "exp_cn": "绝对权利在ECHR下是指任何情况下都不可被限制或克减的权利，包括第3条禁止酷刑、第4条第1款禁止奴役等。国家无任何裁量权。",
+      "exp_en": "Absolute rights under the ECHR are rights that cannot be restricted or derogated from in any circumstances, including Article 3 prohibition of torture and Article 4(1) prohibition of slavery. The state has no discretion."
+    },
+    {
+      "id": 135,
+      "cate": "FLK1",
+      "q_en": "The High Court needs to interpret a regulation retained as direct EU legislation. In 2021 the CJEU provided an authoritative definition of a key part of that regulation. How should the High Court treat that CJEU judgment?",
+      "q_cn": "高等法院需解释一项保留为直接欧盟立法的法规。2021年CJEU对该法规关键部分提供了权威定义。高等法院应如何对待该CJEU判决？",
+      "options": [
+        {"en": "Must refer the matter to the Supreme Court", "cn": "必须将事项提交最高法院"},
+        {"en": "Must follow the CJEU judgment as it is retained domestic case law", "cn": "必须遵循CJEU判决，因是保留国内判例法"},
+        {"en": "May follow the CJEU judgment as it is retained EU case law", "cn": "可遵循CJEU判决，因是保留欧盟判例法"},
+        {"en": "Must follow the CJEU judgment as the regulation is retained EU law", "cn": "必须遵循CJEU判决，因法规是保留欧盟法"},
+        {"en": "May follow the CJEU judgment even though the regulation is retained EU law", "cn": "可遵循CJEU判决，即使法规是保留欧盟法"}
+      ],
+      "ans": "E",
+      "exp_cn": "根据《2020年欧盟（退出）法》，英国法院对2021年1月1日后的CJEU判决没有义务遵循，但可以酌情考虑。高等法院有自由裁量权决定是否遵循。",
+      "exp_en": "Under the European Union (Withdrawal) Act 2020, UK courts are not bound by CJEU judgments after 1 January 2021, but may consider them. The High Court has discretion whether to follow."
+    },
+    {
+      "id": 136,
+      "cate": "FLK1",
+      "q_en": "Three people set up a dog-walking partnership, agreeing to share profits in proportion to their capital contributions: Partner 1 ￡10,000; Partner 2 ￡8,000; Partner 3 ￡2,000. This year profits are ￡90,000. How are they distributed?",
+      "q_cn": "三人建立遛狗合伙企业，按资本贡献比例分配利润：Partner 1 ￡10,000；Partner 2 ￡8,000；Partner 3 ￡2,000。今年利润￡90,000，如何分配？",
+      "options": [
+        {"en": "Partner 1 receives ￡30,000", "cn": "Partner 1 收到 ￡30,000"},
+        {"en": "Partner 1 receives ￡10,000", "cn": "Partner 1 收到 ￡10,000"},
+        {"en": "Partner 2 receives ￡36,000", "cn": "Partner 2 收到 ￡36,000"},
+        {"en": "Partner 2 receives ￡8,000", "cn": "Partner 2 收到 ￡8,000"},
+        {"en": "Partner 3 receives ￡18,000", "cn": "Partner 3 收到 ￡18,000"}
+      ],
+      "ans": "C",
+      "exp_cn": "总资本为￡20,000（￡10,000+￡8,000+￡2,000）。Partner 2的资本比例为￡8,000÷￡20,000=40%。Partner 2应得利润为￡90,000×40%=￡36,000。",
+      "exp_en": "Total capital is ￡20,000 (￡10,000+￡8,000+￡2,000). Partner 2's capital proportion is ￡8,000÷￡20,000=40%. Partner 2's profit share is ￡90,000×40%=￡36,000."
+    }
+  ];
+  
+  // 从localStorage加载现有题目
+  let existingFLK1Questions = JSON.parse(localStorage.getItem('flk1Questions')) || [];
+  
+  // 合并新题目
+  const mergedQuestions = [...existingFLK1Questions, ...localQuestions];
+  
+  // 去重（基于id）
+  const uniqueQuestions = mergedQuestions.filter((question, index, self) => 
+    index === self.findIndex(q => q.id === question.id)
+  );
+  
+  // 保存到localStorage
+  localStorage.setItem('flk1Questions', JSON.stringify(uniqueQuestions));
+  
+  // 更新题目计数
+  document.getElementById('flk1Count').textContent = uniqueQuestions.length;
+  
+  alert(`已成功导入 ${localQuestions.length} 道题目到题库。当前FLK1题库共有 ${uniqueQuestions.length} 道题目。`);
+}
+
+// 解决访问限制的替代方案 - 手动添加SRA样题
+function addSRAFLK2Questions() {
+  // 这里可以添加从SRA官网获取的FLK2题目
+  // 由于访问限制，我们提供一个示例格式，用户可以手动添加
+  const flk2Questions = [
+    {
+      "q_en": "A client is seeking advice on making a will. Which of the following is a requirement for a valid will?",
+      "q_cn": "客户正在寻求关于立遗嘱的建议。以下哪项是有效遗嘱的要求？",
+      "options": [
+        {"en": "The testator must be at least 16 years old", "cn": "立遗嘱人必须至少16岁"},
+        {"en": "The will must be witnessed by at least one person", "cn": "遗嘱必须由至少一人见证"},
+        {"en": "The will must be in writing", "cn": "遗嘱必须以书面形式"},
+        {"en": "The will must be notarized", "cn": "遗嘱必须公证"}
+      ],
+      "ans": "C",
+      "exp_cn": "根据英国法律，有效遗嘱必须以书面形式，由立遗嘱人签署，并由至少两名见证人见证。",
+      "exp_en": "Under English law, a valid will must be in writing, signed by the testator, and witnessed by at least two people.",
+      "cate": "FLK2"
+    },
+    {
+      "q_en": "A client is involved in a civil dispute and is considering alternative dispute resolution. Which of the following is a form of ADR?",
+      "q_cn": "客户涉及民事纠纷，正在考虑替代性争议解决方式。以下哪项是ADR的形式？",
+      "options": [
+        {"en": "Litigation", "cn": "诉讼"},
+        {"en": "Arbitration", "cn": "仲裁"},
+        {"en": "Trial", "cn": "审判"},
+        {"en": "Appeal", "cn": "上诉"}
+      ],
+      "ans": "B",
+      "exp_cn": "仲裁是一种替代性争议解决方式，当事人将争议提交给中立的第三方进行裁决。",
+      "exp_en": "Arbitration is a form of alternative dispute resolution where parties submit their dispute to a neutral third party for a binding decision.",
+      "cate": "FLK2"
+    }
+  ];
+  
+  document.getElementById('jsonInput').value = JSON.stringify(flk2Questions, null, 2);
+  alert('已填充FLK2样题示例，请检查并导入。您可以根据SRA官网的题目内容修改或添加更多题目。');
 }
 
 // ====================== 联网获取题目功能 ======================
@@ -2589,7 +2919,7 @@ function playWordSound(word) {
   // 使用Web Speech API进行单词发音
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = 'en-US';
+    utterance.lang = 'en-GB';
     speechSynthesis.speak(utterance);
   } else {
     alert('您的浏览器不支持语音功能');
