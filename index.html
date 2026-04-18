@@ -129,8 +129,7 @@
     <button onclick="goTab('practice')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📝 题库练习</button>
     <button onclick="goTab('vocabulary')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📚 法律英语</button>
     <button onclick="goTab('notes')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📓 笔记</button>
-    <button onclick="goTab('favorites')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">⭐ 收藏题目<button onclick="resetDoneQuestions()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm">重置已做题</button>
-    <button onclick="resetFavorites()" class="mt-2 bg-orange-500 text-white px-3 py-1 rounded text-sm ml-2">重置收藏</button></button>
+    <button onclick="goTab('favorites')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">⭐ 收藏题目</button>
     <button onclick="goTab('exam')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📋 考试介绍</button>
   </div>
 
@@ -209,13 +208,19 @@
     </div>
   </div>
 
-  <!-- 4. 收藏题目模块 -->
-  <div id="tab-favorites" class="hidden bg-white p-5 rounded shadow">
-    <h3 class="font-bold text-lg mb-3">⭐ 收藏题目</h3>
-    <div id="favoritesList"></div>
+    <!-- 收藏题目（放在题库模块内）+ 重置按钮 -->
+    <div class="mt-6 border-t pt-6">
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <button onclick="resetDoneQuestions()" class="bg-red-500 text-white px-3 py-2 rounded text-sm">重置已做题</button>
+        <button onclick="resetFavorites()" class="bg-orange-500 text-white px-3 py-2 rounded text-sm">重置收藏</button>
+      </div>
+      <h3 class="font-bold text-lg mb-3">⭐ 收藏题目</h3>
+      <div id="favoritesList"></div>
+    </div>
   </div>
 
-  <!-- 3. 笔记模块 -->
+
+  <!-- 笔记模块 -->
   <div id="tab-notes" class="hidden bg-white p-5 rounded shadow">
     <h3 class="font-bold text-lg mb-3">📓 考试笔记</h3>
     <div id="notesLocked" class="hidden p-6 bg-yellow-50 border border-yellow-300 rounded mb-4">
