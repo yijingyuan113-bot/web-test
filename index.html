@@ -283,6 +283,9 @@
         <input type="checkbox" id="shuffleCheck" class="mr-2">
         <label for="shuffleCheck" class="text-sm">乱序练习</label>
         <button onclick="toggleShuffle()" class="ml-4 bg-yellow-500 text-white px-3 py-1 rounded text-sm">打乱顺序</button>
+        <input type="checkbox" id="unansweredCheck" class="ml-4 mr-2">
+        <label for="unansweredCheck" class="text-sm">只显示未做题</label>
+        <span class="text-xs text-gray-500 ml-2">（已做: <span id="doneCount">0</span>）</span>
       </div>
     </div>
     <div id="practiceLocked" class="hidden p-6 bg-yellow-50 border border-yellow-300 rounded mb-4">
@@ -318,7 +321,8 @@
 
   <!-- 4. 收藏题目模块 -->
   <div id="tab-favorites" class="hidden bg-white p-5 rounded shadow">
-    <h3 class="font-bold text-lg mb-3">⭐ 收藏题目</h3>
+    <h3 class="font-bold text-lg mb-3">⭐ 收藏题目</h3><div class="mb-2"><button onclick="resetDoneQuestions()" class="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm">重置已做题记录</button>
+    <button onclick="resetFavorites()" class="mt-2 bg-orange-500 text-white px-3 py-1 rounded text-sm ml-2">重置收藏记录</button></div>
     <div id="favoritesList"></div>
   </div>
 
@@ -595,6 +599,7 @@ function login() {
     }
     
     console.log('登录成功，用户:', user.name);
+    updateDoneCountDisplay();
     
     // 确保DOM元素存在
     const userNameElement = document.getElementById('userName');
@@ -1145,6 +1150,52 @@ let flk2Questions = [
 let allQuestions = questions.concat(flk2Questions);
 
 // 更新题库计数
+
+// ====================== 已做题跟踪 ======================
+function getDoneQuestions() {
+    if (!currentUserEmail || currentUserEmail === 'guest') return [];
+    const stored = localStorage.getItem('doneQuestions_' + currentUserEmail);
+    return stored ? JSON.parse(stored) : [];
+}
+
+function saveDoneQuestions(doneList) {
+    if (!currentUserEmail || currentUserEmail === 'guest') return;
+    localStorage.setItem('doneQuestions_' + currentUserEmail, JSON.stringify(doneList));
+}
+
+function markQuestionDone(questionId) {
+    if (!currentUserEmail || currentUserEmail === 'guest') return;
+    const done = getDoneQuestions();
+    if (!done.includes(questionId)) {
+        done.push(questionId);
+        saveDoneQuestions(done);
+        // Update display if count element exists
+        updateDoneCountDisplay();
+    }
+}
+
+function updateDoneCountDisplay() {
+    const doneCountEl = document.getElementById('doneCount');
+    if (doneCountEl) {
+        const done = getDoneQuestions();
+        doneCountEl.innerText = done.length;
+    }
+}
+
+function resetDoneQuestions() {
+    if (!currentUserEmail || currentUserEmail === 'guest') return;
+    if (confirm('确定要重置已做题记录吗？')) {
+        localStorage.removeItem('doneQuestions_' + currentUserEmail);
+        updateDoneCountDisplay();
+        alert('已做题记录已重置');
+    }
+}
+
+function getUnansweredQuestions(questionArray) {
+    const done = getDoneQuestions();
+    return questionArray.filter(q => !done.includes(q.id));
+}
+
 function updateQuestionCounts() {
   document.getElementById('flk1Count').textContent = questions.length;
   document.getElementById('flk2Count').textContent = flk2Questions.length;
@@ -1915,17 +1966,25 @@ let currentCategory = '未选择';
 
 function startPractice(cate) {
   if (cate === 'all') {
-    currentSet = allQuestions;
+    baseSet = allQuestions;
     currentCategory = '全部题库';
   } else if (cate === 'FLK2') {
-    currentSet = flk2Questions;
+    baseSet = flk2Questions;
     currentCategory = 'FLK2';
   } else {
-    currentSet = questions.filter(q => q.cate === cate);
+    baseSet = questions.filter(q => q.cate === cate);
     currentCategory = cate || 'FLK1';
   }
   
   // 游客模式下限制题库数量为30题
+  
+  
+  // unanswered questions filter
+  if (document.getElementById('unansweredCheck').checked) {
+    currentSet = getUnansweredQuestions(baseSet);
+  } else {
+    currentSet = baseSet;
+  }
   if (currentUserEmail === 'guest') {
     if (currentSet.length > 30) {
       currentSet = currentSet.slice(0, 30);
@@ -2010,6 +2069,16 @@ function saveFavorites() {
   localStorage.setItem(`favorites_${currentUserEmail}`, JSON.stringify(favorites));
 }
 
+function resetFavorites() {
+  if (!currentUserEmail || currentUserEmail === 'guest') return;
+  if (confirm('确定要重置收藏记录吗？')) {
+    favorites = [];
+    localStorage.removeItem('favorites_' + currentUserEmail);
+    displayFavorites();
+    alert('收藏记录已重置');
+  }
+}
+
 function toggleFavorite() {
   if (!currentUserEmail || currentUserEmail === 'guest') {
     alert('游客模式下无法保存收藏，请登录后再使用此功能');
@@ -2051,6 +2120,10 @@ function removeFavorite(id) {
 }
 
 function showAnswer() {
+    // 标记为已做
+    if (currentSet.length && currentSet[currentIndex]) {
+        markQuestionDone(currentSet[currentIndex].id);
+    }
   if (!currentSet.length) return;
   const q = currentSet[currentIndex];
   document.querySelectorAll("[data-opt]").forEach(el => {
