@@ -869,6 +869,7 @@
       <button onclick="prevQuestion()" class="bg-gray-200 px-4 py-2 rounded">上一题</button>
 
       <button onclick="showAnswer()" class="bg-green-600 text-white px-4 py-2 rounded">查看答案</button>
+      <button onclick="analyzeWithAI()" class="bg-purple-600 text-white px-4 py-2 rounded">🤖 AI分析</button>
 
       <button onclick="nextQuestion()" class="bg-gray-200 px-4 py-2 rounded">下一题</button>
 
@@ -10206,6 +10207,93 @@ function toggleSection(sectionId) {
     arrow.textContent = '▼';
   }
 }
+
+
+// AI分析本题功能
+function analyzeWithAI() {
+  if (!currentSet || !currentSet[currentIndex]) {
+    alert('请先选择一道题目');
+    return;
+  }
+  
+  const q = currentSet[currentIndex];
+  
+  // 创建或显示分析面板
+  let analysisDiv = document.getElementById('aiAnalysis');
+  if (!analysisDiv) {
+    analysisDiv = document.createElement('div');
+    analysisDiv.id = 'aiAnalysis';
+    analysisDiv.className = 'fixed bottom-4 right-4 w-96 max-h-96 overflow-y-auto bg-white rounded-lg shadow-xl border z-50 p-4';
+    document.body.appendChild(analysisDiv);
+  }
+  
+  // 显示加载状态
+  analysisDiv.innerHTML = '<div class="text-center p-4"><div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent"></div><p class="mt-2 text-gray-600">正在分析题目...</p></div>';
+  analysisDiv.classList.remove('hidden');
+  
+  // 获取题目信息
+  const questionText = q.q_en || q.q_cn || '';
+  const questionCn = q.q_cn || '';
+  const optionsText = q.options ? q.options.map((o, i) => `${String.fromCharCode(65+i)}. ${o.en || o.cn || ''}`).join('\n') : '';
+  
+  // 生成分析内容
+  let analysis = `<div class="space-y-3">
+    <h4 class="font-bold text-purple-800 border-b pb-2">🤖 AI题目分析</h4>
+    <div class="text-sm">
+      <p class="font-semibold text-gray-700">题目：</p>
+      <p class="text-gray-600">${questionCn || questionText.substring(0, 200)}</p>
+    </div>
+    <div class="text-sm">
+      <p class="font-semibold text-gray-700">选项：</p>
+      <pre class="text-gray-600 whitespace-pre-wrap">${optionsText}</pre>
+    </div>
+    <div class="text-sm bg-yellow-50 p-2 rounded">
+      <p class="font-semibold text-yellow-800">💡 解题提示：</p>
+      <p class="text-gray-600">点击下方按钮搜索相关法律知识点</p>
+    </div>
+  </div>`;
+  
+  analysis += `<div class="mt-3 flex gap-2 flex-wrap">
+    <button onclick="searchTopic('${encodeURIComponent(getTopicKeyword(questionText))}')" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">🔍 搜索知识点</button>
+    <button onclick="searchSQE()" class="bg-green-600 text-white px-3 py-1 rounded text-xs">📚 SQE资料</button>
+    <button onclick="document.getElementById('aiAnalysis').classList.add('hidden')" class="bg-gray-400 text-white px-3 py-1 rounded text-xs">关闭</button>
+  </div>`;
+  
+  analysisDiv.innerHTML = analysis;
+}
+
+function getTopicKeyword(text) {
+  // 提取题目关键词
+  const keywords = [];
+  const topicMap = {
+    'identification': 'PACE 1984 identification procedure',
+    'contract': 'SQE contract law breach damages',
+    'tort': 'SQE tort law negligence duty',
+    'trust': 'SQE trust law valid',
+    'crime': 'SQE criminal law actus reus mens rea',
+    'property': 'SQE property law land registration',
+    'employment': 'SQE employment law dismissal',
+    'company': 'SQE company law directors duties',
+    'evidence': 'SQE civil litigation evidence disclosure'
+  };
+  
+  const lowerText = text.toLowerCase();
+  for (const [key, value] of Object.entries(topicMap)) {
+    if (lowerText.includes(key)) {
+      return value;
+    }
+  }
+  return 'SQE FLK1 FLK2 practice questions';
+}
+
+function searchTopic(keyword) {
+  window.open(`https://www.google.com/search?q=${keyword}`, '_blank');
+}
+
+function searchSQE() {
+  window.open('https://www.google.com/search?q=SQE+solicitors+qualifying+examination+practice', '_blank');
+}
+
 
 </script>
 
