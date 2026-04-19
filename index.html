@@ -2654,7 +2654,7 @@ function goTab(tab) {
 
     if (tab === 'favorites') renderFavorites();
 
-    if (tab === 'notes') displayAllNotes();
+    if (tab === 'notes') { initNotes(); displayAllNotes(); }
 
     if (tab === 'course') initCourse();
 
