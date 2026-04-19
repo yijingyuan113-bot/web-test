@@ -189,300 +189,371 @@
   <div id="tab-course" class="hidden bg-white p-5 rounded shadow mb-6">
 
     <h3 class="font-bold text-lg mb-3">
-    <!-- SQE课程模块 - 详细评估目标 -->
+    <!-- SQE课程模块 - FLK1/FLK2详细考点 -->
+    
+    <!-- FLK1 课程模块 -->
     <div class="mb-6 p-4 bg-white rounded border border-gray-200">
-      <h3 class="font-bold text-lg mb-3 border-b pb-2">📖 FLK1 详细评估目标 / FLK1 Assessment Objectives</h3>
-      <div class="space-y-4 text-sm">
+      <h3 class="font-bold text-lg mb-4 border-b pb-2 cursor-pointer" onclick="toggleSection('flk1')">
+        📚 FLK1 课程模块 <span id="flk1-arrow" class="ml-2">▼</span>
+      </h3>
+      <div id="flk1-content" class="hidden space-y-4">
+        
+        <!-- 1. Business Law and Practice -->
+        <details class="p-3 bg-green-50 rounded" open>
+          <summary class="font-bold text-green-800 cursor-pointer">1. Business Law and Practice（商业法与实务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-green-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>企业设立</b>：公司、合伙、LLP、个体户的选择与设立程序</li>
+                <li><b>公司章程</b>：Articles of Association的制定与修改</li>
+                <li><b>公司治理</b>：董事会、股东大会权力分配与决策程序</li>
+                <li><b>董事职责</b>：注意义务、忠实义务、禁止关联交易</li>
+                <li><b>股东权利</b>：投票权、股息权、优先购买权、知情权</li>
+                <li><b>企业融资</b>：股份发行、债券发行、增资扩股</li>
+                <li><b>企业税务</b>：企业所得税、增值税、员工税务</li>
+                <li><b>收购合并</b>：股份收购、资产收购、要约收购程序</li>
+                <li><b>公司清算</b>：自愿清算、强制清算、债权人利益保护</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 2. Dispute Resolution -->
+        <details class="p-3 bg-blue-50 rounded">
+          <summary class="font-bold text-blue-800 cursor-pointer">2. Dispute Resolution（争议解决）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-blue-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>诉讼前程序</b>：诉前救济、禁令、财产保全</li>
+                <li><b>管辖权</b>：英格兰和威尔士法院管辖权确定</li>
+                <li><b>诉讼时效</b>：各类纠纷的时效期间（S.4 Limitation Act 1980）</li>
+                <li><b>起诉程序</b>：Claim Form、Statement of Case、审理程序</li>
+                <li><b>证据规则</b>：举证责任、证据开示、可采性</li>
+                <li><b>判决执行</b>：判决登记、强制执行程序、第三债务人程序</li>
+                <li><b>上诉程序</b>：County Court→High Court→Court of Appeal</li>
+                <li><b>替代争议解决</b>：调解(Mediation)、仲裁(Arbitration)、和解谈判</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 3. Contract Law -->
+        <details class="p-3 bg-purple-50 rounded">
+          <summary class="font-bold text-purple-800 cursor-pointer">3. Contract Law（合同法）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-purple-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>合同成立</b>：要约(Offer)、承诺(Acceptance)、对价(Consideration)</li>
+                <li><b>对价规则</b>：Past consideration、不存在对价、存在但不足</li>
+                <li><b>合同形式</b>：Deed需签名见证、书面合同要求</li>
+                <li><b>缔约能力</b>：未成年人、精神障碍者、法人能力</li>
+                <li><b>合同条款</b>：条件条款(Conditions)、保证条款(Warranties)、默示条款</li>
+                <li><b>错误</b>：共同错误、误述(Misrepresentation)、 unilaterally mistake</li>
+                <li><b>胁迫不正当</b>：Economic duress、Undue influence、Misrepresentation</li>
+                <li><b>合同履行</b>：Due performance、Partial performance、Impossibility</li>
+                <li><b>合同终止</b>：Agreement、Repudiation、Frustration、Breach</li>
+                <li><b>违约救济</b>：Damages、Specific performance、Injunction、Rectification</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 4. Tort -->
+        <details class="p-3 bg-red-50 rounded">
+          <summary class="font-bold text-red-800 cursor-pointer">4. Tort（侵权法）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-red-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>过失侵权</b>：Duty of Care、Breach、Dama­ges、Causation、Remoteness</li>
+                <li><b>注意义务</b>：Neighbor principle、CAP 1999、Psychiatric injury</li>
+                <li><b>违反义务</b>：Reasonable foreseeability、Probability of harm</li>
+                <li><b>因果关系</b>：Factual causation、Legal causation、Thin skull rule</li>
+                <li><b>损害赔偿</b>：Special damages、General damages、Contributory negligence</li>
+                <li><b>雇主责任</b>：Vicarious liability、Course of employment</li>
+                <li><b>产品责任</b>：Consumer Protection Act 1987、Defect、Damage</li>
+                <li><b>诽谤</b>：Libel、Slander、Defences、Truth、Privilege</li>
+                <li><b>非法侵入</b>：Trespass to land、Nuisance、Statutory authority</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 5. Legal System -->
+        <details class="p-3 bg-yellow-50 rounded">
+          <summary class="font-bold text-yellow-800 cursor-pointer">5. Legal System（法律体系）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-yellow-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>司法体系</b>：Magistrates Court、Crown Court、High Court、Court of Appeal、Supreme Court</li>
+                <li><b>先例原则</b>：Stare decisis、Ratio decidendi、Obiter dicta、Binding vs Persuasive</li>
+                <li><b>法院权力</b>：Civil procedure rules、Case management、Costs</li>
+                <li><b>法官角色</b>：Judicial independence、Judge's role in criminal/civil trials</li>
+                <li><b>法律来源</b>：Primary legislation、Secondary legislation、Common law、Equity</li>
+                <li><b>人权法</b>：Human Rights Act 1998、ECHR rights、Section 6 Public Authority</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 6. Legal Services -->
+        <details class="p-3 bg-gray-50 rounded">
+          <summary class="font-bold text-gray-800 cursor-pointer">6. Legal Services（法律服务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-gray-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>SRA行为准则</b>：Code of Conduct、Outcomes-focused regulation</li>
+                <li><b>利益冲突</b>：Conflict of interest、Client's money、Opposing parties</li>
+                <li><b>保密义务</b>：Legal professional privilege、Confidentiality、Exceptions</li>
+                <li><b>洗钱合规</b>：MLRO、Customer due diligence、Suspicious activity reporting</li>
+                <li><b>职业责任</b>：Indemnity insurance、Compensation fund、SRA intervention</li>
+                <li><b>律师执照</b>：Practising certificate、Reserved legal activities、Unauthorized practice</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+      </div>
+    </div>
+    
+    <!-- FLK2 课程模块 -->
+    <div class="mb-6 p-4 bg-white rounded border border-gray-200">
+      <h3 class="font-bold text-lg mb-4 border-b pb-2 cursor-pointer" onclick="toggleSection('flk2')">
+        📚 FLK2 课程模块 <span id="flk2-arrow" class="ml-2">▼</span>
+      </h3>
+      <div id="flk2-content" class="hidden space-y-4">
+        
+        <!-- 1. Criminal Law and Practice -->
+        <details class="p-3 bg-red-50 rounded" open>
+          <summary class="font-bold text-red-800 cursor-pointer">1. Criminal Law and Practice（刑法与实务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-red-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>犯罪构成</b>：Actus Reus（外在行为）、Mens Rea（主观意图）</li>
+                <li><b>谋杀</b>：Intent to kill或Intent to cause GBH、Malice aforethought</li>
+                <li><b>过失杀人</b>：Gross negligence manslaughter、Constructive malice</li>
+                <li><b>非致命伤害</b>：Assault、ABH、GBH - 各种等级认定</li>
+                <li><b>财产犯罪</b>：Theft、Robbery、Burglary、Fraud、Blackmail</li>
+                <li><b>故意犯罪</b>：Intention、 Cunningham recklessness、Subjective vs Objective test</li>
+                <li><b>共同犯罪</b>：Principal、Secondary liability、Joint enterprise</li>
+                <li><b>辩护理由</b>：Self-defence、Duress、Necessity、Insanity、Automatism</li>
+                <li><b>警察权力</b>：PACE 1984 - 逮捕、搜查、羁押、问询权利</li>
+                <li><b>拘留时钟</b>Detention clock：6小时、36小时、96小时各阶段权利</li>
+              </ul>
+            </div>
+            <div class="p-2 bg-yellow-50 rounded mt-2">
+              <h5 class="font-semibold text-yellow-700 mb-1">🎬 视频课程：Street Lawyer - 嫌疑人在警察局的权利</h5>
+              <p class="text-xs text-gray-600 mb-1">视频链接：https://www.youtube.com/watch?v=eb0SMto-uOc</p>
+              <p class="text-xs text-gray-600"><b>主题：</b>Rights at Police Station - Detention Clock & Review</p>
+              <details class="mt-2">
+                <summary class="text-xs text-blue-600 cursor-pointer">▶ 视频字幕内容</summary>
+                <div class="mt-2 p-2 bg-white rounded text-xs text-gray-700 max-h-60 overflow-y-auto">
+                  <p><b>Welcome to SQE1 Preparation - Criminal Practice</b></p>
+                  <p class="mt-2">This lecture covers the detention clock and review rights at the police station under PACE 1984.</p>
+                  <p class="mt-2"><b>Key Points:</b></p>
+                  <ul class="list-disc list-inside mt-1 space-y-1">
+                    <li>Right to Legal Advice (Section 58 PACE 1984)</li>
+                    <li>Right to Have Someone Informed (Section 56 PACE 1984)</li>
+                    <li>Detention Clock - time limits for police questioning</li>
+                    <li>Review rights - brought before magistrates within 36 hours</li>
+                    <li>Delaying rights - Inspector/Superintendent/Magistrates Court authorization levels</li>
+                  </ul>
+                  <p class="mt-2"><b>Detention Clock Timeframes:</b></p>
+                  <ul class="list-disc list-inside mt-1 space-y-1">
+                    <li>Police can detain for up to 36 hours without charge</li>
+                    <li>Inspector can authorize delay up to 12 hours</li>
+                    <li>Superintendent can authorize delay up to 36 hours</li>
+                    <li>Magistrates Court can authorize detention up to 96 hours (4 days)</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 2. Property Practice -->
+        <details class="p-3 bg-green-50 rounded">
+          <summary class="font-bold text-green-800 cursor-pointer">2. Property Practice（财产法实务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-green-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>土地权益</b>：Freehold、Leasehold、Easements、Profit à prendre</li>
+                <li><b>土地注册</b>：Land Registration Act 2002、Registered land、Title registers</li>
+                <li><b>转让登记</b>：Registered transfer、Charges、Notices、Cautions</li>
+                <li><b>租赁实务</b>：Commercial leases、Residential tenancies、Agriculture</li>
+                <li><b>抵押贷款</b>：Mortgage、Charge、Enforcement、Possession proceedings</li>
+                <li><b>开发限制</b>：Planning permission、Building regulations、Conditional sales</li>
+                <li><b>土地调查</b>：Searches、Enquiries、Environmental issues、Title defects</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 3. Wills and Administration of Estates -->
+        <details class="p-3 bg-blue-50 rounded">
+          <summary class="font-bold text-blue-800 cursor-pointer">3. Wills and Administration of Estates（遗嘱与遗产管理）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-blue-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>遗嘱制定</b>：Valid will的要求、Signature、Witnessing、Attestation</li>
+                <li><b>遗嘱解释</b>：Testator's intention、Extrinsic evidence、Rectification</li>
+                <li><b>遗产分配</b>：Intestacy rules、Statutory legacies、Family provision</li>
+                <li><b>遗产管理</b>：Grant of representation、Probate、Administration</li>
+                <li><b>遗产税</b>：Inheritance tax、Allowances、Reliefs、Tapered relief</li>
+                <li><b>遗嘱执行</b>：Executor powers、Duties、Fees、Renunciation</li>
+                <li><b>信托遗产</b>：Trusts of land、Enduring powers of attorney</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 4. Trust Law -->
+        <details class="p-3 bg-purple-50 rounded">
+          <summary class="font-bold text-purple-800 cursor-pointer">4. Trust Law（信托法）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-purple-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>信托三要素</b>：Certainty of Intention、Subject Matter、Objects</li>
+                <li><b>法定信托</b>：Resulting trusts、Constructive trusts、Presumed resulting trust</li>
+                <li><b>明示信托</b>：Express trust、Precise words、Constitution、Charitable trusts</li>
+                <li><b>信托管理</b>：Trustee powers、Duties、Investments、Delegation</li>
+                <li><b>受益人权利</b>：Beneficiary's interest、Enforcement、Tracing</li>
+                <li><b>信托变更</b>：Statutory power、Court jurisdiction、Scheme</li>
+                <li><b>Sham信托</b>：Sham doctrine、Intention、Separation of legal/beneficial ownership</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 5. Solicitors Accounts -->
+        <details class="p-3 bg-orange-50 rounded">
+          <summary class="font-bold text-orange-800 cursor-pointer">5. Solicitors Accounts（律师账务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-orange-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>客户资金</b>：Client account、Mixed money、Transfer between accounts</li>
+                <li><b>账目规则</b>：SRA Accounts Rules 2019、Record keeping、Annual accountant's report</li>
+                <li><b>资金提取</b>：Allowed withdrawals、Bills of costs、Profit costs</li>
+                <li><b>利息处理</b>：Interest on client money、Payment to charity</li>
+                <li><b>审计追踪</b>：Client ledger、Cash book、Bank reconciliation</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 6. Business Law -->
+        <details class="p-3 bg-teal-50 rounded">
+          <summary class="font-bold text-teal-800 cursor-pointer">6. Business Law（商法）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-teal-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>合伙法</b>：Partnership Act 1890、Limited partnership、LLP、Duties between partners</li>
+                <li><b>公司法</b>：Companies Act 2006、Incorporation、Capital、Governance</li>
+                <li><b>公司融资</b>：Share capital、Debentures、Bonus issues、Rights issues</li>
+                <li><b>公司重组</b>：Takeovers、Mergers、Reductions of capital、Voluntary winding up</li>
+                <li><b>竞争法</b>：Competition Act 1998、Anti-competitive agreements、Abuse of dominance</li>
+                <li><b>破产法</b>：Insolvency Act 1986、IVA、Administration、Receivership</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+        <!-- 7. Criminal Practice -->
+        <details class="p-3 bg-pink-50 rounded">
+          <summary class="font-bold text-pink-800 cursor-pointer">7. Criminal Practice（刑事实务）</summary>
+          <div class="mt-3 text-sm space-y-2">
+            <div class="p-2 bg-white rounded">
+              <h5 class="font-semibold text-pink-700 mb-1">★ 核心考点 / Key Topics</h5>
+              <ul class="list-disc list-inside text-xs space-y-1 text-gray-700">
+                <li><b>警察羁押</b>：PACE 1984、Detention rights、Detention clock</li>
+                <li><b>保释</b>：Police bail、Court bail、Conditions、Breach</li>
+                <li><b>指控</b>：Charge、Mode of trial、Either-way offences、Summary only</li>
+                <li><b>辩护准备</b>：Case management、Disclosure、Expert evidence</li>
+                <li><b>认罪</b>：Plea before venue、Indication of sentence、Credit for guilty plea</li>
+                <li><b>审判程序</b>：Jury selection、Opening speeches、Evidence、Closing speeches</li>
+                <li><b>判决</b>：Sentencing guidelines、Mitigation、Custodial、Community sentences</li>
+                <li><b>上诉</b>：Appeal against conviction、Sentence、Case stated</li>
+              </ul>
+            </div>
+          </div>
+        </details>
+        
+      </div>
+    </div>
+    
+    <!-- SQE必背考点速记 -->
+    <div class="mt-6 p-4 bg-white rounded border border-gray-200">
+      <h4 class="font-bold text-lg mb-4 border-b pb-2 cursor-pointer" onclick="toggleSection('quicknotes')">
+        📝 SQE必背考点速记 <span id="quicknotes-arrow" class="ml-2">▼</span>
+      </h4>
+      <div id="quicknotes-content" class="hidden space-y-3 text-sm">
         
         <div class="p-3 bg-green-50 rounded">
-          <h4 class="font-bold text-green-800">1. Business Law and Practice（商业法与实务）</h4>
-          <p class="text-xs mt-1">评估目标：运用核心法律原则，在以下领域解决实际客户问题：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>通过公司、合伙、LLP或个体户创业</li>
-            <li>公司决策与合规管理</li>
-            <li>利益相关者权利义务</li>
-            <li>企业融资</li>
-            <li>企业税务</li>
-            <li>solvent业务终止与破产</li>
-          </ul>
-        </div>
-        
-        <div class="p-3 bg-blue-50 rounded">
-          <h4 class="font-bold text-blue-800">2. Dispute Resolution（争议解决）</h4>
-          <p class="text-xs mt-1">评估目标：在民事诉讼程序中提供实用法律咨询：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>诉讼前程序</li>
-            <li>诉讼时间和步骤</li>
-            <li>判决和执行</li>
-            <li>上诉程序</li>
-          </ul>
-        </div>
-        
-        <div class="p-3 bg-purple-50 rounded">
-          <h4 class="font-bold text-purple-800">3. Contract Law（合同法）</h4>
-          <p class="text-xs mt-1">评估目标：运用合同法核心原则：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>有效合同的基本要素</li>
-            <li>合同条款的解释</li>
-            <li>合同违约及救济</li>
-            <li>合同终止</li>
-          </ul>
+          <h5 class="font-bold text-green-800 mb-2">合同法 Contract Law - 5大要素</h5>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <span class="bg-white p-1 rounded">1. Offer 要约</span>
+            <span class="bg-white p-1 rounded">2. Acceptance 承诺</span>
+            <span class="bg-white p-1 rounded">3. Consideration 对价</span>
+            <span class="bg-white p-1 rounded">4. Capacity 缔约能力</span>
+            <span class="bg-white p-1 rounded">5. Legality 合法性</span>
+          </div>
         </div>
         
         <div class="p-3 bg-red-50 rounded">
-          <h4 class="font-bold text-red-800">4. Tort（侵权法）</h4>
-          <p class="text-xs mt-1">评估目标：运用侵权法核心原则处理人身伤害和财产损失：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>过失侵权的构成要素</li>
-            <li>注意义务和违反义务</li>
-            <li>因果关系和损害</li>
-            <li>雇主替代责任</li>
-          </ul>
+          <h5 class="font-bold text-red-800 mb-2">侵权法 Tort - 过失三要素</h5>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <span class="bg-white p-1 rounded">1. Duty 注意义务</span>
+            <span class="bg-white p-1 rounded">2. Breach 违反义务</span>
+            <span class="bg-white p-1 rounded">3. Damage 损害</span>
+          </div>
+        </div>
+        
+        <div class="p-3 bg-purple-50 rounded">
+          <h5 class="font-bold text-purple-800 mb-2">信托法 Trust - 三确定性</h5>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <span class="bg-white p-1 rounded">Intention 意图</span>
+            <span class="bg-white p-1 rounded">Subject Matter 财产</span>
+            <span class="bg-white p-1 rounded">Objects 受益人</span>
+          </div>
+        </div>
+        
+        <div class="p-3 bg-blue-50 rounded">
+          <h5 class="font-bold text-blue-800 mb-2">刑法 Criminal - 犯罪构成</h5>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <span class="bg-white p-1 rounded">Actus Reus 外在行为</span>
+            <span class="bg-white p-1 rounded">Mens Rea 主观意图</span>
+          </div>
         </div>
         
         <div class="p-3 bg-yellow-50 rounded">
-          <h4 class="font-bold text-yellow-800">5. Legal System（法律体系）</h4>
-          <p class="text-xs mt-1">评估目标：理解英格兰和威尔士法律体系：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>司法体系结构</li>
-            <li>先例原则</li>
-            <li>法院判决的约束力</li>
-            <li>成文法和普通法的关系</li>
-          </ul>
-        </div>
-        
-        <div class="p-3 bg-gray-50 rounded">
-          <h4 class="font-bold text-gray-800">6. Legal Services（法律服务）</h4>
-          <p class="text-xs mt-1">评估目标：理解律师监管和专业行为：</p>
-          <ul class="list-disc list-inside text-xs mt-2 space-y-1 text-gray-700">
-            <li>SRA行为准则</li>
-            <li>利益冲突</li>
-            <li>保密义务</li>
-            <li>洗钱和合规</li>
-          </ul>
+          <h5 class="font-bold text-yellow-800 mb-2">律师伦理 Solicitor Ethics - 6大核心义务</h5>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <span class="bg-white p-1 rounded">Honesty 诚信</span>
+            <span class="bg-white p-1 rounded">Independence 独立</span>
+            <span class="bg-white p-1 rounded">Confidentiality 保密</span>
+            <span class="bg-white p-1 rounded">Conflict 利益冲突</span>
+            <span class="bg-white p-1 rounded">Competence 能力</span>
+            <span class="bg-white p-1 rounded">Best Interests 客户利益</span>
+          </div>
         </div>
         
       </div>
     </div>
     
-    <!-- SQE必背考点 -->
-    <div class="mt-6 p-4 bg-white rounded border border-gray-200">
-      <h4 class="font-bold text-lg mb-4 border-b pb-2">📚 SQE必背考点（中英文对照）</h4>
-      
-      <details class="mb-4" open>
-        <summary class="font-bold text-green-700 cursor-pointer">📌 合同法 CONTRACT LAW</summary>
-        <div class="mt-3 space-y-4 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 有效合同的5大要素 / Five Essential Elements</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">要约</td><td class="border p-2">Offer</td></tr>
-              <tr><td class="border p-2">承诺</td><td class="border p-2">Acceptance</td></tr>
-              <tr><td class="border p-2">对价</td><td class="border p-2">Consideration</td></tr>
-              <tr><td class="border p-2">缔约能力</td><td class="border p-2">Capacity</td></tr>
-              <tr><td class="border p-2">合法性</td><td class="border p-2">Legality</td></tr>
-            </table>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">2️⃣ 要约 vs 要约邀请 / Offer vs Invitation to Treat</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">要约 Offer</td><td class="border p-2">向特定人发出的明确交易意愿</td></tr>
-              <tr><td class="border p-2">邀请要约 Invitation to Treat</td><td class="border p-2">邀请对方报价，如广告、橱窗展示</td></tr>
-            </table>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">3️⃣ 对价的3个规则 / Three Rules of Consideration</h5>
-            <ol class="list-decimal list-inside text-xs space-y-1">
-              <li>对价必须**存在** Consideration must **exist**</li>
-              <li>对价必须**来自承诺方** Consideration must come from the **promisee**</li>
-              <li>过去对价**不算** **Past consideration is no consideration**</li>
-            </ol>
-          </div>
-          
-        </div>
-      </details>
-      
-      <details class="mb-4">
-        <summary class="font-bold text-blue-700 cursor-pointer">📌 侵权法 TORT LAW</summary>
-        <div class="mt-3 space-y-4 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 过失侵权3要素 / Three Elements of Negligence</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">注意义务</td><td class="border p-2">Duty of Care</td></tr>
-              <tr><td class="border p-2">违反义务</td><td class="border p-2">Breach of Duty</td></tr>
-              <tr><td class="border p-2">因果关系</td><td class="border p-2">Causation</td></tr>
-            </table>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">2️⃣ 雇主责任 / Employer's Liability</h5>
-            <p class="text-xs">雇主对员工在**受雇范围内**（in the course of employment）的行为承担**替代责任**（Vicarious Liability）</p>
-          </div>
-          
-        </div>
-      </details>
-      
-      <details class="mb-4">
-        <summary class="font-bold text-purple-700 cursor-pointer">📌 财产法 PROPERTY LAW</summary>
-        <div class="mt-3 space-y-4 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 信托3要素（三大确定性）/ Three Certainties of a Trust</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">确定意图</td><td class="border p-2">Certainty of Intention</td></tr>
-              <tr><td class="border p-2">确定财产</td><td class="border p-2">Certainty of Subject Matter</td></tr>
-              <tr><td class="border p-2">确定受益人</td><td class="border p-2">Certainty of Objects</td></tr>
-            </table>
-          </div>
-          
-        </div>
-      </details>
-      
-      <details class="mb-4">
-        <summary class="font-bold text-red-700 cursor-pointer">📌 刑法 CRIMINAL LAW</summary>
-        <div class="mt-3 space-y-4 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 犯罪构成要件 / Elements of a Crime</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">行为 Actus Reus</td><td class="border p-2">客观外在行为 the external element</td></tr>
-              <tr><td class="border p-2">意图 Mens Rea</td><td class="border p-2">主观故意或过失 the mental element</td></tr>
-            </table>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">2️⃣ 谋杀 vs 过失杀人 / Murder vs Manslaughter</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">谋杀 Murder</td><td class="border p-2">故意造成死亡或严重伤害 Intentional killing or GBH with intent</td></tr>
-              <tr><td class="border p-2">过失杀人 Manslaughter</td><td class="border p-2">非故意但造成死亡 Unintentional killing</td></tr>
-            </table>
-          </div>
-          
-        </div>
-      </details>
-      
-      <details class="mb-4">
-        <summary class="font-bold text-yellow-700 cursor-pointer">📌 职业伦理 PROFESSIONAL CONDUCT</summary>
-        <div class="mt-3 space-y-4 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 律师6大核心义务 / Six Core Duties of a Solicitor</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">中文</th><th class="border p-2 text-left">English</th></tr>
-              <tr><td class="border p-2">诚信</td><td class="border p-2">Honesty</td></tr>
-              <tr><td class="border p-2">独立</td><td class="border p-2">Independence</td></tr>
-              <tr><td class="border p-2">保密</td><td class="border p-2">Confidentiality</td></tr>
-              <tr><td class="border p-2">利益冲突</td><td class="border p-2">Conflict of Interest</td></tr>
-              <tr><td class="border p-2">能力</td><td class="border p-2">Competence</td></tr>
-              <tr><td class="border p-2">客户利益</td><td class="border p-2">Client's Best Interests</td></tr>
-            </table>
-          </div>
-          
-        </div>
-      </details>
-      
-    </div>
-    
-    <!-- YouTube课程内容 -->
-    <div class="mt-6 p-4 bg-white rounded border border-gray-200">
-      <h4 class="font-bold text-lg mb-4 border-b pb-2">🎬 Street Lawyer - FLK2 刑法与实务（视频课程）</h4>
-      
-      <div class="mb-4 p-3 bg-blue-50 rounded">
-        <p class="text-sm text-gray-700 mb-2">
-          <strong>视频来源：</strong>Street Lawyer YouTube频道 - SQE FLK2 Criminal Law and Practice
-        </p>
-        <p class="text-xs text-gray-500">
-          <strong>主题：</strong>嫌疑人在警察局的权利 - 获得法律建议的权利和通知他人的权利
-        </p>
-      </div>
-      
-      <details class="mb-4" open>
-        <summary class="font-bold text-green-700 cursor-pointer">📖 课程内容摘要 / Course Summary</summary>
-        <div class="mt-3 space-y-3 text-sm">
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">1️⃣ 嫌疑人在警察局的基本权利</h5>
-            <p class="text-xs text-gray-600">嫌疑人在警察局拘留期间享有重要权利，旨在：</p>
-            <ul class="list-disc list-inside text-xs mt-2 space-y-1">
-              <li>保护嫌疑人不受伤害 (Protect suspect from harm)</li>
-              <li>防止滥用权力 (Safeguard against abuse)</li>
-            </ul>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">2️⃣ 两大核心权利</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">权利</th><th class="border p-2 text-left">英文</th><th class="border p-2 text-left">法律依据</th></tr>
-              <tr><td class="border p-2">获得法律建议的权利</td><td class="border p-2">Right to Legal Advice</td><td class="border p-2">Section 58 PACE 1984</td></tr>
-              <tr><td class="border p-2">通知他人的权利</td><td class="border p-2">Right to Have Someone Informed</td><td class="border p-2">Section 56 PACE 1984</td></tr>
-            </table>
-          </div>
-          
-          <div class="p-3 bg-gray-50 rounded">
-            <h5 class="font-semibold mb-2">3️⃣ 延迟权利的授权级别</h5>
-            <table class="w-full text-xs border-collapse">
-              <tr class="bg-gray-100"><th class="border p-2 text-left">警官级别</th><th class="border p-2 text-left">可延迟的时间</th></tr>
-              <tr><td class="border p-2">Inspector（督察）或以上</td><td class="border p-2">最多12小时</td></tr>
-              <tr><td class="border p-2">Superintendent（警司）或以上</td><td class="border p-2">最多36小时</td></tr>
-            </table>
-          </div>
-          
-        </div>
-      </details>
-      
-    </div>
 
 
-📘 SQE 课程模块</h3>
-
-    <p class="text-sm text-gray-500 mb-4">上传和管理各科目的PDF教材。</p>
-
-    
-
-    <!-- PDF上传区域 - 仅Lucia用户可见 -->
-
-    <div id="pdfUploadSection" class="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-
-      <h4 class="font-medium mb-3">上传PDF教材</h4>
-
-      <div class="flex gap-2 mb-3">
-
-        <input type="file" id="pdfFile" accept=".pdf" class="flex-1">
-
-        <button onclick="uploadPDF()" class="bg-blue-600 text-white px-4 py-2 rounded">上传</button>
-
-      </div>
-
-      <input type="text" id="pdfTitle" placeholder="输入教材标题（例如：FLK1 法律基础）" class="w-full p-2 border rounded mb-2">
-
-      <p class="text-xs text-gray-500">支持PDF格式文件，建议文件大小不超过50MB</p>
-
-    </div>
-
-    
-
-    <!-- PDF文件列表 -->
-
-    <div id="pdfList" class="space-y-4">
-
-      <!-- PDF文件将在这里显示 -->
-
-    </div>
-
-  </div>
-
-
-
-  <!-- 2. 题库练习模块 -->
+<!-- 2. 题库练习模块 -->
 
   <div id="tab-practice" class="hidden">
 
@@ -586,7 +657,7 @@
 
   
 
-    在题库模块内）+ 重置按钮 -->
+    重置按钮 -->
 
     <div class="mt-6 border-t pt-6">
 
@@ -7825,6 +7896,20 @@ window.onload = () => {
   // checkRememberedUser();
 
 };
+
+
+// Toggle section visibility
+function toggleSection(sectionId) {
+  var content = document.getElementById(sectionId + '-content');
+  var arrow = document.getElementById(sectionId + '-arrow');
+  if (content.classList.contains('hidden')) {
+    content.classList.remove('hidden');
+    arrow.textContent = '▲';
+  } else {
+    content.classList.add('hidden');
+    arrow.textContent = '▼';
+  }
+}
 
 </script>
 
