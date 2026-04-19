@@ -2676,148 +2676,135 @@ function goTab(tab) {
 
 let examNotes = {
 
-  "1. 英国法律体系": [
-
-    "Parliament是英国法律制度的最高权力机构",
-
-    "议会主权（Parliamentary Sovereignty）是英国宪法的基础",
-
-    "普通法（Common Law）是英国法律制度的重要组成部分"
-
+  // ==================== FLK1 考试科目 ====================
+  
+  "📚 FLK1 - Business Law and Practice（商业法与实务）": [
+    "公司设立要件：公司名称唯一 + 注册地址 + 公司章程 + 董事至少1名 + 股东至少1名",
+    "董事职责：诚信义务 + 注意义务 + 忠实义务 + 不越权",
+    "公司治理：股东大会权力分配 + 董事会决策程序 + 投票权 + 股息权",
+    "企业融资：股份发行 + 债券发行 + 增资扩股 + 股份认购协议",
+    "企业税务：企业所得税 + 增值税VAT + 员工税务处理",
+    "收购合并：股份收购 + 资产收购 + 要约收购程序 + 债权人利益保护",
+    "公司清算：自愿清算 + 强制清算 + 债权人利益保护 + 董事责任"
   ],
-
-  "2. 法律制定": [
-
-    "法案（Acts of Parliament）是议会的立法成果",
-
-    "从属法律（Subordinate Legislation）包括法定规则和其他法规",
-
-    "法定工具（Statutory Instruments）是执行法定权力的主要方式",
-
-    "地方条例（Bylaws）由地方当局制定和执行"
-
-  ],
-
-  "3. 法律解释规则": [
-
-    "字面解释规则（Literal Rule）根据条文的字面含义",
-
-    "黄金规则（Golden Rule）在字面解释不合理时修正",
-
-    "恶行规则（Mischief Rule）考虑立法目的",
-
-    "目的解释规则（Purposive Approach）注重法律的目的",
-
-    "转义规则和其他辅助规则可以帮助法律解释"
-
-  ],
-
-  "4. 法律援引": [
-
-    "固有援引（Intrinsic Aids）指法律条文本身的辅助",
-
-    "外来援引（Extrinsic Aids）指条文外的参考材料"
-
-  ],
-
-  "5. 法律专业人士": [
-
-    "大律师（Barristers）是高级法律专业人士",
-
-    "律师（Solicitors）是初级法律专业人士",
-
-    "法律执行人（Legal Executives）是法律助理",
-
-    "治安法官（Magistrates）和法官（Judges）执行司法职能",
-
-    "总检察长（Attorney General）是政府的首席法律顾问"
-
-  ],
-
-  "6. 法院系统": [
-
-    "高等法院（High Court）是最高的司法机构之一",
-
-    "上诉法院（Court of Appeal）处理上诉案件",
-
-    "刑事诉讼程序遵循法定的规则和程序",
-
-    "民事诉讼程序由民事诉讼规则（Civil Procedure Rules）管制",
-
-    "不同法院有不同的管辖权和诉讼费用"
-
-  ]
-
-},
-
-  "合同法 CONTRACT LAW": [
-    "有效合同5大要素：Offer(要约) + Acceptance(承诺) + Consideration(对价) + Capacity(缔约能力) + Legality(合法性)",
-    "要约Offer：向特定人发出的明确交易意愿 | 邀请要约Invitation to Treat：广告、橱窗展示",
-    "对价3规则：1.对价必须存在 2.对价必须来自承诺方 3.过去对价不算Past consideration is no consideration",
-    "合同无效情形：Misrepresentation(重大错误) + Duress(强迫) + Undue Influence(不当影响) + Illegal(违法)",
-    "赔偿金条款：违约金Liquidated Damages(合理估算有效) vs 罚金Penalty(远超实际损失无效)",
-    "合同解除：协议解除 + 履行不能 + 根本违约 + 期限届满 + 法律解除",
-    "默示条款类型：法律默示 + 事实默示 + 商业效能默示",
-    "代理合同核心：代理权限 + 本人责任 + 披露原则 + 忠实义务"
-  ],
-  "侵权法 TORT LAW": [
-    "过失侵权3要素：Duty of Care(注意义务) + Breach(违反义务) + Causation(因果关系)",
-    "亨德利原则Henderson v Henderson：同一纠纷不得重复起诉，必须一次性解决",
-    "特殊侵权：Negligence疏忽 + Nuisance滋扰 + Trespass非法侵入 + Defamation名誉侵权",
-    "雇主责任：员工在受雇范围内in the course of employment行事，雇主承担替代责任Vicarious Liability",
-    "医疗过失：按合理医生标准 + 原告举证 + 必须证明过失导致损害 + 需知情同意",
-    "诽谤辩护：Truth真实性 + Honest Opinion诚实意见 + Absolute Privilege绝对特权 + Qualified Privilege限制特权"
-  ],
-  "财产法 PROPERTY LAW": [
-    "不动产Real Property：Freehold(永久产权) + Leasehold(租赁产权) | 动产Personal Property：可移动财产",
-    "租赁权5要素：Tenant明确 + Landlord明确 + Term租期书面(超3年) + Rent租金 + Possession占有权",
-    "信托3要素：Intention确定意图 + Certainty of subject matter确定财产 + Objects确定受益人",
-    "土地权益优先权：法律权益Legal Interest最优先 > 衡平权益Equitable Interest > 登记顺序",
-    "土地占有类型：实际占有Physical Possession + 推定占有Constructive Possession + 租户占有",
-    "抵押权要点：Collateral抵押品 + Mortgage抵押权 + Equity of Redemption赎回权 + Foreclosure止赎"
-  ],
-  "刑法 CRIMINAL LAW": [
-    "犯罪构成要件：Actus Reus外在行为 + Mens Rea主观意图 + Causation因果关系",
-    "谋杀Murder：故意Intent to kill或Intent to cause GBH | 过失杀人Manslaughter：非故意造成死亡",
-    "共同犯罪：Principal主犯(直接实施) + Accessory从犯(帮助教唆) + Joint Enterprise共同犯罪",
-    "辩护理由：Self-defence正当防卫 + Insanity精神失常 + Voluntary intoxication自愿醉酒(一般不成立) + Duress胁迫",
-    "盗窃罪要素：永久剥夺Intent to permanently deprive + 偷窃意图 + 他人财产 + 实际拿走",
-    "人身伤害犯罪：普通assault即时恐惧 + ABH实际身体伤害 + GBH严重伤害"
-  ],
-  "民事诉讼法 CIVIL PROCEDURE": [
+  
+  "📚 FLK1 - Dispute Resolution（争议解决）": [
     "诉讼时效：合同纠纷6年 + 侵权纠纷3年(人身伤害) + 财产纠纷12年",
     "案件管理：Small Claims Track小额(≤£10,000) + Fast Track快速(£10,000-£25,000) + Multi Track多轨(>£25,000)",
     "证据规则：相关证据 + 可采性 + 证明标准Balance of probabilities(平衡可能性) + 排除规则",
     "陪审团流程：开庭陈述 + 原告举证 + 被告举证 + 结案陈词 + 法官指示 + 陪审团裁决",
-    "简易判决Summary Judgment：适用于无真正争议no real prospect of success的案件"
+    "简易判决Summary Judgment：适用于无真正争议no real prospect of success的案件",
+    "判决执行：判决登记 + 强制执行程序 + 第三债务人程序Garnishee",
+    "替代争议解决：调解Mediation + 仲裁Arbitration + 和解谈判"
   ],
-  "商业法 BUSINESS LAW": [
-    "公司设立要件：公司名称唯一 + 注册地址 + 公司章程 + 董事至少1名 + 股东至少1名",
-    "董事职责：诚信义务 + 注意义务 + 忠实义务 + 不越权",
-    "雇佣法核心权利：公平工资 + 工作时长(最长48小时/周) + 带薪休假 + 健康安全 + 不被歧视",
-    "竞争法要点：禁止限制竞争协议(卡特尔) + 禁止滥用市场支配地位 + 合并控制需申报",
-    "破产程序：IVA自愿安排 + Liquidation清算 + Bankruptcy破产 + Administration管理"
+  
+  "📚 FLK1 - Contract Law（合同法）": [
+    "有效合同5大要素：Offer要约 + Acceptance承诺 + Consideration对价 + Capacity缔约能力 + Legality合法性",
+    "对价3规则：1.对价必须存在 2.对价必须来自承诺方 3.过去对价不算Past consideration is no consideration",
+    "合同无效情形：Misrepresentation重大错误 + Duress强迫 + Undue Influence不当影响 + Illegal违法",
+    "赔偿金条款：违约金Liquidated Damages(合理估算有效) vs 罚金Penalty(远超实际损失无效)",
+    "合同解除：协议解除 + 履行不能 + 根本违约 + 期限届满 + 法律解除",
+    "默示条款类型：法律默示 + 事实默示 + 商业效能默示",
+    "代理合同核心：代理权限 + 本人责任 + 披露原则 + 忠实义务",
+    "违约救济：Damages损害赔偿 + Specific performance实际履行 + Injunction禁令 + Rectification更正"
   ],
-  "信托法 TRUST LAW": [
-    "信托设立要素：Intention明确意图 + Certainty确定财产 + Objects受益人明确 + 合法目的",
-    "信托类型：Express Trust明示 + Statutory Trust法定 + Constructive Trust推定 + Resulting Trust剩余权益",
-    "受托人职责：受信义务 + 注意义务 + 分别管理 + 账目记录"
+  
+  "📚 FLK1 - Tort（侵权法）": [
+    "过失侵权3要素：Duty of Care注意义务 + Breach违反义务 + Causation因果关系",
+    "亨德利原则Henderson v Henderson：同一纠纷不得重复起诉，必须一次性解决",
+    "特殊侵权类型：Negligence疏忽 + Nuisance滋扰 + Trespass非法侵入 + Defamation名誉侵权",
+    "雇主责任：员工在受雇范围内in the course of employment行事，雇主承担替代责任Vicarious Liability",
+    "医疗过失：按合理医生标准 + 原告举证 + 必须证明过失导致损害 + 需知情同意",
+    "诽谤辩护：Truth真实性 + Honest Opinion诚实意见 + Absolute Privilege绝对特权 + Qualified Privilege限制特权",
+    "产品责任：Consumer Protection Act 1987严格责任 + Defect缺陷 + Damage损害"
   ],
-  "职业伦理 PROFESSIONAL CONDUCT": [
+  
+  "📚 FLK1 - Legal System（法律体系）": [
+    "英国法律体系：议会主权Parliamentary Sovereignty是宪法基础",
+    "普通法Common Law与衡平法Equity的关系",
+    "司法体系：Magistrates Court + Crown Court + High Court + Court of Appeal + Supreme Court",
+    "先例原则Stare Decisis：Ratio decidendi判例理由 + Obiter dicta附带意见 + Binding vs Persuasive约束力",
+    "法律来源：Primary legislation成文法 + Secondary legislation从属立法 + Common law普通法 + Equity衡平法",
+    "人权法Human Rights Act 1998：ECHR权利 + Section 6公共机构义务"
+  ],
+  
+  "📚 FLK1 - Legal Services（法律服务）": [
     "律师6大核心义务：Honesty诚信 + Independence独立 + Confidentiality保密 + Conflict利益冲突 + Competence能力 + Client Best Interests客户利益",
     "保密例外：客户同意 + 法律要求(法院命令) + 防止严重犯罪 + 财务申报",
     "利益冲突：同时代理利益冲突双方 + 与客户存在利益关系 + 曾为对方代理相关事项",
-    "洗钱防范：客户尽职调查CDD + 可疑交易报告STR + 记录保存(至少5年) + 员工培训"
+    "洗钱防范：客户尽职调查CDD + 可疑交易报告STR + 记录保存(至少5年) + 员工培训",
+    "SRA行为准则：Code of Conduct + Outcomes-focused regulation结果导向监管"
   ],
-  "欧盟法 EU LAW": [
-    "欧盟法基本原则：Direct Effect直接效力 + Primacy优先原则 + Proportionality相称性 + Subsidiarity辅助原则",
-    "四大自由：货物自由 + 服务自由 + 人员自由 + 资本自由"
+
+  // ==================== FLK2 考试科目 ====================
+  
+  "📚 FLK2 - Criminal Law and Practice（刑法与实务）": [
+    "犯罪构成要件：Actus Reus外在行为 + Mens Rea主观意图 + Causation因果关系",
+    "谋杀Murder：故意Intent to kill或Intent to cause GBH + Malice aforethought恶意预谋",
+    "过失杀人Manslaughter：Gross negligence刑事过失 + Voluntary/automatic自愿/非自愿",
+    "盗窃罪Theft要素：永久剥夺Intent to permanently deprive + 无权占有 + 他人财产 + 实际拿走",
+    "共同犯罪：Principal主犯 + Secondary liability从犯 + Joint enterprise共同犯罪",
+    "辩护理由：Self-defence正当防卫 + Insanity精神失常 + Duress胁迫 + Automatism自动行为",
+    "警察权力PACE 1984：逮捕权 + 搜查权 + 羁押权 + 问询权 + 拘留时钟Detention Clock"
   ],
-;
+  
+  "📚 FLK2 - Property Practice（财产法实务）": [
+    "土地权益：Freehold永久产权 + Leasehold租赁产权 + Easement地役权 + Profit à prendre收益权",
+    "土地登记Land Registration Act 2002：Registered land注册土地 + Title registers产权登记",
+    "转让登记：Registered transfer注册转让 + Charges抵押登记 + Notices通知 + Cautions警告",
+    "租赁实务：Commercial leases商业租赁 + Residential tenancies住宅租赁 + 租金审定",
+    "抵押贷款Mortgage：Charge抵押权 + Enforcement执行 + Possession proceedings占有诉讼",
+    "土地调查Searches：Local land charges + Environmental searches + Title investigations"
+  ],
+  
+  "📚 FLK2 - Wills and Administration of Estates（遗嘱与遗产管理）": [
+    "遗嘱有效条件：Valid will的要求 + Signature签名 + Witnessing见证 + Attestation声明",
+    "遗嘱解释：Testator's intention立遗嘱人意图 + Extrinsic evidence外部证据 + Rectification更正",
+    "遗产分配Intestacy：法定遗产分配规则 + 配偶权利 + 子女份额",
+    "遗产管理：Grant of representation遗产管理授权 + Probate遗嘱认证 + Administration管理",
+    "遗产税Inheritance Tax：Allowances免税额 + Reliefs减免 + Tapered relief递延减免",
+    "遗嘱执行：Executor权力 + Duties义务 + Fees费用 + Renunciation放弃"
+  ],
+  
+  "📚 FLK2 - Trust Law（信托法）": [
+    "信托3要素：Intention确定意图 + Certainty of subject matter确定财产 + Objects确定受益人",
+    "明示信托Express Trust：Precise words明确措辞 + Constitution有效设立 + Charitable trusts慈善信托",
+    "法定信托：Resulting trusts剩余权益信托 + Constructive trusts推定信托",
+    "信托管理：Trustee powers权力 + Duties义务 + Investments投资 + Delegation委托",
+    "受益人权利：Beneficiary's interest受益人权益 + Enforcement执行 + Tracing追踪",
+    "Sham信托 doctrine：虚假信托的认定 + 意图分离原则"
+  ],
+  
+  "📚 FLK2 - Solicitors Accounts（律师账务）": [
+    "客户资金：Client account客户账户 + Mixed money混合资金 + Transfer转移规则",
+    "账目规则SRA Accounts Rules 2019：记录保存 + 年度会计师报告",
+    "资金提取：Allowed withdrawals允许提取 + Bills of costs费用账单 + Profit costs利润费用",
+    "利息处理：Interest on client money客户资金利息 + Payment to charity捐赠",
+    "审计追踪：Client ledger客户台账 + Cash book现金簿 + Bank reconciliation银行对账"
+  ],
+  
+  "📚 FLK2 - Business Law（商法）": [
+    "合伙法Partnership Act 1890：合伙关系 + 有限责任合伙LLP + 合伙人权利义务",
+    "公司法Companies Act 2006：Incorporation注册 + Capital资本 + Governance治理",
+    "公司融资：Share capital股份资本 + Debentures债券 + Bonus issues红股 + Rights issues配股",
+    "公司重组：Takeovers收购 + Mergers合并 + Reduction of capital减资 + Voluntary winding up自愿清算",
+    "竞争法Competition Act 1998：Anti-competitive agreements限制竞争协议 + Abuse of dominance滥用支配地位",
+    "破产法Insolvency Act 1986：IVA自愿安排 + Administration行政管理 + Receivership接管"
+  ],
+  
+  "📚 FLK2 - Criminal Practice（刑事实务）": [
+    "警察羁押PACE 1984：Detention rights拘留权利 + Detention clock拘留时钟 + 36小时限制",
+    "保释Bail：Police bail警方保释 + Court bail法院保释 + Conditions保释条件 + Breach违反",
+    "公诉程序：Charge指控 + Mode of trial审判方式 + Either-way offences可选择审判方式",
+    "辩护准备：Case management案件管理 + Disclosure披露 + Expert evidence专家证据",
+    "认罪答辩：Plea before venue认罪地点 + Indication of sentence量刑指示 + Credit认罪优惠",
+    "量刑指南：Sentencing guidelines + Mitigation减轻情节 + Custodial/Community sentences监禁/社区令"
+  ]
+
+};
 
 
-
-// PDF教材管理
+// PDF教材管理// PDF教材管理
 
 let pdfFiles = [];
 
