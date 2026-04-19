@@ -2676,132 +2676,115 @@ function goTab(tab) {
 
 let examNotes = {
 
-  // ==================== 公司法 Company Law ====================
-  
-  "📚 公司法 Company Law（补充）": [
-    "公司治理准则UK Corporate Governance Code：适用于公众公司，遵循comply or explain原则",
-    "董事会结构：至少一半独立非执行董事INEDs，任期不超过9年",
-    "三大委员会：薪酬委员会Remuneration + 审计委员会Audit + 提名委员会Nomination",
-    "合并类型：Merger合并(新公司) + Acquisition收购(继续存在) + Demerger分立",
-    "强制要约义务：持有30%+股份时需向所有股东发出强制要约",
-    "股份类型：Ordinary Shares普通股(投票权+分红权) + Preference Shares优先股(固定股息,无投票权)",
-    "债权融资：固定担保Fixed Charge(特定资产) + 浮动担保Floating Charge(全部资产,优先权最低)",
-    "破产分配顺序：法定优先权→有担保→无担保→优先股→普通股",
-    "董事职责：诚信义务 + 注意义务 + 忠实义务 + 不越权"
+  // ==================== FLK1 笔记 ====================
+  "📚 FLK1 - Business Law": [
+    "公司设立要件：公司名称唯一 + 注册地址 + 公司章程 + 董事至少1名 + 股东至少1名",
+    "董事职责：诚信义务 + 注意义务 + 忠实义务 + 不越权",
+    "公司治理：股东大会权力分配 + 董事会决策程序 + 投票权 + 股息权",
+    "企业融资：股份发行 + 债券发行 + 增资扩股 + 股份认购协议",
+    "企业税务：企业所得税 + 增值税VAT + 员工税务处理",
+    "收购合并：股份收购 + 资产收购 + 要约收购 + 债权人保护",
+    "公司清算：自愿清算 + 强制清算 + 债权人保护 + 董事责任"
+  ],
+  "📚 FLK1 - Dispute Resolution": [
+    "诉讼时效：合同纠纷6年 + 侵权3年(人身伤害) + 财产纠纷12年",
+    "案件管理：Small Claims(≤£10,000) + Fast Track(£10,000-£25,000) + Multi Track(>£25,000)",
+    "证据规则：相关证据 + 可采性 + Balance of probabilities证明标准 + 排除规则",
+    "陪审团流程：开庭陈述 + 原告举证 + 被告举证 + 结案陈词 + 法官指示 + 陪审团裁决",
+    "简易判决Summary Judgment：无真正争议no real prospect of success的案件",
+    "替代争议解决：调解Mediation + 仲裁Arbitration + 和解谈判"
+  ],
+  "📚 FLK1 - Contract Law": [
+    "有效合同5要素：Offer + Acceptance + Consideration + Capacity + Legality",
+    "对价3规则：必须存在 + 必须来自承诺方 + 过去对价不算",
+    "合同无效：Misrepresentation + Duress + Undue Influence + Illegal",
+    "赔偿金条款：违约金(合理有效) vs 罚金(远超损失无效)",
+    "合同解除：协议解除 + 履行不能 + 根本违约 + 期限届满",
+    "默示条款：法律默示 + 事实默示 + 商业效能默示",
+    "代理合同：代理权限 + 本人责任 + 披露原则 + 忠实义务"
+  ],
+  "📚 FLK1 - Tort Law": [
+    "过失侵权3要素：Duty of Care + Breach + Causation",
+    "亨德利原则Henderson v Henderson：同一纠纷不得重复起诉",
+    "特殊侵权：Negligence疏忽 + Nuisance滋扰 + Trespass非法侵入 + Defamation名誉侵权",
+    "雇主责任：Vicarious Liability，员工在受雇范围内行事",
+    "医疗过失：合理医生标准 + 原告举证 + 过失导致损害 + 知情同意",
+    "诽谤辩护：Truth + Honest Opinion + Absolute Privilege + Qualified Privilege"
+  ],
+  "📚 FLK1 - Legal System": [
+    "议会主权Parliamentary Sovereignty是英国宪法基础",
+    "普通法Common Law与衡平法Equity的关系",
+    "司法体系：Magistrates Court + Crown Court + High Court + Court of Appeal + Supreme Court",
+    "先例原则Stare Decisis：Ratio decidendi + Obiter dicta + Binding vs Persuasive",
+    "法律来源：成文法 + 从属立法 + 普通法 + 衡平法",
+    "人权法HRA 1998：ECHR权利 + s6公共机构义务"
+  ],
+  "📚 FLK1 - Legal Services": [
+    "律师6大核心义务：Honesty + Independence + Confidentiality + Conflict + Competence + Client Best Interests",
+    "保密例外：客户同意 + 法律要求 + 防止严重犯罪 + 财务申报",
+    "利益冲突：同时代理冲突双方 + 与客户存在利益关系",
+    "洗钱防范：CDD + STR + 记录保存(5年) + 员工培训"
   ],
 
-  // ==================== 宪法与行政法 Constitutional & Administrative Law ====================
-  
-  "📚 宪法与行政法 Constitutional Law（补充）": [
-    "HRA 1998核心：s2考虑ECHR判例 + s3尽可能解释符合ECHR + s4不一致宣告(不撤销立法)",
-    "自然公正原则：Audi alteram partem(听取对方意见) + Nemo judex in causa sua(避免偏见)",
-    "比例原则Proportionality：行政机关行为需与目标成比例,不得过度",
-    "行政赔偿：1947年王权诉讼法Crown Proceedings Act,行政机关违法需赔偿",
-    "司法审查：复议前置,高等法院审查行政行为合法性"
+  // ==================== FLK2 笔记 ====================
+  "📚 FLK2 - Criminal Law": [
+    "犯罪构成：Actus Reus外在行为 + Mens Rea主观意图 + Causation因果",
+    "谋杀Murder：Intent to kill或Intent to cause GBH",
+    "过失杀人Manslaughter：Gross negligence + Voluntary/automatic",
+    "盗窃罪Theft：永久剥夺 + 无权占有 + 他人财产 + 实际拿走",
+    "共同犯罪：Principal主犯 + Secondary从犯 + Joint enterprise",
+    "辩护理由：Self-defence + Insanity + Duress + Automatism",
+    "警察权力PACE 1984：逮捕权 + 搜查权 + 羁押权 + 问询权"
   ],
-
-  // ==================== 合同法 Contract Law（补充） ====================
-  
-  "📚 合同法 Contract Law（补充）": [
-    "预期违约Anticipatory Breach：Hochster v De La Tour,一方明确不履行,另一方可立即主张",
-    "实际履行Specific Performance：仅适用于特定合同(不动产/unique goods),不适用个人服务",
-    "损害赔偿限制：Hadley v Baxendale可预见性规则 + Mitigation减轻损失规则",
-    "消费合同Consumer Rights Act 2015：货物需符合质量标准,服务需合理谨慎",
-    "商业代理Commercial Agents Regulations 1993：代理人享有佣金请求权和解约补偿",
-    "保险合同：最大诚信合同Uerrimae Fidei,双方需如实披露重要信息",
-    "免责条款Exclusion Clauses：需以合理方式提醒,消费合同不得排除人身伤害责任",
-    "虚假陈述Misrepresentation：Fraudulent欺诈性 + Negligent过失性 + Innocent无辜,救济不同"
+  "📚 FLK2 - Property Practice": [
+    "土地权益：Freehold永久产权 + Leasehold租赁产权 + Easement地役权",
+    "土地登记LRA 2002：Registered land + Title registers",
+    "转让登记：Registered transfer + Charges + Notices + Cautions",
+    "租赁实务：Commercial leases + Residential tenancies",
+    "抵押贷款Mortgage：Charge + Enforcement + Possession proceedings",
+    "土地调查：Local land charges + Environmental searches"
   ],
-
-  // ==================== 刑法 Criminal Law（补充） ====================
-  
-  "📚 刑法 Criminal Law（补充）": [
-    "R v Jogee(2016)：推翻共同意图旧规则,从犯需基于自身主观意图和客观行为",
-    "退出从犯责任：犯罪前明确退出并采取合理措施阻止,可免除刑事责任",
-    "抢劫罪Robbery：盗窃+暴力/威胁暴力(Theft Act 1968 s8)",
-    "敲诈勒索Blackmail：威胁手段要求交出财产(Theft Act 1968 s21)",
-    "刑事损害Criminal Damage：故意或轻率损坏他人财产",
-    "ABH vs GBH：ABH轻微伤害 + GBH严重伤害(骨折等)",
-    "过失致人死亡Manslaughter by Negligence：Adomako案,严重过失+注意义务违反+死亡",
-    "抗辩事由：Insanity精神失常(M'Naghten规则) + Automatism自动症 + Necessity紧急避险 + Self-defence正当防卫"
+  "📚 FLK2 - Wills & Estates": [
+    "遗嘱有效条件：Valid will + Signature + Witnessing + Attestation",
+    "遗嘱解释：Testator's intention + Extrinsic evidence + Rectification",
+    "遗产分配Intestacy：法定分配规则 + 配偶权利 + 子女份额",
+    "遗产管理：Grant of representation + Probate + Administration",
+    "遗产税Inheritance Tax：豁免额325,000 + 40%税率 + 配偶豁免",
+    "遗嘱执行：Executor权力 + Duties + Fees + Renunciation"
   ],
-
-  // ==================== 刑事诉讼实务 Criminal Practice（补充） ====================
-  
-  "📚 刑事诉讼实务 Criminal Practice（补充）": [
-    "PACE 1984证据排除：严重违反嫌疑人权利可酌情排除,影响审判公正性",
-    "传闻证据Hearsay：一般不可采纳,例外包括临终陈述、商业记录、共同犯罪人陈述",
-    "青少年犯罪Youth Court：10-17岁,不公开姓名,量刑以改造为主",
-    "侦查阶段：拘留最长24小时(可延长至96小时),需告知沉默权和律师帮助权",
-    "审判管辖：Magistrates Court轻微案件 + Crown Court严重案件(谋杀/抢劫)",
-    "上诉程序：Magistrates→刑事法院 + Crown→上诉法院(刑事庭) + 特殊→最高法院"
+  "📚 FLK2 - Trust Law": [
+    "信托3要素：Intention + Certainty of subject matter + Objects",
+    "明示信托Express Trust：Precise words + Constitution + Charitable trusts",
+    "法定信托：Resulting trusts + Constructive trusts",
+    "信托管理：Trustee powers + Duties + Investments + Delegation",
+    "受益人权利：Beneficiary's interest + Enforcement + Tracing",
+    "Sham信托：虚假信托的认定"
   ],
-
-  // ==================== 土地法 Land Law（补充） ====================
-  
-  "📚 土地法 Land Law（补充）": [
-    "TOLATA 1996信托土地：多人共有土地默认设立信托,出售需经多数受益人同意",
-    "抵押类型：法定抵押Legal Mortgage(需契据+登记) + 衡平抵押Equitable Mortgage(效力较低)",
-    "抵押权人权利：占有权 + 出售权 + 取消赎回权Foreclosure(极端情况)",
-    "土地登记原则：所有法定权益需登记,未经登记不得对抗善意第三人",
-    "优先权益Overriding Interests：无需登记即可对抗善意第三人,如实际占有、短期租赁7年以下"
+  "📚 FLK2 - Solicitors Accounts": [
+    "客户资金：Client account + Mixed money + Transfer规则",
+    "账目规则SRA Accounts Rules 2019：记录保存 + 年度会计师报告",
+    "资金提取：Allowed withdrawals + Bills of costs + Profit costs",
+    "利息处理：Interest on client money + Payment to charity",
+    "审计追踪：Client ledger + Cash book + Bank reconciliation"
   ],
-
-  // ==================== 信托法 Trusts（补充） ====================
-  
-  "📚 信托法 Trusts（补充）": [
-    "设立方式：声明信托Declaration of Trust + 转移信托Transfer + 遗嘱信托Testamentary Trust",
-    "信托无效：缺乏三确定性 + 违反Beneficiary Principle + 违反永续规则(125年) + 违反公共政策",
-    "公益信托Charitable Trusts：2011年慈善法,分类包括扶贫/教育/宗教/健康/环境等",
-    "公益要求：Public Benefit公共利益 + 排他性公益(不得含私人利益)",
-    "受托人职责：Bray v Ford忠实义务 + Trustee Act 2000谨慎管理义务",
-    "Boardman v Phipps：利用信托信息谋私利,违反忠实义务"
+  "📚 FLK2 - Business Law": [
+    "合伙法Partnership Act 1890：合伙关系 + LLP + 权利义务",
+    "公司法Companies Act 2006：Incorporation + Capital + Governance",
+    "公司融资：Share capital + Debentures + Bonus issues + Rights issues",
+    "公司重组：Takeovers + Mergers + Reduction of capital + Winding up",
+    "竞争法Competition Act 1998：Anti-competitive + Abuse of dominance",
+    "破产法Insolvency Act 1986：IVA + Administration + Receivership"
   ],
-
-  // ==================== 侵权法 Tort Law（补充） ====================
-  
-  "📚 侵权法 Tort Law（补充）": [
-    "专业过失Professional Negligence：符合行业合理做法即不构成过失(Bolam v Friern)",
-    "纯粹经济损失：一般不赔,Murphy v Brentwood案,例外需特殊关系+Hedley Byrne可预见",
-    "精神损害Psychiatric Harm：直接受害+精神损害/目睹亲人+密切关系/被告行为致精神疾病",
-    "共同过失Contributory Negligence：原告自身有过失,减轻被告赔偿责任",
-    "Rylands v Fletcher：危险物品逃逸造成损害,严格责任(无过失),例外不可抗力/原告过错/法定授权",
-    "产品责任Consumer Protection Act 1987：缺陷产品造成损害,严格责任",
-    "侵扰Nuisance：私人侵扰干扰土地使用+不合理干扰(St Helen's Smelting v Tipping)"
-  ],
-
-  // ==================== 律师账务 Solicitors Accounts（补充） ====================
-  
-  "📚 律师账务 Solicitors Accounts（补充）": [
-    "混合资金Mixed Funds：立即分离至客户账户,不得挪用",
-    "短期资金：14天内用于特定用途可暂存自有账户,到期立即转入",
-    "SRA Accounts Rules 2019：记录保存 + 年度会计师报告",
-    "监管机构：Solicitors Regulation Authority SRA",
-    "常见违规：资金混合存放 + 挪用客户资金 + 未记录交易 + 未及时返还",
-    "纪律处分：警告→罚款→暂停执业→吊销执照→刑事责任",
-    "审计要求：月对账 + 保存6年 + 年营业额超标准需年度审计",
-    "客户资金利息：按约定支付客户,无约定则弥补成本或捐赠慈善"
-  ],
-
-  // ==================== 遗嘱与遗产管理 Wills & Estates（补充） ====================
-  
-  "📚 遗嘱与遗产管理 Wills & Estates（补充）": [
-    "遗嘱有效性：年满18岁 + Banks v Goodfellow能力标准 + 形式要件(签名+见证)",
-    "遗嘱撤销：后续遗嘱/附录 + 销毁(物理+意图) + 结婚(自动撤销,除非明确保留)",
-    "黄金规则Golden Rule：精神状态存疑时,请医生出具能力报告并见证",
-    "赠与类型：Specific特定物品(灭失则Ademption) + Pecuniary金钱 + Residuary剩余 + Demonstrative指示资金",
-    "赠与失效：受益人先于死亡(lapse) + 见证人资格 + 离婚(部分失效) + Forfeiture杀害",
-    "无遗嘱继承顺序：配偶/民事伴侣(豁免额325,000+动产)→子女→父母→兄弟姐妹→祖父母→叔伯姑舅→王室",
-    "遗产代理人PRs职责：获取认证 + 收集资产 + 清偿债务 + 分配遗产 + 制作账目",
-    "遗产税Inheritance Tax：豁免额325,000 + 40%超额税率 + 配偶豁免 + 7年内赠与计入",
-    "1975年遗产法：可申请调整遗产分配,保护依赖立遗嘱人生活的家庭成员",
-    "Banks v Goodfellow(1870)：遗嘱能力标准-理解行为性质+知晓财产范围+考虑道德义务"
+  "📚 FLK2 - Criminal Practice": [
+    "警察羁押PACE 1984：Detention rights + Detention clock + 36小时限制",
+    "保释Bail：Police bail + Court bail + Conditions + Breach",
+    "公诉程序：Charge + Mode of trial + Either-way offences",
+    "辩护准备：Case management + Disclosure + Expert evidence",
+    "认罪答辩：Plea before venue + Indication of sentence + Credit",
+    "量刑指南：Sentencing guidelines + Mitigation + Custodial/Community"
   ]
 
-
-
 };
-
 
 // PDF教材管理// PDF教材管理
 
