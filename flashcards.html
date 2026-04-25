@@ -561,6 +561,9 @@
 
         // 初始化
         function init() {
+            console.log('Initializing flashcards...');
+            console.log('Total flashcards:', flashcards.length);
+            
             loadProgress();
             filterCards();
             updateStats();
@@ -568,24 +571,34 @@
             
             // 本地存储进度
             saveProgress();
+            
+            console.log('Initialization complete');
         }
 
         // 加载进度
         function loadProgress() {
-            const saved = localStorage.getItem('sqe-flashcards-progress');
-            if (saved) {
-                const data = JSON.parse(saved);
-                progress.mastered = new Set(data.mastered || []);
-                progress.currentIndex = data.currentIndex || 0;
+            try {
+                const saved = localStorage.getItem('sqe-flashcards-progress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    progress.mastered = new Set(data.mastered || []);
+                    progress.currentIndex = data.currentIndex || 0;
+                }
+            } catch (e) {
+                console.warn('Load progress failed:', e);
             }
         }
 
         // 保存进度
         function saveProgress() {
-            localStorage.setItem('sqe-flashcards-progress', JSON.stringify({
-                mastered: Array.from(progress.mastered),
-                currentIndex: progress.currentIndex
-            }));
+            try {
+                localStorage.setItem('sqe-flashcards-progress', JSON.stringify({
+                    mastered: Array.from(progress.mastered),
+                    currentIndex: progress.currentIndex
+                }));
+            } catch (e) {
+                console.warn('Save progress failed:', e);
+            }
         }
 
         // 获取筛选后的卡片总数（不排除已掌握的）
@@ -759,7 +772,12 @@
         });
 
         // 启动
-        init();
+        try {
+            init();
+        } catch (e) {
+            console.error('Init error:', e);
+            document.getElementById('questionContent').innerHTML = '加载失败: ' + e.message;
+        }
     </script>
 </body>
 </html>
