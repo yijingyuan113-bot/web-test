@@ -561,18 +561,35 @@
 
         // 初始化
         function init() {
-            console.log('Initializing flashcards...');
+            alert('init called, flashcards count: ' + flashcards.length);
+            
+            // 直接设置卡片数量
+            if (totalCardsEl) {
+                totalCardsEl.textContent = flashcards.length;
+            }
+            if (currentCardEl) {
+                currentCardEl.textContent = '1';
+            }
+            if (masteredCountEl) {
+                masteredCountEl.textContent = '0';
+            }
+            if (remainingCountEl) {
+                remainingCountEl.textContent = flashcards.length.toString();
+            }
+            
+            // 显示第一张卡片
+            if (flashcards.length > 0) {
+                const card = flashcards[0];
+                if (questionContent) questionContent.textContent = card.question;
+                if (answerContent) answerContent.textContent = card.answer;
+            }
+            
+            // 设置进度条
+            if (progressFill) {
+                progressFill.style.width = '0%';
+            }
+            
             console.log('Total flashcards:', flashcards.length);
-            
-            loadProgress();
-            filterCards();
-            updateStats();
-            showCard();
-            
-            // 本地存储进度
-            saveProgress();
-            
-            console.log('Initialization complete');
         }
 
         // 加载进度

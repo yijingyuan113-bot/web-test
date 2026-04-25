@@ -2252,18 +2252,34 @@
 
 <script>
         // 绑定按钮事件
-        // 切换标签页 - 确保先显示主应用
+        // 切换标签页
         function switchTab(tabName) {
+            alert('switchTab called: ' + tabName);
             // 隐藏首页，显示主应用
-            document.getElementById('home').classList.add('hidden');
-            document.getElementById('app').classList.remove('hidden');
+            var homeEl = document.getElementById('home');
+            var appEl = document.getElementById('app');
+            if (homeEl) homeEl.style.display = 'none';
+            if (appEl) appEl.style.display = 'block';
             // 切换到指定标签
             goTab(tabName);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('SQE System loaded');
-        });
+        // 直接进入
+        function directEnter() {
+            alert('directEnter called');
+            var homeEl = document.getElementById('home');
+            var appEl = document.getElementById('app');
+            if (homeEl) homeEl.style.display = 'none';
+            if (appEl) appEl.style.display = 'block';
+            goTab('practice');
+        }
+
+        // 显示登录
+        function showLogin() {
+            alert('showLogin called');
+            var loginModal = document.getElementById('loginModal');
+            if (loginModal) loginModal.style.display = 'block';
+        }
 
 let currentUser = null;
 
