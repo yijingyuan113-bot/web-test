@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQE 学习系统</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .hidden { display: none !important; }
+    
+    /* 首页 */
+    #home { text-align: center; padding: 80px 20px; color: white; }
+    #home h1 { font-size: 3rem; margin-bottom: 20px; }
+    #home .subtitle { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; }
+    .btn { padding: 12px 24px; border-radius: 8px; cursor: pointer; margin: 5px; font-size: 1rem; border: none; }
+    .btn-white { background: white; color: #333; }
+    .btn-white:hover { background: #f0f0f0; }
+    .btn-purple { background: linear-gradient(to right, #7c3aed, #4f46e5); color: white; }
+    .btn-purple:hover { opacity: 0.9; }
+    .btn-outline { background: transparent; border: 2px solid white; color: white; }
+    .btn-outline:hover { background: rgba(255,255,255,0.2); }
+    
+    /* 主应用 */
+    #app { background: white; border-radius: 10px; margin: 20px; min-height: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    /* 顶部导航 */
+    .top-nav { background: #4f46e5; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+    .top-nav h2 { font-size: 1.2rem; }
+    .user-info { font-size: 0.9rem; }
+    
+    /* 模块导航 */
+    .nav { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; padding: 15px; background: #f8f9fa; border-bottom: 1px solid #e5e7eb; }
+    .nav .btn { padding: 8px 16px; font-size: 0.9rem; background: white; color: #333; border: 1px solid #ddd; }
+    .nav .btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
+    .nav .btn:hover { border-color: #4f46e5; }
+    
+    /* 内容区域 */
+    .tab-content { padding: 20px; }
+    .section { margin-bottom: 20px; }
+    .section h3 { color: #4f46e5; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #e5e7eb; }
+    
+    /* 卡片 */
+    .card { background: #f9fafb; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #4f46e5; }
+    .card h4 { margin-bottom: 8px; color: #333; }
+    .card p { color: #666; font-size: 0.9rem; line-height: 1.6; }
+    
+    /* 表格 */
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f3f4f6; color: #4f46e5; }
+    
+    /* 列表 */
+    .list { list-style: none; }
+    .list li { padding: 10px 0; border-bottom: 1px solid #e5e7eb; }
+    .list li:before { content: "• "; color: #4f46e5; }
+    
+    /* 题库 */
+    .question { background: #f9fafb; padding: 15px; margin: 10px 0; border-radius: 8px; }
+    .question h4 { color: #333; margin-bottom: 10px; }
+    .options { margin-top: 10px; }
+    .option { padding: 8px 12px; margin: 5px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
+    .option:hover { border-color: #4f46e5; }
+    .option.correct { background: #d1fae5; border-color: #10b981; }
+    
+    /* 词汇表 */
+    .vocab { display: flex; justify-content: space-between; padding: 10px; margin: 5px 0; background: #f3f4f6; border-radius: 5px; }
+    .vocab-en { font-weight: bold; color: #4f46e5; }
+    .vocab-zh { color: #666; }
+    
+    /* 标签 */
+    .tag { display: inline-block; padding: 3px 10px; background: #e5e7eb; border-radius: 15px; font-size: 0.8rem; margin: 2px; }
+    .tag-red { background: #fee2e2; color: #dc2626; }
+    .tag-green { background: #d1fae5; color: #059669; }
+    .tag-blue { background: #dbeafe; color: #2563eb; }
+    .tag-yellow { background: #fef3c7; color: #d97706; }
+    
+    /* flashcard */
+    .flashcard-container { max-width: 600px; margin: 20px auto; text-align: center; }
+    .flashcard { background: white; border-radius: 15px; min-height: 300px; padding: 30px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
+    .flashcard.flipped .front { display: none; }
+    .flashcard:not(.flipped) .back { display: none; }
+    .flashcard-label { background: #4f46e5; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
+    .flashcard-content { font-size: 1.2rem; line-height: 1.8; white-space: pre-wrap; }
+    .flashcard-hint { position: absolute; bottom: 15px; left: 0; right: 0; color: #999; font-size: 0.85rem; }
+    .flashcard-nav { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+    .stats-bar { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
+    .stat-box { background: rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 10px; text-align: center; }
+    .stat-num { font-size: 1.5rem; font-weight: bold; }
+    .stat-label { font-size: 0.8rem; opacity: 0.9; }
+    .progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.3); border-radius: 4px; margin-bottom: 20px; }
+    .progress-fill { height: 100%; background: #4ade80; border-radius: 4px; transition: width 0.3s; }
+    
+    /* 搜索框 */
+    .search-box { width: 100%; padding: 10px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; margin-bottom: 15px; }
+    
+    /* 筛选 */
+    .filter { margin-bottom: 15px; }
+    .filter select { padding: 8px 15px; border: 1px solid #ddd; border-radius: 5px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- 首页 -->
+<div id="home">
+  <div class="container">
+    <h1>🎓 SQE 学习系统</h1>
+    <p class="subtitle">英国律师资格考试学习平台</p>
+    <div>
+      <button class="btn btn-white" onclick="showLogin()">登录 开始学习</button>
+      <button class="btn btn-outline" onclick="enterApp()">直接进入</button>
+    </div>
+  </div>
+</div>
+
+<!-- 主应用 -->
+<div id="app" class="hidden">
+  <div class="top-nav">
+    <h2>📚 SQE 学习系统</h2>
+    <div class="user-info">
+      <span id="userDisplay">未登录</span> | 
+      <a href="#" onclick="logout()" style="color:white;">退出</a>
+    </div>
+  </div>
+  
+  <!-- 模块导航 -->
+  <div class="nav">
+    <button class="btn active" onclick="goTab('course', this)">📘 课程模块</button>
+    <button class="btn" onclick="goTab('practice', this)">📝 题库练习</button>
+    <button class="btn" onclick="goTab('vocabulary', this)">📚 法律英语</button>
+    <button class="btn" onclick="goTab('notes', this)">📓 笔记</button>
+    <button class="btn" onclick="goTab('exam', this)">📋 考试介绍</button>
+    <button class="btn btn-purple" onclick="goTab('flashcards', this)">🎴 记忆卡片</button>
+  </div>
+
+  <!-- 课程模块 -->
+  <div id="tab-course" class="tab-content">
+    <div class="section">
+      <h3>📗 FLK1 法律基础</h3>
+      <div class="card">
+        <h4>1. 宪法 Constitutional Law</h4>
+        <p>英国宪法来源、议会主权、人权法案、欧盟法与英国法的关系</p>
+      </div>
+      <div class="card">
+        <h4>2. 合同法 Contract Law</h4>
+        <p>要约与承诺、对价、意思表示、合同效力、履行与违约</p>
+      </div>
+      <div class="card">
+        <h4>3. 侵权法 Tort Law</h4>
+        <p>过失、严格责任、诽谤、隐私权、故意侵权</p>
+      </div>
+      <div class="card">
+        <h4>4. 商业法 Business Law</h4>
+        <p>公司设立、董事义务、股东权利、清算与破产</p>
+      </div>
+      <div class="card">
+        <h4>5. 刑法 Criminal Law</h4>
+        <p>犯罪要件、共同犯罪、抗辩理由、刑罚</p>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>📕 FLK2 法律实务</h3>
+      <div class="card">
+        <h4>1. 土地法 Land Law</h4>
+        <p>产权类型、租赁权、抵押权、土地登记</p>
+      </div>
+      <div class="card">
+        <h4>2. 信托法 Equity & Trusts</h4>
+        <p>信托设立、受益人权利、受托人义务、 Resulting & Constructive Trust</p>
+      </div>
+      <div class="card">
+        <h4>3. 遗嘱与遗产 Wills & Estates</h4>
+        <p>遗嘱效力、遗赠分类、遗产管理、继承规则</p>
+      </div>
+      <div class="card">
+        <h4>4. 诉讼法 Civil Litigation</h4>
+        <p>管辖权、诉讼程序、证据规则、判决执行</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 题库练习 -->
+  <div id="tab-practice" class="tab-content hidden">
+    <div class="section">
+      <h3>📝 模拟练习</h3>
+      <div class="filter">
+        <select id="qCategory" onchange="filterQuestions()">
+          <option value="all">全部题目</option>
+          <option value="contract">合同法</option>
+          <option value="tort">侵权法</option>
+          <option value="land">土地法</option>
+          <option value="trust">信托法</option>
+          <option value="wills">遗嘱法</option>
+        </select>
+      </div>
+      <div id="questionList"></div>
+    </div>
+  </div>
+
+  <!-- 法律英语 -->
+  <div id="tab-vocabulary" class="tab-content hidden">
+    <div class="section">
+      <h3>📚 法律英语词汇</h3>
+      <input type="text" class="search-box" placeholder="搜索词汇..." onkeyup="searchVocab(this.value)">
+      <div id="vocabList"></div>
+    </div>
+  </div>
+
+  <!-- 笔记 -->
+  <div id="tab-notes" class="tab-content hidden">
+    <div class="section">
+      <h3>📓 我的笔记</h3>
+      <div class="card">
+        <h4>合同法要点总结</h4>
+        <p>• 要约offer - 明确要约内容<br>• 承诺acceptance - 完全同意要约<br>• 对价consideration - 有价值的交换</p>
+      </div>
+      <div class="card">
+        <h4>侵权法三要素</h4>
+        <p>1. Duty of care 注意义务<br>2. Breach 违反义务<br>3. Causation 因果关系</p>
+      </div>
+      <div class="card">
+        <h4>信托三要素</h4>
+        <p>1. Certainty of intention 意图确定<br>2. Certainty of subject matter 标的确信<br>3. Certainty of objects 对象确定</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 考试介绍 -->
+  <div id="tab-exam" class="tab-content hidden">
+    <div class="section">
+      <h3>📋 SQE 考试介绍</h3>
+      <div class="card">
+        <h4>考试结构</h4>
+        <p>• FLK1: 功能性法律知识 (100题选择题)<br>• FLK2: 实务法律应用 (案例分析)<br>• SRA 评估: 实务技能</p>
+      </div>
+      <div class="card">
+        <h4>考试时间</h4>
+        <p>• FLK1: 3小时<br>• FLK2: 4小时 (2个案例)<br>• 每年多次考试机会</p>
+      </div>
+      <div class="card">
+        <h4>通过分数</h4>
+        <p>• FLK1: 65%<br>• FLK2: 50%<br>• 总分需达到 competency level</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 记忆卡片 -->
+  <div id="tab-flashcards" class="tab-content hidden">
+    <div class="flashcard-container">
+      <div class="stats-bar">
+        <div class="stat-box">
+          <div class="stat-num" id="currentCard">1</div>
+          <div class="stat-label">当前</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="totalCards">16</div>
+          <div class="stat-label">总卡片</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="masteredCount">0</div>
+          <div class="stat-label">已掌握</div>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+      
+      <select id="fcCategory" onchange="filterFlashcards()" style="padding:8px 15px;border:1px solid #ddd;border-radius:5px;margin-bottom:15px;">
+        <option value="all">全部类别</option>
+        <option value="legacy">遗嘱赠与</option>
+        <option value="failure">遗赠失败</option>
+        <option value="business">商业法</option>
+        <option value="trust">信托法</option>
+        <option value="land">土地法</option>
+        <option value="tort">侵权法</option>
+      </select>
+      
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="front">
+          <span class="flashcard-label">问题</span>
+          <div class="flashcard-content" id="questionContent">点击开始学习</div>
+          <p class="flashcard-hint">点击卡片翻转查看答案</p>
+        </div>
+        <div class="back">
+          <span class="flashcard-label">答案</span>
+          <div class="flashcard-content" id="answerContent">-</div>
+          <p class="flashcard-hint">点击卡片翻转回问题</p>
+        </div>
+      </div>
+      
+      <div class="flashcard-nav">
+        <button class="btn btn-white" onclick="prevCard()">◀ 上一张</button>
+        <button class="btn btn-purple" onclick="nextCard()">下一张 ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 硬编码数据
+var currentUser = null;
+var currentTab = 'course';
+var flashcardIndex = 0;
+
+// 记忆卡片数据
+var flashcardsData = [
+  {category: "legacy", question: "什么是 Specific Legacy（特定遗赠）？", answer: "指定赠与特定物品，如'my diamond ring to Alice'。特点：必须是遗嘱人死亡时拥有的特定物品，若物品不存在则失效(adeems)。"},
+  {category: "legacy", question: "什么是 General Legacy（一般遗赠）？", answer: "赠与一定金额或数量，如'£1,000 to Bob'。从遗产任何可用资产支付。"},
+  {category: "legacy", question: "什么是 Residuary Legacy（剩余遗产遗赠）？", answer: "赠与剩余全部遗产，如'All the rest of my estate to Carol'。"},
+  {category: "failure", question: "什么是 Ademption？", answer: "特定遗赠的物品在遗嘱人死亡时不存在，遗赠失效。例子：立遗嘱时拥有的车已出售。"},
+  {category: "failure", question: "什么是 Lapse（遗赠失效）？", answer: "受益人先于遗嘱人死亡，遗赠失效。"},
+  {category: "failure", question: "什么是 Survivorship Requirement？", answer: "要求受益人必须在遗嘱人死后存活30天，否则视为先于死亡。"},
+  {category: "business", question: "英国公司类型有哪些？", answer: "1. Sole Trader 个人企业 2. Partnership 合伙 3. LLP 有限责任合伙 4. Limited Company 有限公司 5. PLC 上市公司"},
+  {category: "business", question: "董事三大义务？", answer: "1. 注意义务 2. 忠实义务 3. 促进公司成功(s.172 CA 2006)"},
+  {category: "business", question: "普通决议vs特别决议？", answer: "普通决议>50%同意，特别决议≥75%同意。"},
+  {category: "trust", question: "信托三要素？", answer: "1. Certainty of intention 意图确定 2. Certainty of subject matter 标的确信 3. Certainty of objects 对象确定"},
+  {category: "trust", question: "Resulting Trust（剩余权益信托）？", answer: "财产转让未设信托时，法律假设转让人保留受益权。"},
+  {category: "trust", question: "Constructive Trust（法定信托）？", answer: "法院因公平理由强加的信托，如董事违规使用公司机会。"},
+  {category: "land", question: "Freehold vs Leasehold？", answer: "Freehold永久产权， Leasehold有期限租借（通常999年/99年）。"},
+  {category: "land", question: "License vs Lease？", answer: "有独占占有权=Lease，无=License。"},
+  {category: "land", question: "Easement（地役权）？", answer: "一块土地对另一块土地的权利，如通行权、采光权。"},
+  {category: "tort", question: "Negligence（过失）三要素？", answer: "1. Duty of care 注意义务 2. Breach 违反义务 3. Causation 因果关系"}
+];
+
+// 题目数据
+var questionsData = [
+  {id: 1, category: "contract", question: "以下哪项构成有效对价？", options: ["A. 过去的对价", "B. 现有的对价", "C. 虚假的对价", "D. 不可能的对价"], correct: 1},
+  {id: 2, category: "tort", question: "根据经典案例Donoghue v Stevenson，以下哪项正确？", options: ["A. 制造商对消费者无注意义务", "B. 邻居原则适用所有情况", "C. 制造商对最终消费者有注意义务", "D. 只有合同关系才产生注意义务"], correct: 2},
+  {id: 3, category: "trust", question: "Resulting Trust 何时适用？", options: ["A. 明确设立信托时", "B. 财产转让未明确目的时", "C. 受益人要求时", "D. 法院判决时"], correct: 1},
+  {id: 4, category: "land", question: "Lease 和 License 的主要区别？", options: ["A. 租金金额", "B. 独占占有权", "C. 租约期限", "D. 建筑类型"], correct: 1},
+  {id: 5, category: "wills", question: "遗嘱需要满足什么形式要求？", options: ["A. 口头即可", "B. 书面+签名+见证人", "C. 仅签名", "D. 仅书面"], correct: 1},
+  {id: 6, category: "business", question: "公司董事促进公司成功的义务来自？", options: ["A. 普通法", "B. s.172 CA 2006", "C. 合同条款", "D. 判例法"], correct: 1},
+  {id: 7, category: "contract", question: "以下哪种情况构成要约？", options: ["A. 广告", "B. 招标", "C. 明确发盘", "D. 询价"], correct: 2},
+  {id: 8, category: "tort", question: "Res Ipsa Loquitur 适用条件？", options: ["A. 原告有过错", "B. 事故本身证明过失", "C. 被告已道歉", "D. 有证人"], correct: 1}
+];
+
+// 词汇数据
+var vocabData = [
+  {en: "Offer", zh: "要约"},
+  {en: "Acceptance", zh: "承诺"},
+  {en: "Consideration", zh: "对价"},
+  {en: "Breach of Contract", zh: "违约"},
+  {en: "Damages", zh: "损害赔偿"},
+  {en: "Negligence", zh: "过失"},
+  {en: "Duty of Care", zh: "注意义务"},
+  {en: "Breach", zh: "违反"},
+  {en: "Causation", zh: "因果关系"},
+  {en: "Remoteness", zh: "间接损失原则"},
+  {en: "Trust", zh: "信托"},
+  {en: "Beneficiary", zh: "受益人"},
+  {en: "Trustee", zh: "受托人"},
+  {en: "Freehold", zh: "永久产权"},
+  {en: "Leasehold", zh: "租赁产权"},
+  {en: "Easement", zh: "地役权"},
+  {en: "Legacy", zh: "遗赠"},
+  {en: "Testator", zh: "立遗嘱人"},
+  {en: "Will", zh: "遗嘱"},
+  {en: "Probate", zh: "遗嘱认证"}
+];
+
+// 初始化
+function init() {
+  showFlashcard();
+  showQuestions();
+  showVocab();
+}
+
+// 进入应用
+function enterApp() {
+  currentUser = "Guest";
+  document.getElementById('userDisplay').textContent = currentUser;
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+}
+
+function showLogin() {
+  alert('登录功能：\n\n直接点击"直接进入"即可使用完整功能');
+  enterApp();
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('userDisplay').textContent = '未登录';
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('home').classList.remove('hidden');
+}
+
+// 切换标签
+function goTab(tab, btn) {
+  currentTab = tab;
+  // 隐藏所有内容
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.add('hidden');
+  });
+  // 显示当前内容
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+  // 更新按钮状态
+  if (btn) {
+    document.querySelectorAll('.nav .btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    btn.classList.add('active');
+  }
+}
+
+// 记忆卡片功能
+function showFlashcard() {
+  if (flashcardsData.length === 0) return;
+  var card = flashcardsData[flashcardIndex];
+  document.getElementById('questionContent').textContent = card.question;
+  document.getElementById('answerContent').textContent = card.answer;
+  document.getElementById('currentCard').textContent = flashcardIndex + 1;
+  document.getElementById('totalCards').textContent = flashcardsData.length;
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function nextCard() {
+  if (flashcardIndex < flashcardsData.length - 1) {
+    flashcardIndex++;
+    showFlashcard();
+    document.getElementById('flashcard').classList.remove('flipped');
+  }
+}
+
+function prevCard() {
+  if (flashcardIndex > 0) {
+    flashcardIndex--;
+    showFlashcard();
+    document.getElementById('flashcard').classList.remove('flipped');
+  }
+}
+
+function filterFlashcards() {
+  var category = document.getElementById('fcCategory').value;
+  if (category === 'all') {
+    flashcardsData = [
+      {category: "legacy", question: "什么是 Specific Legacy？", answer: "指定赠与特定物品。"},
+      {category: "legacy", question: "什么是 General Legacy？", answer: "赠与一定金额。"},
+      {category: "failure", question: "什么是 Ademption？", answer: "物品不存在，遗赠失效。"},
+      {category: "business", question: "英国公司类型？", answer: "Sole Trader, Partnership, LLP, Limited, PLC"},
+      {category: "trust", question: "信托三要素？", answer: "意图、标的、对象确定。"},
+      {category: "land", question: "Freehold vs Leasehold？", answer: "永久产权 vs 租赁产权。"},
+      {category: "tort", question: "Negligence三要素？", answer: "注意义务、违反、因果关系。"}
+    ];
+  } else {
+    flashcardsData = flashcardsData.filter(function(c) { return c.category === category; });
+  }
+  flashcardIndex = 0;
+  showFlashcard();
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+// 题目功能
+function showQuestions() {
+  var list = document.getElementById('questionList');
+  var html = '';
+  questionsData.forEach(function(q) {
+    html += '<div class="question"><h4>' + q.id + '. ' + q.question + '</h4><div class="options">';
+    q.options.forEach(function(opt, i) {
+      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ')">' + opt + '</div>';
+    });
+    html += '</div></div>';
+  });
+  list.innerHTML = html;
+}
+
+function filterQuestions() {
+  var category = document.getElementById('qCategory').value;
+  var filtered = category === 'all' ? questionsData : questionsData.filter(function(q) { return q.category === category; });
+  var list = document.getElementById('questionList');
+  var html = '';
+  filtered.forEach(function(q) {
+    html += '<div class="question"><h4>' + q.id + '. ' + q.question + '</h4><div class="options">';
+    q.options.forEach(function(opt, i) {
+      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ')">' + opt + '</div>';
+    });
+    html += '</div></div>';
+  });
+  list.innerHTML = html;
+}
+
+function checkAnswer(el, correct) {
+  var opts = el.parentElement.querySelectorAll('.option');
+  opts.forEach(function(o) { o.classList.remove('correct'); });
+  var idx = Array.from(opts).indexOf(el);
+  if (idx === correct) {
+    el.classList.add('correct');
+  }
+}
+
+// 词汇功能
+function showVocab() {
+  var list = document.getElementById('vocabList');
+  var html = '';
+  vocabData.forEach(function(v) {
+    html += '<div class="vocab"><span class="vocab-en">' + v.en + '</span><span class="vocab-zh">' + v.zh + '</span></div>';
+  });
+  list.innerHTML = html;
+}
+
+function searchVocab(keyword) {
+  var filtered = vocabData.filter(function(v) { 
+    return v.en.toLowerCase().includes(keyword.toLowerCase()) || v.zh.includes(keyword); 
+  });
+  var list = document.getElementById('vocabList');
+  var html = '';
+  filtered.forEach(function(v) {
+    html += '<div class="vocab"><span class="vocab-en">' + v.en + '</span><span class="vocab-zh">' + v.zh + '</span></div>';
+  });
+  list.innerHTML = html;
+}
+
+// 启动
+init();
+</script>
+
+</body>
+</html>
