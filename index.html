@@ -2221,6 +2221,24 @@
 
 
 <script>
+        // Debug: 确保按钮可点击
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('SQE System loaded');
+            
+            // 给所有导航按钮添加直接点击事件
+            document.querySelectorAll('.flex.gap-2 button').forEach(function(btn) {
+                btn.style.pointerEvents = 'auto';
+                btn.style.cursor = 'pointer';
+            });
+            
+            // 监听按钮点击
+            document.querySelectorAll('button[onclick^="goTab"]').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    console.log('Button clicked:', this.getAttribute('onclick'));
+                });
+            });
+        });
+
 
 let currentUser = null;
 
