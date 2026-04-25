@@ -180,6 +180,8 @@
 
     <button onclick="goTab('exam')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📋 考试介绍</button>
 
+    <button onclick="window.open('flashcards.html', '_blank')" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded border border-purple-500 hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 btn">🎴 记忆卡片</button>
+
   </div>
 
 
@@ -2400,7 +2402,9 @@ function login() {
 
     if (loginModalElement) loginModalElement.classList.add('hidden');
 
-    
+    // 隐藏首页，显示主应用
+    document.getElementById('home').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
 
     // 初始化模块
 
@@ -2562,7 +2566,9 @@ function directEnter() {
 
     console.log('直接进入系统');
 
-    
+    // 隐藏首页，显示主应用
+    document.getElementById('home').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
 
     // 确保DOM元素存在
 
