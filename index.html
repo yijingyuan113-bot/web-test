@@ -80,9 +80,9 @@
 
       <div class="flex gap-4 justify-center">
 
-        <button onclick="showLogin()" class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-300 border border-gray-200 btn">登录 开始学习</button>
+        <button id="btn-login" class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-300 border border-gray-200 btn">登录 开始学习</button>
 
-        <button onclick="directEnter()" class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-300 border border-gray-200 btn">直接进入</button>
+        <button id="btn-direct" class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-300 border border-gray-200 btn">直接进入</button>
 
       </div>
 
@@ -170,17 +170,17 @@
 
   <div class="flex gap-2 mb-6 justify-center flex-wrap">
 
-    <button onclick="goTab('course')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📘 课程模块</button>
+    <button id="btn-course" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📘 课程模块</button>
 
-    <button onclick="goTab('practice')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📝 题库练习</button>
+    <button id="btn-practice" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📝 题库练习</button>
 
-    <button onclick="goTab('vocabulary')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📚 法律英语</button>
+    <button id="btn-vocabulary" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📚 法律英语</button>
 
-    <button onclick="goTab('notes')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📓 笔记</button>
+    <button id="btn-notes" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📓 笔记</button>
 
-    <button onclick="goTab('exam')" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📋 考试介绍</button>
+    <button id="btn-exam" class="bg-white text-gray-800 px-4 py-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors duration-300 btn">📋 考试介绍</button>
 
-    <button onclick="window.open('flashcards.html', '_blank')" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded border border-purple-500 hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 btn">🎴 记忆卡片</button>
+    <button id="btn-flashcards" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-2 rounded border border-purple-500 hover:from-purple-700 hover:to-indigo-700 transition-colors duration-300 btn">🎴 记忆卡片</button>
 
   </div>
 
@@ -2221,24 +2221,46 @@
 
 
 <script>
-        // Debug: 确保按钮可点击
+        // 绑定按钮事件
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('SQE System loaded');
+            console.log('SQE System loading...');
             
-            // 给所有导航按钮添加直接点击事件
-            document.querySelectorAll('.flex.gap-2 button').forEach(function(btn) {
-                btn.style.pointerEvents = 'auto';
-                btn.style.cursor = 'pointer';
+            // 绑定导航按钮
+            var navButtons = [
+                {id: 'btn-course', tab: 'course'},
+                {id: 'btn-practice', tab: 'practice'},
+                {id: 'btn-vocabulary', tab: 'vocabulary'},
+                {id: 'btn-notes', tab: 'notes'},
+                {id: 'btn-exam', tab: 'exam'},
+                {id: 'btn-flashcards', tab: 'flashcards'}
+            ];
+            
+            navButtons.forEach(function(item) {
+                var btn = document.getElementById(item.id);
+                if (btn) {
+                    btn.onclick = function() {
+                        if (item.tab === 'flashcards') {
+                            window.open('flashcards.html', '_blank');
+                        } else {
+                            goTab(item.tab);
+                        }
+                    };
+                }
             });
             
-            // 监听按钮点击
-            document.querySelectorAll('button[onclick^="goTab"]').forEach(function(btn) {
-                btn.addEventListener('click', function(e) {
-                    console.log('Button clicked:', this.getAttribute('onclick'));
-                });
-            });
+            // 绑定首页按钮
+            var loginBtn = document.getElementById('btn-login');
+            if (loginBtn) {
+                loginBtn.onclick = function() { showLogin(); };
+            }
+            
+            var directBtn = document.getElementById('btn-direct');
+            if (directBtn) {
+                directBtn.onclick = function() { directEnter(); };
+            }
+            
+            console.log('All buttons bound');
         });
-
 
 let currentUser = null;
 
