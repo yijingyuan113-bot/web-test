@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQE Flashcards - 记忆卡片</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; color: white; }
+    .container { max-width: 800px; margin: 0 auto; }
+    header { text-align: center; margin-bottom: 30px; }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .stats { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
+    .stat { text-align: center; background: rgba(255,255,255,0.15); padding: 15px; border-radius: 10px; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; }
+    .progress { width: 100%; height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; margin-bottom: 30px; }
+    .progress-fill { height: 100%; background: #4ade80; border-radius: 4px; transition: width 0.5s; }
+    .card { background: white; color: #333; border-radius: 15px; min-height: 300px; padding: 30px; cursor: pointer; position: relative; }
+    .card-front, .card-back { padding: 20px; }
+    .card.flipped .card-front { display: none; }
+    .card:not(.flipped) .card-back { display: none; }
+    .label { background: #667eea; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
+    .content { font-size: 1.2rem; line-height: 1.8; white-space: pre-wrap; }
+    .hint { text-align: center; color: #888; margin-top: 20px; font-size: 0.9rem; }
+    .nav { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+    .btn { padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+    .btn-primary { background: #4ade80; color: #000; }
+    .btn-secondary { background: #fff; color: #333; }
+    select { padding: 10px 20px; font-size: 1rem; border-radius: 8px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎴 SQE 记忆卡片</h1>
+    </header>
+    
+    <div class="stats">
+      <div class="stat"><div class="stat-value" id="currentCard">1</div><div>当前</div></div>
+      <div class="stat"><div class="stat-value" id="totalCards">32</div><div>总卡片</div></div>
+      <div class="stat"><div class="stat-value" id="masteredCount">0</div><div>已掌握</div></div>
+    </div>
+    
+    <div class="progress"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+    
+    <select id="categorySelect" onchange="filterCards()">
+      <option value="all">全部类别</option>
+      <option value="legacy">遗嘱赠与</option>
+      <option value="failure">遗赠失败</option>
+      <option value="business">商业法</option>
+      <option value="equity">信托法</option>
+      <option value="land">土地法</option>
+      <option value="tort">侵权法</option>
+    </select>
+    
+    <div class="card" id="flashcard" onclick="flipCard()">
+      <div class="card-front">
+        <span class="label">问题</span>
+        <div class="content" id="questionContent">点击开始学习</div>
+        <p class="hint">点击卡片翻转查看答案</p>
+      </div>
+      <div class="card-back">
+        <span class="label">答案</span>
+        <div class="content" id="answerContent">-</div>
+        <p class="hint">点击卡片翻转回问题</p>
+      </div>
+    </div>
+    
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="prevCard()">◀ 上一张</button>
+      <button class="btn btn-primary" onclick="nextCard()">下一张 ▶</button>
+    </div>
+  </div>
+
+  <script>
+    var flashcards = [
+      {category: "legacy", question: "什么是 Specific Legacy？", answer: "指定赠与特定物品，如'my diamond ring to Alice'。必须遗嘱人死亡时拥有，否则失效（adeems）。"},
+      {category: "legacy", question: "什么是 General Legacy？", answer: "赠与一定金额，如'£1,000 to Bob'。从遗产任何资产支付。"},
+      {category: "legacy", question: "什么是 Residuary Legacy？", answer: "赠与剩余遗产，如'All the rest to Carol'。"},
+      {category: "failure", question: "什么是 Ademption？", answer: "特定遗赠物品不存在。例子：车已出售。"},
+      {category: "failure", question: "什么是 Lapse？", answer: "受益人先于遗嘱人死亡，遗赠失效。"},
+      {category: "business", question: "英国公司类型有哪些？", answer: "1. Sole Trader 2. Partnership 3. LLP 4. Limited Company 5. PLC"},
+      {category: "business", question: "董事三大义务？", answer: "1. 注意义务 2. 忠实义务 3. 促进公司成功(s.172 CA 2006)"},
+      {category: "business", question: "普通决议vs特别决议？", answer: "普通决议>50%，特别决议≥75%。"},
+      {category: "equity", question: "信托三要素？", answer: "1. 确定性意图 2. 确定性标的 3. 确定性对象"},
+      {category: "equity", question: "Resulting Trust？", answer: "财产转让未设信托时，法律假设转让人保留受益权。"},
+      {category: "equity", question: "Constructive Trust？", answer: "法院因公平理由强加的信托，如董事使用公司机会。"},
+      {category: "land", question: "Freehold vs Leasehold？", answer: "Freehold永久产权，Leasehold有期限租借。"},
+      {category: "land", question: "License vs Lease？", answer: "有独占占有=Lease，无=License。"},
+      {category: "land", question: "Easement地役权？", answer: "一块土地对另一块的权利：通行权、采光权等。"},
+      {category: "tort", question: "Negligence三要素？", answer: "1. 注意义务 2. 违反义务 3. 因果关系"},
+      {category: "tort", question: "Res Ipsa Loquitur？", answer: "事实自证 - 事故本身证明过失，如手术遗留纱布。"}
+    ];
+    
+    var currentIndex = 0;
+    
+    function showCard() {
+      if (flashcards.length === 0) return;
+      var card = flashcards[currentIndex];
+      document.getElementById('questionContent').textContent = card.question;
+      document.getElementById('answerContent').textContent = card.answer;
+      document.getElementById('currentCard').textContent = currentIndex + 1;
+    }
+    
+    function flipCard() {
+      document.getElementById('flashcard').classList.toggle('flipped');
+    }
+    
+    function nextCard() {
+      if (currentIndex < flashcards.length - 1) {
+        currentIndex++;
+        showCard();
+        document.getElementById('flashcard').classList.remove('flipped');
+      }
+    }
+    
+    function prevCard() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showCard();
+        document.getElementById('flashcard').classList.remove('flipped');
+      }
+    }
+    
+    function filterCards() {
+      var category = document.getElementById('categorySelect').value;
+      if (category === 'all') {
+        window.location.reload();
+      } else {
+        flashcards = flashcards.filter(function(c) { return c.category === category; });
+        currentIndex = 0;
+        showCard();
+        document.getElementById('totalCards').textContent = flashcards.length;
+      }
+    }
+    
+    // Initialize
+    document.getElementById('totalCards').textContent = flashcards.length;
+    showCard();
+  </script>
+</body>
+</html>

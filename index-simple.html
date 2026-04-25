@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQE 学习系统</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .hidden { display: none !important; }
+    .btn { padding: 10px 20px; border-radius: 5px; cursor: pointer; border: 1px solid #ccc; background: white; margin: 5px; }
+    .btn:hover { background: #f0f0f0; }
+    .btn-purple { background: linear-gradient(to right, #7c3aed, #4f46e5); color: white; border: none; }
+    .btn-purple:hover { opacity: 0.9; }
+    #home { text-align: center; padding: 100px 20px; color: white; }
+    #home h1 { font-size: 3rem; margin-bottom: 20px; }
+    #home .buttons { margin-top: 30px; }
+    #app { background: white; border-radius: 10px; padding: 20px; margin: 20px; min-height: 500px; }
+    .nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .card { background: #f9f9f9; padding: 15px; margin: 10px 0; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div id="home">
+    <h1>🎓 SQE 学习系统</h1>
+    <p>欢迎使用 SQE 英国律师资格考试学习平台</p>
+    <div class="buttons">
+      <button class="btn" onclick="showLogin()">登录 开始学习</button>
+      <button class="btn" onclick="enterApp()">直接进入</button>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="nav">
+      <button class="btn" onclick="goTab('course')">📘 课程模块</button>
+      <button class="btn" onclick="goTab('practice')">📝 题库练习</button>
+      <button class="btn" onclick="goTab('vocabulary')">📚 法律英语</button>
+      <button class="btn" onclick="goTab('notes')">📓 笔记</button>
+      <button class="btn" onclick="goTab('exam')">📋 考试介绍</button>
+      <button class="btn btn-purple" onclick="window.open('flashcards.html','_blank')">🎴 记忆卡片</button>
+    </div>
+
+    <div id="tab-course" class="tab-content active">
+      <h2>📘 课程模块</h2>
+      <div class="card">
+        <h3>FLK1 课程</h3>
+        <p>法律基础：宪法、合同法、侵权法、商业法等九大主题。</p>
+      </div>
+      <div class="card">
+        <h3>FLK2 课程</h3>
+        <p>法律实务：土地法、财产法、信托法、遗产管理等。</p>
+      </div>
+    </div>
+
+    <div id="tab-practice" class="tab-content">
+      <h2>📝 题库练习</h2>
+      <div class="card">
+        <p>点击开始练习 SQE 考试题目</p>
+        <button class="btn" onclick="alert('题库功能开发中')">开始练习</button>
+      </div>
+    </div>
+
+    <div id="tab-vocabulary" class="tab-content">
+      <h2>📚 法律英语</h2>
+      <div class="card">
+        <p>核心法律词汇中英对照</p>
+      </div>
+    </div>
+
+    <div id="tab-notes" class="tab-content">
+      <h2>📓 笔记</h2>
+      <div class="card">
+        <p>您的学习笔记</p>
+      </div>
+    </div>
+
+    <div id="tab-exam" class="tab-content">
+      <h2>📋 考试介绍</h2>
+      <div class="card">
+        <p>SQE 考试信息</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function enterApp() {
+      document.getElementById('home').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      goTab('course');
+    }
+
+    function showLogin() {
+      alert('登录功能开发中');
+    }
+
+    function goTab(tab) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      // Show selected tab
+      var tabEl = document.getElementById('tab-' + tab);
+      if (tabEl) {
+        tabEl.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
