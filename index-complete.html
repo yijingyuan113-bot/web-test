@@ -69,20 +69,13 @@
     .vocab-en { font-weight: bold; color: #4f46e5; }
     .vocab-zh { color: #666; }
     
-    /* 标签 */
-    .tag { display: inline-block; padding: 3px 10px; background: #e5e7eb; border-radius: 15px; font-size: 0.8rem; margin: 2px; }
-    .tag-red { background: #fee2e2; color: #dc2626; }
-    .tag-green { background: #d1fae5; color: #059669; }
-    .tag-blue { background: #dbeafe; color: #2563eb; }
-    .tag-yellow { background: #fef3c7; color: #d97706; }
-    
     /* flashcard */
     .flashcard-container { max-width: 600px; margin: 20px auto; text-align: center; }
     .flashcard { background: white; border-radius: 15px; min-height: 300px; padding: 30px; cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; }
     .flashcard.flipped .front { display: none; }
     .flashcard:not(.flipped) .back { display: none; }
     .flashcard-label { background: #4f46e5; color: white; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 20px; }
-    .flashcard-content { font-size: 1.2rem; line-height: 1.8; white-space: pre-wrap; }
+    .flashcard-content { font-size: 1.1rem; line-height: 1.8; white-space: pre-wrap; text-align: left; }
     .flashcard-hint { position: absolute; bottom: 15px; left: 0; right: 0; color: #999; font-size: 0.85rem; }
     .flashcard-nav { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
     .stats-bar { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
@@ -255,7 +248,7 @@
           <div class="stat-label">当前</div>
         </div>
         <div class="stat-box">
-          <div class="stat-num" id="totalCards">16</div>
+          <div class="stat-num" id="totalCards">35</div>
           <div class="stat-label">总卡片</div>
         </div>
         <div class="stat-box">
@@ -273,6 +266,7 @@
         <option value="trust">信托法</option>
         <option value="land">土地法</option>
         <option value="tort">侵权法</option>
+        <option value="contract">合同法</option>
       </select>
       
       <div class="flashcard" id="flashcard" onclick="flipCard()">
@@ -302,36 +296,70 @@ var currentUser = null;
 var currentTab = 'course';
 var flashcardIndex = 0;
 
-// 记忆卡片数据
+// 记忆卡片数据 - 35张
 var flashcardsData = [
-  {category: "legacy", question: "什么是 Specific Legacy（特定遗赠）？", answer: "指定赠与特定物品，如'my diamond ring to Alice'。特点：必须是遗嘱人死亡时拥有的特定物品，若物品不存在则失效(adeems)。"},
-  {category: "legacy", question: "什么是 General Legacy（一般遗赠）？", answer: "赠与一定金额或数量，如'£1,000 to Bob'。从遗产任何可用资产支付。"},
-  {category: "legacy", question: "什么是 Residuary Legacy（剩余遗产遗赠）？", answer: "赠与剩余全部遗产，如'All the rest of my estate to Carol'。"},
-  {category: "failure", question: "什么是 Ademption？", answer: "特定遗赠的物品在遗嘱人死亡时不存在，遗赠失效。例子：立遗嘱时拥有的车已出售。"},
-  {category: "failure", question: "什么是 Lapse（遗赠失效）？", answer: "受益人先于遗嘱人死亡，遗赠失效。"},
-  {category: "failure", question: "什么是 Survivorship Requirement？", answer: "要求受益人必须在遗嘱人死后存活30天，否则视为先于死亡。"},
-  {category: "business", question: "英国公司类型有哪些？", answer: "1. Sole Trader 个人企业 2. Partnership 合伙 3. LLP 有限责任合伙 4. Limited Company 有限公司 5. PLC 上市公司"},
-  {category: "business", question: "董事三大义务？", answer: "1. 注意义务 2. 忠实义务 3. 促进公司成功(s.172 CA 2006)"},
-  {category: "business", question: "普通决议vs特别决议？", answer: "普通决议>50%同意，特别决议≥75%同意。"},
-  {category: "trust", question: "信托三要素？", answer: "1. Certainty of intention 意图确定 2. Certainty of subject matter 标的确信 3. Certainty of objects 对象确定"},
-  {category: "trust", question: "Resulting Trust（剩余权益信托）？", answer: "财产转让未设信托时，法律假设转让人保留受益权。"},
-  {category: "trust", question: "Constructive Trust（法定信托）？", answer: "法院因公平理由强加的信托，如董事违规使用公司机会。"},
-  {category: "land", question: "Freehold vs Leasehold？", answer: "Freehold永久产权， Leasehold有期限租借（通常999年/99年）。"},
-  {category: "land", question: "License vs Lease？", answer: "有独占占有权=Lease，无=License。"},
-  {category: "land", question: "Easement（地役权）？", answer: "一块土地对另一块土地的权利，如通行权、采光权。"},
-  {category: "tort", question: "Negligence（过失）三要素？", answer: "1. Duty of care 注意义务 2. Breach 违反义务 3. Causation 因果关系"}
+  // 遗嘱赠与 (Legacy) - 10张
+  {category: "legacy", question: "什么是 Specific Legacy（特定遗赠）？", answer: "指定赠与特定物品，如'my diamond ring to Alice'。\n\n特点：\n• 必须是遗嘱人死亡时拥有的特定物品\n• 若物品不存在，赠与完全失效(adeems)\n• 关键词：'my' + 特定物品"},
+  {category: "legacy", question: "什么是 General Legacy（一般遗赠）？", answer: "赠与一定金额或数量，如'£1,000 to Bob'。\n\n特点：\n• 从遗产任何可用资产支付\n• 若遗产不足，仍需支付（可能削减）\n• 关键词：无'my'，金额/数量"},
+  {category: "legacy", question: "什么是 Residuary Legacy（剩余遗产遗赠）？", answer: "赠与剩余全部遗产，如'All the rest of my estate to Carol'。\n\n特点：\n• 支付债务和其他遗赠后的剩余部分\n• 必须包含，否则产生部分无遗嘱继承\n• 关键词：'all the rest'"},
+  {category: "legacy", question: "什么是 Pecuniary Legacy（金钱遗赠）？", answer: "赠与标的是金钱。\n\n分类：\n• General pecuniary: '£1,000 to Tom'\n• Specific pecuniary: '£1,000 cash in drawer to Jane'"},
+  {category: "legacy", question: "什么是 Demonstrative Legacy（指定来源遗赠）？", answer: "指定优先支付来源的金钱遗赠。\n\n示例：'£2,000 from my Barclays savings to Emma'\n\n特点：\n• 优先从指定账户支付\n• 若账户不足，差额从其他遗产补足\n• 不会因资金不足而失败"},
+  {category: "legacy", question: "Specific Devise vs General Devise？", answer: "针对土地的遗赠分类：\n\n• Specific Devise: 'I give 24 Acacia Avenue to my son'（特定地块）\n• General Devise: 'I give all my land to my children'（所有土地）\n• Residuary Devise: 'I give the rest of my land not otherwise disposed of...'"},
+  
+  // 遗赠失败 (Failure) - 8张
+  {category: "failure", question: "什么是 Ademption？", answer: "仅适用于Specific Gifts。\n\n定义：所赠特定物在遗嘱人死亡前已被出售/处理/毁灭。\n\n后果：赠与完全失效(bredeems)，受益人一无所得。\n\n示例：遗嘱说给B股票，但生前已卖出 → B什么都拿不到。"},
+  {category: "failure", question: "什么是 Lapse（遗赠失效）？", answer: "触发条件：\n1. 受益人先于遗嘱人死亡\n2. 受益人丧失资格\n\n后果：\n• Specific/General → 归入残值(residue)\n• Residuary → 产生部分无遗嘱继承"},
+  {category: "failure", question: "什么是 Survivorship Requirement？", answer: "要求受益人必须在遗嘱人死后存活30天，否则视为先于死亡。\n\n注意：适用于遗嘱明确要求的情况。"},
+  {category: "failure", question: "什么是 Abatement（削减）？", answer: "遗产不足以支付债务+所有遗赠时的处理顺序：\n\n1. 债务（优先全额支付）\n2. 未归属财产\n3. 剩余遗产\n4. 货币遗赠（最后削减）\n5. 特定物品赠与（最后削减）\n\n口诀：债→未归属→剩余→金钱→特定"},
+  {category: "failure", question: "什么是 Disclaimer（弃权）？", answer: "受赠人主动拒绝接受遗赠。\n\n常见原因：高额遗产税、附带抵押、保管困难。\n\n处理：视为从未获得，遗产返回相关池。\n\n注意：必须明确表示，不能默认。"},
+  {category: "failure", question: "什么是 Class Gifts 的成员确定规则？", answer: "基本原则：以遗嘱人死亡时的成员为准(closed at death)。\n\n例外(s33 Wills Act 1837)：\n• 赠与子女/直系后裔(as a class)\n• 某子女在遗嘱人死亡前死亡，但留有孙子女\n• 孙子女可代位继承(per stirpes)"},
+  {category: "failure", question: "什么是 Commorientes Rule（同时死亡）？", answer: "若无证据证明谁先死亡，推定年长者先死。\n\n用于解决互赠或共同受益人同时死亡的情况。"},
+  
+  // 商业法 - 5张
+  {category: "business", question: "英国公司类型有哪些？", answer: "1. Sole Trader 个人企业\n2. Partnership 合伙\n3. LLP 有限责任合伙\n4. Limited Company 有限公司\n5. PLC 上市公司"},
+  {category: "business", question: "董事三大义务？", answer: "1. 注意义务 (skill & care)\n2. 忠实义务 (loyalty)\n3. 促进公司成功 (s.172 CA 2006)"},
+  {category: "business", question: "普通决议 vs 特别决议？", answer: "普通决议：>50%同意\n特别决议：≥75%同意\n\n普通决议：一般事务\n特别决议：修改章程、清算等"},
+  {category: "business", question: "公司清算类型？", answer: "1. Voluntary 自愿清算\n   - Members' voluntary (可偿债)\n   - Creditors' voluntary (不可偿债)\n2. Compulsory 强制清算\n   - 法院命令"},
+  {category: "business", question: "什么是公司机会原则？", answer: "董事不得将公司机会据为己有。\n\n违反时：\n• 返还利润\n• 赔偿损失\n• 可能产生 Constructive Trust"},
+  
+  // 信托法 - 5张
+  {category: "trust", question: "信托三要素？", answer: "1. Certainty of intention 意图确定\n2. Certainty of subject matter 标的确信\n3. Certainty of objects 对象确定"},
+  {category: "trust", question: "Resulting Trust（剩余权益信托）？", answer: "财产转让未设信托时，法律假设转让人保留受益权。\n\n适用情况：\n• 未明确设立信托\n• 信托目的已实现但财产有剩余\n• 受益人先于信托终止"},
+  {category: "trust", question: "Constructive Trust（法定信托）？", answer: "法院因公平理由强加的信托。\n\n常见情况：\n• 董事使用公司机会\n• 共同财产纠纷\n• 非法行为受益"},
+  {category: "trust", question: "受托人职责？", answer: "1. 妥善管理信托财产\n2. 投资获得合理回报\n3. 记录和账目\n4. 不从事实业（除非授权）\n5. 不自我交易\n6. 分配给受益人"},
+  {category: "trust", question: "什么是 Trust of Land？", answer: "《1996年土地信托与受托人任命法》规范。\n\n特点：\n• 土地可作为信托财产持有\n• 受益人权利受保护\n• 受托人可出售/处置土地"},
+  
+  // 土地法 - 4张
+  {category: "land", question: "Freehold vs Leasehold？", answer: "Freehold（永久产权）：\n• 无限期拥有土地\n• 终身所有或自由保有\n\nLeasehold（租赁产权）：\n• 有期限的租借权\n• 通常999年/99年/数年\n• 需要支付地租"},
+  {category: "land", question: "License vs Lease？", answer: "License（许可）：\n• 无独占占有权\n• 可随时撤销\n• 通常是住宿协议\n\nLease（租约）：\n• 有独占占有权\n• 固定期限\n• 租客权利受保护"},
+  {category: "land", question: "Easement（地役权）？", answer: "一块土地对另一块土地的权利。\n\n常见类型：\n• Right of way 通行权\n• Right of light 采光权\n• Right of support 支持权\n• Party wall 共有墙"},
+  {category: "land", question: "Mortgage 抵押贷款？", answer: "借款人将财产作为债务担保。\n\n类型：\n• Legal mortgage: 法律上的抵押\n• Equitable mortgage: 衡平法抵押\n\n权利：\n• 止赎权 (foreclosure)\n• 出租权 (letting)\n• 出售权 (sale)"},
+  
+  // 侵权法 - 4张
+  {category: "tort", question: "Negligence（过失）三要素？", answer: "1. Duty of care 注意义务\n2. Breach 违反义务\n3. Causation 因果关系\n\n还需证明：\n• Remoteness 间接损失可预见"},
+  {category: "tort", question: "Donoghue v Stevenson 案？", answer: "1932年经典案例。\n\n确立：\n• 邻居原则 (neighbor principle)\n• 制造商对最终消费者有注意义务\n• 即使无合同关系也可追责\n\n影响：现代侵权法基础"},
+  {category: "tort", question: "Res Ipsa Loquitur？", answer: "事实自证原则。\n\n适用条件：\n• 事故本身证明过失\n• 被告完全控制物品\n• 无其他合理解释\n\n示例：\n• 手术遗留纱布\n• 飞机坠毁\n• 建筑物倒塌"},
+  {category: "tort", question: "严格责任 Strict Liability？", answer: "无需证明过失的责任。\n\n适用：\n• 危险动物\n• 异常危险活动(Rylands v Fletcher)\n• 产品责任\n\n特点：\n• 被告可抗辩\n• 不可抗力/原告过错"},
+  
+  // 合同法 - 4张
+  {category: "contract", question: "合同三要素？", answer: "1. Offer 要约\n2. Acceptance 承诺\n3. Consideration 对价\n\n还需：\n• 意图建立法律关系\n• 合法目的"},
+  {category: "contract", question: "什么是对价 Consideration？", answer: "有价值的交换。\n\n规则：\n• 必须有对价\n• 过去的对价无效\n• 必须有实际价值\n\n示例：\n• A给钱，B提供服务\n• 双方互相承诺"},
+  {category: "contract", question: "什么是有效要约 Offer？", answer: "明确发盘，表示愿意受约束。\n\nvs 招标/广告：\n• 广告通常是要约邀请\n• 招标通常是要约邀请\n• 明确发盘是要约"},
+  {category: "contract", question: "违约救济 Remedies？", answer: "1. Damages 损害赔偿\n   - 期望损失\n   - 信赖损失\n2. Specific performance 具体履行\n   - 金钱赔偿不足时\n   - 独一无二的物品\n3. Injunction 禁令\n   - 禁止某行为"}
 ];
 
 // 题目数据
 var questionsData = [
   {id: 1, category: "contract", question: "以下哪项构成有效对价？", options: ["A. 过去的对价", "B. 现有的对价", "C. 虚假的对价", "D. 不可能的对价"], correct: 1},
-  {id: 2, category: "tort", question: "根据经典案例Donoghue v Stevenson，以下哪项正确？", options: ["A. 制造商对消费者无注意义务", "B. 邻居原则适用所有情况", "C. 制造商对最终消费者有注意义务", "D. 只有合同关系才产生注意义务"], correct: 2},
+  {id: 2, category: "tort", question: "Donoghue v Stevenson 确立了什么原则？", options: ["A. 制造商无责任", "B. 邻居原则", "C. 严格责任", "D. 合同责任"], correct: 1},
   {id: 3, category: "trust", question: "Resulting Trust 何时适用？", options: ["A. 明确设立信托时", "B. 财产转让未明确目的时", "C. 受益人要求时", "D. 法院判决时"], correct: 1},
   {id: 4, category: "land", question: "Lease 和 License 的主要区别？", options: ["A. 租金金额", "B. 独占占有权", "C. 租约期限", "D. 建筑类型"], correct: 1},
   {id: 5, category: "wills", question: "遗嘱需要满足什么形式要求？", options: ["A. 口头即可", "B. 书面+签名+见证人", "C. 仅签名", "D. 仅书面"], correct: 1},
   {id: 6, category: "business", question: "公司董事促进公司成功的义务来自？", options: ["A. 普通法", "B. s.172 CA 2006", "C. 合同条款", "D. 判例法"], correct: 1},
   {id: 7, category: "contract", question: "以下哪种情况构成要约？", options: ["A. 广告", "B. 招标", "C. 明确发盘", "D. 询价"], correct: 2},
-  {id: 8, category: "tort", question: "Res Ipsa Loquitur 适用条件？", options: ["A. 原告有过错", "B. 事故本身证明过失", "C. 被告已道歉", "D. 有证人"], correct: 1}
+  {id: 8, category: "tort", question: "Res Ipsa Loquitur 适用条件？", options: ["A. 原告有过错", "B. 事故本身证明过失", "C. 被告已道歉", "D. 有证人"], correct: 1},
+  {id: 9, category: "wills", question: "Ademption 只适用于哪种遗赠？", options: ["A. General Legacy", "B. Residuary Legacy", "C. Specific Legacy", "D. Pecuniary Legacy"], correct: 2},
+  {id: 10, category: "trust", question: "Constructive Trust 产生原因？", options: ["A. 当事人明确设立", "B. 法院因公平强加", "C. 受益人要求", "D. 遗嘱指定"], correct: 1}
 ];
 
 // 词汇数据
@@ -355,7 +383,16 @@ var vocabData = [
   {en: "Legacy", zh: "遗赠"},
   {en: "Testator", zh: "立遗嘱人"},
   {en: "Will", zh: "遗嘱"},
-  {en: "Probate", zh: "遗嘱认证"}
+  {en: "Probate", zh: "遗嘱认证"},
+  {en: "Ademption", zh: "遗赠失效"},
+  {en: "Lapse", zh: "失效"},
+  {en: "Abatement", zh: "削减"},
+  {en: "Specific Legacy", zh: "特定遗赠"},
+  {en: "General Legacy", zh: "一般遗赠"},
+  {en: "Residuary Legacy", zh: "剩余遗产遗赠"},
+  {en: "Mortgage", zh: "抵押"},
+  {en: "Lease", zh: "租约"},
+  {en: "License", zh: "许可"}
 ];
 
 // 初始化
@@ -443,7 +480,8 @@ function filterFlashcards() {
       {category: "business", question: "英国公司类型？", answer: "Sole Trader, Partnership, LLP, Limited, PLC"},
       {category: "trust", question: "信托三要素？", answer: "意图、标的、对象确定。"},
       {category: "land", question: "Freehold vs Leasehold？", answer: "永久产权 vs 租赁产权。"},
-      {category: "tort", question: "Negligence三要素？", answer: "注意义务、违反、因果关系。"}
+      {category: "tort", question: "Negligence三要素？", answer: "注意义务、违反、因果关系。"},
+      {category: "contract", question: "合同三要素？", answer: "要约、承诺、对价。"}
     ];
   } else {
     flashcardsData = flashcardsData.filter(function(c) { return c.category === category; });
