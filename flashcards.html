@@ -612,14 +612,19 @@
 
         // 筛选卡片
         function filterCards() {
-            const category = categorySelect.value;
+            console.log('filterCards called, flashcards:', typeof flashcards, flashcards ? flashcards.length : 'undefined');
+            console.log('categorySelect:', categorySelect);
+            
+            const category = categorySelect ? categorySelect.value : 'all';
             const allFiltered = flashcards.filter(card => {
                 if (category === 'all') return true;
                 return card.category === category;
             });
             
+            console.log('Filtered count:', allFiltered.length);
+            
             // 显示总数
-            totalCardsEl.textContent = allFiltered.length;
+            if (totalCardsEl) totalCardsEl.textContent = allFiltered.length;
             
             // 移除已掌握的卡片（随机模式除外）
             progress.reviewQueue = allFiltered.filter((_, idx) => 
