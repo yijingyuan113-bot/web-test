@@ -63,6 +63,8 @@
     .option { padding: 8px 12px; margin: 5px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
     .option:hover { border-color: #4f46e5; }
     .option.correct { background: #d1fae5; border-color: #10b981; }
+    .option.wrong { background: #fee2e2; border-color: #ef4444; }
+    .analysis { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 0.9rem; line-height: 1.6; color: #333; }
     
     /* 词汇表 */
     .vocab { display: flex; justify-content: space-between; padding: 10px; margin: 5px 0; background: #f3f4f6; border-radius: 5px; }
@@ -358,16 +360,181 @@ var flashcardsData = [
 
 // 题目数据
 var questionsData = [
-  {id: 1, category: "contract", question: "以下哪项构成有效对价？", options: ["A. 过去的对价", "B. 现有的对价", "C. 虚假的对价", "D. 不可能的对价"], correct: 1},
-  {id: 2, category: "tort", question: "Donoghue v Stevenson 确立了什么原则？", options: ["A. 制造商无责任", "B. 邻居原则", "C. 严格责任", "D. 合同责任"], correct: 1},
-  {id: 3, category: "trust", question: "Resulting Trust 何时适用？", options: ["A. 明确设立信托时", "B. 财产转让未明确目的时", "C. 受益人要求时", "D. 法院判决时"], correct: 1},
-  {id: 4, category: "land", question: "Lease 和 License 的主要区别？", options: ["A. 租金金额", "B. 独占占有权", "C. 租约期限", "D. 建筑类型"], correct: 1},
-  {id: 5, category: "wills", question: "遗嘱需要满足什么形式要求？", options: ["A. 口头即可", "B. 书面+签名+见证人", "C. 仅签名", "D. 仅书面"], correct: 1},
-  {id: 6, category: "business", question: "公司董事促进公司成功的义务来自？", options: ["A. 普通法", "B. s.172 CA 2006", "C. 合同条款", "D. 判例法"], correct: 1},
-  {id: 7, category: "contract", question: "以下哪种情况构成要约？", options: ["A. 广告", "B. 招标", "C. 明确发盘", "D. 询价"], correct: 2},
-  {id: 8, category: "tort", question: "Res Ipsa Loquitur 适用条件？", options: ["A. 原告有过错", "B. 事故本身证明过失", "C. 被告已道歉", "D. 有证人"], correct: 1},
-  {id: 9, category: "wills", question: "Ademption 只适用于哪种遗赠？", options: ["A. General Legacy", "B. Residuary Legacy", "C. Specific Legacy", "D. Pecuniary Legacy"], correct: 2},
-  {id: 10, category: "trust", question: "Constructive Trust 产生原因？", options: ["A. 当事人明确设立", "B. 法院因公平强加", "C. 受益人要求", "D. 遗嘱指定"], correct: 1}
+  // ============ 合同法 Contract Law ============
+  {id: 1, category: "contract", question: "以下哪项构成有效对价？", options: ["A. 过去的对价 (Past Consideration)", "B. 现有的对价 (Present Consideration)", "C. 虚假的对价 (False Consideration)", "D. 不可能的对价 (Impossible Consideration)"], correct: 1, analysis: "【答案】B\n\n【分析】有效对价必须是现在的对价(Present Consideration)。过去的对价(Past Consideration)无效，因为它在要约做出之前已经发生。"},
+  {id: 2, category: "contract", question: "Donoghue v Stevenson (1932) 确立了什么原则？", options: ["A. 制造商无责任", "B. 邻居原则 (Neighbour Principle)", "C. 严格责任", "D. 合同责任"], correct: 1, analysis: "【答案】B\n\n【分析】Donoghue v Stevenson 确立了侵权法中的"邻居原则"(Neighbour Principle)：一个人应当合理注意避免可能伤害邻人的事情。这是现代过失侵权法的基石。"},
+  {id: 3, category: "contract", question: "Resulting Trust 何时适用？", options: ["A. 明确设立信托时", "B. 财产转让未明确目的时 (Implied Trust)", "C. 受益人要求时", "D. 法院判决时"], correct: 1, analysis: "【答案】B\n\n【分析】Resulting Trust（剩余权益信托）是推定信托，当财产转让但未明确设立信托目的时适用，财产复归转让人或用于转让人指定目的。"},
+  {id: 4, category: "contract", question: "Lease 和 License 的主要区别？", options: ["A. 租金金额", "B. 独占占有权 (Exclusive Possession)", "C. 租约期限", "D. 建筑类型"], correct: 1, analysis: "【答案】B\n\n【分析】Lease（租赁）赋予承租人独占占有权(Exclusive Possession)，而License（许可）仅允许使用，不享有独占占有权。这是两者最核心的法律区别。"},
+  {id: 5, category: "contract", question: "遗嘱需要满足什么形式要求？", options: ["A. 口头即可", "B. 书面+签名+见证人 (Writing + Signature + Witness)", "C. 仅签名", "D. 仅书面"], correct: 1, analysis: "【答案】B\n\n【分析】根据英国《遗嘱法》，有效遗嘱必须满足形式要求：书面形式、签名、两名见证人见证(18岁以上)。"},
+  {id: 6, category: "contract", question: "公司董事促进公司成功的义务来自？", options: ["A. 普通法", "B. s.172 CA 2006", "C. 合同条款", "D. 判例法"], correct: 1, analysis: "【答案】B\n\n【分析】英国《2006年公司法》第172条明确规定董事有义务促进公司成功( Promote the success of the company)，考虑股东长期利益。"},
+  {id: 7, category: "contract", question: "以下哪种情况构成要约(Offer)？", options: ["A. 广告 (Advertisement)", "B. 招标 (Invitation to Treat)", "C. 明确发盘 (Clear Offer)", "D. 询价 (Request for Information)"], correct: 2, analysis: "【答案】C\n\n【分析】广告和招标通常被视为要约邀请(Invitation to Treat)，而非要约。明确发盘构成要约，承诺后即形成合同。"},
+  {id: 8, category: "contract", question: "Res Ipsa Loquitur 适用条件？", options: ["A. 原告有过错", "B. 事故本身证明过失 (The thing speaks for itself)", "C. 被告已道歉", "D. 有证人"], correct: 1, analysis: "【答案】B\n\n【分析】Res Ipsa Loquitur（事实自证原则）适用于：事故本身足以证明被告存在过失，且该事故通常不会发生除非有人过失。"},
+  {id: 9, category: "contract", question: "Ademption 只适用于哪种遗赠？", options: ["A. General Legacy", "B. Residuary Legacy", "C. Specific Legacy", "D. Pecuniary Legacy"], correct: 2, analysis: "【答案】C\n\n【分析】Ademption（遗赠失效）仅适用于特定遗赠(Specific Legacy)。如果遗赠的特定物品在遗嘱人去世时不存在，遗赠失效。"},
+  {id: 10, category: "contract", question: "Constructive Trust 产生原因？", options: ["A. 当事人明确设立", "B. 法院因公平强加 (Court-imposed)", "C. 受益人要求", "D. 遗嘱指定"], correct: 1, analysis: "【答案】B\n\n【分析】Constructive Trust（推定信托）是法院基于公平原则强加的信托，非依当事人意图设立，用于防止不公正 Enrichment。"},
+  {id: 11, category: "contract", question: "对价(Consideration)的必要条件是？", options: ["A. 必须来自第三人", "B. 必须是真实的 (Real)", "C. 必须书面形式", "D. 必须是金钱"], correct: 1, analysis: "【答案】B\n\n【分析】对价必须是真实的(Real)，即必须是合法的、有价值的。可以是行为、允诺或克制，不必须是金钱。"},
+  {id: 12, category: "contract", question: "以下哪项属于无效合同？", options: ["A. 玩笑合同", "B. 戏谑合同 (Joke Contract)", "C. 书面合同", "D. 履行合同"], correct: 1, analysis: "【答案】B\n\n【分析】戏谑合同(Joke Contract)因缺乏真正的缔约意图(Intent to create legal relations)而无效。"},
+  {id: 13, category: "contract", question: "要约可以在什么情况下终止？", options: ["A. 受要约人死亡", "B. 要约人撤回", "C. 受要约人拒绝", "D. 以上都是"], correct: 3, analysis: "【答案】D\n\n【分析】要约可在以下情况终止：被撤回、要约人死亡、受要约人拒绝、要约过期或条件成就。"},
+  {id: 14, category: "contract", question: "承诺(Acceptance)必须满足什么条件？", options: ["A. 书面形式", "B. 与要约完全一致 (Mirror Image Rule)", "C. 口头同意", "D. 支付定金"], correct: 1, analysis: "【答案】B\n\n【分析】承诺必须与要约完全一致(Mirror Image Rule)。如果承诺附加条件，视为反要约。"},
+  {id: 15, category: "contract", question: "英国合同法中，违约金条款( Penalty Clause) 效力？", options: ["A. 永远有效", "B. 超过实际损失无效", "C. 由法院自由裁量", "D. 取决于金额大小"], correct: 1, analysis: "【答案】B\n\n【分析】违约金条款如果本质是惩罚(Penalty)而非预估计赔偿金(Liquidated Damages)，超过实际损失的部分无效。"},
+  {id: 16, category: "contract", question: "第三方权利法案1999 (Contracts Act) 赋予第三方什么权利？", options: ["A. 起诉合同双方", "B. 强制执行合同条款 (Enforce Contract Terms)", "C. 解除合同", "D. 修改合同"], correct: 1, analysis: "【答案】B\n\n【分析】第三方权利法案允许第三方在符合条件时强制执行合同条款，即使非合同当事人。"},
+  {id: 17, category: "contract", question: "合同的实质性违反(Material Breach)会导致？", options: ["A. 合同继续有效", "B. 另一方可终止合同", "C. 无任何后果", "D. 仅能要求赔偿"], correct: 1, analysis: "【答案】B\n\n【分析】实质性违反允许非违约方终止合同(Repudiate)并要求赔偿。非实质性违反只能要求赔偿。"},
+  {id: 18, category: "contract", question: "默示条款(Implied Terms)在消费者合同中主要来自？", options: ["A. 当事人明示", "B. 贸易惯例", "C. 法定要求 (Statutory)", "D. 习惯法"], correct: 2, analysis: "【答案】C\n\n【分析】消费者合同中的默示条款主要来自法定要求(如《消费者权利法2015》)，确保基本质量和服务标准。"},
+  {id: 19, category: "contract", question: "不可抗力(Force Majeure)条款的目的是？", options: ["A. 惩罚违约方", "B. 免除特定情况下的责任", "C. 延长合同期限", "D. 增加违约金"], correct: 1, analysis: "【答案】B\n\n【分析】不可抗力条款规定在特定事件(如天灾、战争)发生时，一方可以免除或减轻违约责任。"},
+  {id: 20, category: "contract", question: "代理关系(Agency)中，代理人的基本义务是？", options: ["A. 最大化本人利润", "B. 忠实义务 (Fiduciary Duty)", "C. 无限责任", "D. 亲自履行"], correct: 1, analysis: "【答案】B\n\n【分析】代理人承担忠实义务(Fiduciary Duty)，包括忠实于本人、避免利益冲突、不得谋取私利。"},
+
+  // ============ 侵权法 Tort Law ============
+  {id: 21, category: "tort", question: "过失侵权(Negligence)的构成要件？", options: ["A. 注意义务+违反+损害", "B. 故意+行为+结果", "C. 严格责任", "D. 绝对责任"], correct: 0, analysis: "【答案】A\n\n【分析】过失侵权构成三要素：Duty of Care(注意义务)、Breach(违反)、Damage(损害)。三者缺一不可。"},
+  {id: 22, category: "tort", question: "Donoghue v Stevenson 案中，snail 是什么？", options: ["A. 证据", "B. 侵权行为的载体 (The Ginger Beer)", "C. 证人", "D. 被告"], correct: 1, analysis: "【答案】B\n\n【分析】案件涉及在姜啤酒中发现蜗牛，原告因饮用后生病起诉制造商。"},
+  {id: 23, category: "tort", question: "Caparo v Dickman 案确立的过失测试标准是？", options: ["A. 合理预见", "B. 三步测试 (Foreseeability + Proximity + Fairness)", "C. 因果关系", "D. 损失程度"], correct: 1, analysis: "【答案】B\n\n【分析】Caparo案确立过失三要素测试：合理预见(Foreseeability)、近因(Proximity)、公平正义(Fairness)。"},
+  {id: 24, category: "tort", question: "经济损失(Economic Loss)在过失案中能否索赔？", options: ["A. 永远可以", "B. 永远不可以", "C. 有特殊情况时可以 (Special Relationship)", "D. 仅限合同违约"], correct: 2, analysis: "【答案】C\n\n【分析】纯经济损失一般不能索赔，但存在特殊关系(如专业建议)时可索赔。"},
+  {id: 25, category: "tort", question: "雇主替代责任(Vicarious Liability)的范围？", options: ["A. 仅限工作时间内", "B. 雇员在授权范围内 (Within Course of Employment)", "C. 仅限故意行为", "D. 仅限过失行为"], correct: 1, analysis: "【答案】B\n\n【分析】雇主对雇员在授权范围内(Within Course of Employment)的行为承担替代责任，即使该行为超出授权。"},
+  {id: 26, category: "tort", question: "共同侵权(Joint Tortfeasors)的责任承担方式？", options: ["A. 各付其责", "B. 连带责任 (Joint and Several Liability)", "C. 按份责任", "D. 不承担责任"], correct: 1, analysis: "【答案】B\n\n【分析】共同侵权人承担连带责任，受害人可向任一或全部责任人请求全部赔偿。"},
+  {id: 27, category: "tort", question: "妨害性侵扰(Nuisance)的救济方式包括？", options: ["A. 仅赔偿金", "B. 禁令和赔偿 (Injunction + Damages)", "C. 仅禁令", "D. 惩罚性赔偿"], correct: 1, analysis: "【答案】B\n\n【分析】妨害性侵扰的救济包括禁令(Injunction)禁止继续侵权，以及损害赔偿(Damages)补偿损失。"},
+  {id: 28, category: "tort", question: "产品责任(Product Liability)中，严格责任适用于？", options: ["A. 所有产品", "B. 缺陷产品 (Defective Products)", "C. 仅食品", "D. 仅药品"], correct: 1, analysis: "【答案】B\n\n【分析】产品责任中，对缺陷产品(Defective Products)适用严格责任，消费者无需证明制造商过失。"},
+  {id: 29, category: "tort", question: "非法侵入(Trespass)与妨害(Nuisance)的主要区别？", options: ["A. 无区别", "B. 侵入是实际侵犯，妨害是持续性干扰", "C. 侵入仅针对土地", "D. 妨害仅针对动产"], correct: 1, analysis: "【答案】B\n\n【分析】Trespass是实际侵犯人身或财产，Nuisance是对土地使用权的持续性干扰。两者性质不同。"},
+  {id: 30, category: "tort", question: "恶意检控(Malicious Prosecution)的构成要件？", options: ["A. 仅需起诉", "B. 无合理理由起诉+缺乏适当动机+结果有利原告", "C. 仅需动机不良", "D. 仅需无合理理由"], correct: 1, analysis: "【答案】B\n\n【分析】恶意检控需证明：无合理理由起诉(Want of reasonable cause)、缺乏适当动机(Lack of proper motive)、结果有利原告(Termination in favour of plaintiff)。"},
+  
+  // ============ 信托法 Trust Law ============
+  {id: 31, category: "trust", question: "有效信托的三要素(Three Certainties)？", options: ["A. 意图+标的+对象 (Intention + Subject Matter + Objects)", "B. 金钱+财产+时间", "C. 合同+受益人+对价", "D. 书面+签名+见证人"], correct: 0, analysis: "【答案】A\n\n【分析】信托三要素：意图(Intention)确定、标的(Subject Matter)确定、受益人(Objects)确定。"},
+  {id: 32, category: "trust", question: "Express Trust 的设立方式？", options: ["A. 仅能书面", "B. 书面或口头 (depending on type)", "C. 仅能信托宣言", "D. 仅能转让财产"], correct: 1, analysis: "【答案】B\n\n【分析】明示信托可依设立方式分为：财产转让型(Transfer)或信托宣言(Declaration)，形式因类型而异。"},
+  {id: 33, category: "trust", question: "Resulting Trust 的推定性质？", options: ["A. 明示信托", "B. 推定信托 (Presumed)", "C. 法定信托", "D. 强制信托"], correct: 1, analysis: "【答案】B\n\n【分析】Resulting Trust是推定信托，法院推定财产转让未明确目的时，转让人保留剩余权益。"},
+  {id: 34, category: "trust", question: "Constructive Trust 通常因什么产生？", options: ["A. 当事人明确约定", "B. 违反忠实义务 (Breach of Fiduciary Duty)", "C. 遗嘱指定", "D. 法定要求"], correct: 1, analysis: "【答案】B\n\n【分析】推定信托通常因违反忠实义务(Breach of Fiduciary Duty)产生，如受托人谋取私利、代理人自利等。"},
+  {id: 35, category: "trust", question: "受托人(Trustee)的基本职责？", options: ["A. 最大化投资回报", "B. 忠实义务+注意义务 (Duty of Loyalty + Skill and Care)", "C. 任意处置财产", "D. 为自己利益管理"], correct: 1, analysis: "【答案】B\n\n【分析】受托人承担忠实义务(Duty of Loyalty)和注意义务(Skill and Care)，需为受益人最佳利益管理信托财产。"},
+  {id: 36, category: "trust", question: "信托财产的独立性体现在？", options: ["A. 可与受托人财产混合", "B. 不得与受托人个人财产混合 (Separate Fund)", "C. 可用于受托人债务", "D. 不受债权人追索"], correct: 1, analysis: "【答案】B\n\n【分析】信托财产必须与受托人个人财产分开管理(Separate Fund)，不得混同，以保护受益人权益。"},
+  {id: 37, category: "trust", question: "信托变更(Variation of Trust)需要谁同意？", options: ["A. 仅受托人", "B. 受益人全体或法院批准", "C. 仅法院", "D. 仅信托宣言指定"], correct: 1, analysis: "【答案】B\n\n【分析】信托变更通常需要全体受益人同意，或依据《1958年信托变更法》经法院批准。"},
+  {id: 38, category: "trust", question: "Breach of Trust 的救济方式包括？", options: ["A. 仅赔偿", "B. 赔偿+追回财产+追溯收益", "C. 仅返还财产", "D. 无救济"], correct: 1, analysis: "【答案】B\n\n【分析】违反信托的救济包括：赔偿损失、追回信托财产、追溯收益、任命新受托人等。"},
+  {id: 39, category: "trust", question: "慈善信托(Charitable Trust)与非慈善信托的主要区别？", options: ["A. 无区别", "B. 慈善信托需符合慈善目的+公益性质", "C. 仅名称不同", "D. 税收待遇相同"], correct: 1, analysis: "【答案】B\n\n【分析】慈善信托必须具有慈善目的(Charitable Purpose)和公益性质(Public Benefit)，享受税收优惠。"},
+  {id: 40, category: "trust", question: "信托管理(Trust Administration)的基本原则？", options: ["A. 追求高风险高回报", "B. 审慎投资人规则 (Prudent Investor Rule)", "C. 自由裁量", "D. 追随市场趋势"], correct: 1, analysis: "【答案】B\n\n【分析】受托人须遵守审慎投资人规则(Prudent Investor Rule)，分散投资、审慎管理。"},
+
+  // ============ 土地法 Land Law ============
+  {id: 41, category: "land", question: "Freehold 地产权的特点？", options: ["A. 有期限", "B. 永久产权 (Indefinite Duration)", "C. 仅使用权", "D. 租赁权"], correct: 1, analysis: "【答案】B\n\n【分析】Freehold(永久产权)是无期限的地产权，业主拥有土地绝对所有权。"},
+  {id: 42, category: "land", question: "Leasehold 地产权的特点？", options: ["A. 永久", "B. 有期限 (Fixed Term)", "C. 无期限", "D. 可转让所有权"], correct: 1, analysis: "【答案】B\n\n【分析】Leasehold(租赁产权)有固定期限，承租人在租期内享有使用权，期限届满后返还业主。"},
+  {id: 43, category: "land", question: "Easement (地役权) 的典型例子？", options: ["A. 租赁", "B. 通行权 (Right of Way)", "C. 抵押", "D. 许可"], correct: 1, analysis: "【答案】B\n\n【分析】地役权(Easement)的典型例子包括通行权(Right of Way)、采光权等，允許他人在自己土地上行使特定权利。"},
+  {id: 44, category: "land", question: "Mortgage (抵押)的法律性质？", options: ["A. 买卖", "B. 债务担保 (Security for Debt)", "C. 租赁", "D. 赠与"], correct: 1, analysis: "【答案】B\n\n【分析】Mortgage是债务担保方式，借款人将财产抵押给贷款人作为债务担保，违约时贷款人可行使抵押权。"},
+  {id: 45, category: "land", question: "Licence (许可)与Lease的主要区别？", options: ["A. 期限不同", "B. 无独占占有权 (No Exclusive Possession)", "C. 租金不同", "D. 形式不同"], correct: 1, analysis: "【答案】B\n\n【分析】Licence不授予独占占有权，许可人可随时终止；而Lease授予独占占有权，受法律保护。"},
+  {id: 46, category: "land", question: "Covenant (契约)对土地受让人的效力？", options: ["A. 永远有效", "B. 取决于是否Running with Land", "C. 仅对原当事人有效", "D. 无效"], correct: 1, analysis: "【答案】B\n\n【分析】土地契约是否约束受让人取决于是否"随土地"(Running with Land)，即是否属于利益或负担。"},
+  {id: 47, category: "land", question: "Adverse Possession (逆权占有)的要件？", options: ["A. 公开占有", "B. 实际占有+排他性+未经许可+持续期限", "C. 仅需使用", "D. 只需支付租金"], correct: 1, analysis: "【答案】B\n\n【分析】逆权占有需满足：实际占有、排除真正所有权人、未经许可、法定持续期限(通常10年)。"},
+  {id: 48, category: "land", question: "Land Registration Act 2002 的主要改革？", options: ["A. 废除登记", "B. 全面电子登记 (Electronic Register)", "C. 仅针对新房", "D. 维持纸质登记"], correct: 1, analysis: "【答案】B\n\n【分析】2002年土地登记法引入全面电子登记系统(Electronic Register)，提高效率并减少欺诈。"},
+  {id: 49, category: "land", question: "Fixture (固定附着物)的法律地位？", options: ["A. 永远是动产", "B. 视为土地一部分 (Part of Land)", "C. 独立于土地", "D. 由当事人约定"], correct: 1, analysis: "【答案】B\n\n【分析】Fixture(固定附着物)一旦附着于土地，即视为土地的一部分，随土地所有权转移。"},
+  {id: 50, category: "land", question: "Priority of Mortgages 的确定规则？", options: ["A. 同时设立按比例", "B. 先登记优先 (First in Time)", "C. 金额大的优先", "D. 由借款人决定"], correct: 1, analysis: "【答案】B\n\n【分析】抵押权优先顺序遵循"先登记优先"(First in Time)原则，先设立并登记的抵押权优先于后设立的。"},
+  
+  // ============ 遗嘱法 Wills Law ============
+  {id: 51, category: "wills", question: "有效遗嘱的形式要求？", options: ["A. 口头", "B. 书面+签名+见证 (Writing + Signature + Witness)", "C. 仅书面", "D. 仅签名"], correct: 1, analysis: "【答案】B\n\n【分析】有效遗嘱需满足：书面形式、本人签名、两名见证人(18岁以上)在场见证。"},
+  {id: 52, category: "wills", question: "遗嘱人可自由处分的财产比例？", options: ["A. 100%", "B. 全部 (Testator Freedom)", "C. 受保留份额限制", "D. 50%"], correct: 1, analysis: "【答案】B\n\n【分析】遗嘱人原则上可自由处分全部财产，但需考虑家属 provision for family and dependents。"},
+  {id: 53, category: "wills", question: "Ademption 的发生条件？", options: ["A. 受益人先去世", "B. 遗赠物不存在 (Gift No Longer Exists)", "C. 遗嘱人破产", "D. 遗赠物增值"], correct: 1, analysis: "【答案】B\n\n【分析】Ademption发生在遗赠的特定物品在遗嘱人去世时已不存在，导致遗赠失效。"},
+  {id: 54, category: "wills", question: "Lapse 的发生条件？", options: ["A. 遗赠物增值", "B. 受益人先于遗嘱人死亡", "C. 遗嘱撤销", "D. 财产不足"], correct: 1, analysis: "【答案】B\n\n【分析】Lapse(失效)发生在受益人先于遗嘱人死亡，遗赠无法执行。"},
+  {id: 55, category: "wills", question: "Class Gift 的特点？", options: ["A. 特定人", "B. 群体 (Group of Persons)", "C. 公益组织", "D. 不确定"], correct: 1, analysis: "【答案】B\n\n【分析】Class Gift是给某一群体全体成员的遗赠，如"给我的孩子们"，存活者按股分享。"},
+  {id: 56, category: "wills", question: "Specific Legacy 与 General Legacy 的区别？", options: ["A. 无区别", "B. 特定物品 vs 金额/数量", "C. 效力不同", "D. 税务不同"], correct: 1, analysis: "【答案】B\n\n【分析】Specific Legacy是特定物品遗赠，General Legacy是金钱或数量遗赠。Ademption仅适用于前者。"},
+  {id: 57, category: "wills", question: "Residuary Legacy 的效力？", options: ["A. 最先执行", "B. 最后执行 (After Specific Legacies)", "C. 同时执行", "D. 不执行"], correct: 1, analysis: "【答案】B\n\n【分析】剩余遗产遗赠在清偿所有特定遗赠和债务后执行，分配剩余财产。"},
+  {id: 58, category: "wills", question: "Executor (遗嘱执行人)的职责？", options: ["A. 仅保管文件", "B. 管理遗产+清偿债务+分配财产", "C. 仅分配财产", "D. 无需介入"], correct: 1, analysis: "【答案】B\n\n【分析】遗嘱执行人职责：管理遗产、申请遗嘱认证、清偿债务、分配遗产给受益人。"},
+  {id: 59, category: "wills", question: "Probate (遗嘱认证)的作用？", options: ["A. 确认遗嘱效力", "B. 授予执行权 (Grant of Representation)", "C. 税务征收", "D. 登记备案"], correct: 1, analysis: "【答案】B\n\n【分析】遗嘱认证是法院确认遗嘱效力并授予执行权(Grant of Probate)的程序。"},
+  {id: 60, category: "wills", question: "Intestacy (无遗嘱死亡)时财产如何分配？", options: ["A. 国有", "B. 按法定顺序 (Statutory Distribution)", "C. 给朋友", "D. 法院自由裁量"], correct: 1, analysis: "【答案】B\n\n【分析】无遗嘱死亡时，财产按法定顺序(Intestacy Rules)分配给配偶、子女、父母等亲属。"},
+
+  // ============ 商业公司法 Business & Company Law ============
+  {id: 61, category: "business", question: "英国公司类型中，有限责任是指？", options: ["A. 股东责任无限", "B. 股东仅以出资额为限 (Limited Liability)", "C. 公司责任无限", "D. 董事责任无限"], correct: 1, analysis: "【答案】B\n\n【分析】有限公司的股东责任以其出资额为限(Limited Liability)，个人资产通常受保护。"},
+  {id: 62, category: "business", question: "董事的基本义务来源于？", options: ["A. 普通法", "B. Companies Act 2006 s.172", "C. 判例法", "D. 合同"], correct: 1, analysis: "【答案】B\n\n【分析】《2006年公司法》第172条明确规定董事义务：促进公司成功、考虑雇员/供应商/客户/社区利益等。"},
+  {id: 63, category: "business", question: "董事利益冲突(Conflict of Interest)的要求？", options: ["A. 无需披露", "B. 必须披露+经批准 (Disclose + Authorise)", "C. 自动禁止", "D. 仅需回避"], correct: 1, analysis: "【答案】B\n\n【分析】董事存在利益冲突时，必须向董事会披露(B disclose)并获得批准(Authorise)，否则可能构成违反义务。"},
+  {id: 64, category: "business", question: "股东大会普通决议的通过门槛？", options: ["A. 100%", "B. 简单多数 (50%+1)", "C. 75%", "D. 30%"], correct: 1, analysis: "【答案】B\n\n【分析】普通决议(Ordinary Resolution)需简单多数(Simple Majority, 50%+1)通过。"},
+  {id: 65, category: "business", question: "特别决议(Special Resolution)的通过门槛？", options: ["A. 50%", "B. 75% (75% of Votes)", "C. 90%", "D. 100%"], correct: 1, analysis: "【答案】B\n\n【分析】特别决议需75%以上投票权(Special Resolution)通过，用于修改章程、清算等重大事项。"},
+  {id: 66, category: "business", question: "公司秘书(Company Secretary)的任职资格？", options: ["A. 无要求", "B. 需具备相应知识和经验", "C. 必须是律师", "D. 必须是会计"], correct: 1, analysis: "【答案】B\n\n【分析】公司秘书需具备相应知识和经验(S.273 CA 2006)，负责合规和行政事务。"},
+  {id: 67, category: "business", question: "公司资本维持(Capital Maintenance)的原则？", options: ["A. 可自由分配", "B. 资本不得随意返还股东 (Protection of Capital)", "C. 无限制", "D. 仅限制分配"], correct: 1, analysis: "【答案】B\n\n【分析】资本维持原则禁止资本不经合法程序返还股东，保护债权人和股东利益。"},
+  {id: 68, category: "business", question: "派生诉讼(Derivative Action)的原告资格？", options: ["A. 任何股东", "B. 股东+法院许可 (Member + Court Leave)", "C. 仅董事", "D. 仅债权人"], correct: 1, analysis: "【答案】B\n\n【分析】派生诉讼需股东提起并获得法院许可(Court Leave)，代表公司追究董事责任。"},
+  {id: 69, category: "business", question: "公司清算(Winding Up)的原因包括？", options: ["A. 仅自愿", "B. 自愿或强制 (Voluntary or Compulsory)", "C. 仅法院命令", "D. 无原因"], correct: 1, analysis: "【答案】B\n\n【分析】公司清算分为自愿清算(股东决议)和强制清算(法院命令)，原因包括无力偿债等。"},
+  {id: 70, category: "business", question: "董事短线交易(Short-term Trading)的禁止？", options: ["A. 无禁止", "B. 禁止在股价波动前后交易", "C. 禁止董事交易", "D. 仅禁止期权"], correct: 1, analysis: "【答案】B\n\n【分析】董事在股价敏感期前后(Inside Information)交易构成内幕交易(Market Abuse)，被禁止。"},
+
+  // ============ 刑法 Criminal Law ============
+  {id: 71, category: "criminal", question: "犯罪意图(Mens Rea)的类型包括？", options: ["A. 仅故意", "B. 故意+鲁莽+过失 (Intent + Recklessness + Negligence)", "C. 仅过失", "D. 无需意图"], correct: 1, analysis: "【答案】B\n\n【分析】犯罪意图(Mens Rea)包括三种形态：故意(Intent)、鲁莽(Recklessness)、过失(Negligence)。不同犯罪要求不同意图程度。"},
+  {id: 72, category: "criminal", question: "Actus Reus 的含义是？", options: ["A. 犯罪意图", "B. 犯罪行为 (Guilty Act)", "C. 犯罪动机", "D. 犯罪结果"], correct: 1, analysis: "【答案】B\n\n【分析】Actus Reus(犯罪行为)是犯罪的客观要件，包括行为、不行为或结果。与Mens Rea(主观意图)共同构成犯罪。"},
+  {id: 73, category: "criminal", question: "共同犯罪(Joint Enterprise)的主要法律原则？", options: ["A. 仅主犯负责", "B. 所有参与者共同负责 (Shared Intent)", "C. 仅实行犯负责", "D. 无需刑事责任"], correct: 1, analysis: "【答案】B\n\n【分析】共同犯罪(Joint Enterprise)中，所有参与者因共同意图(Shared Intent)对犯罪后果共同承担责任。"},
+  {id: 74, category: "criminal", question: "未遂犯罪(Attempt)的成立条件？", options: ["A. 仅需意图", "B. 意图+超过准备阶段 (Intent + Beyond Preparation)", "C. 完成犯罪", "D. 任何行为"], correct: 1, analysis: "【答案】B\n\n【分析】未遂犯罪需证明：犯罪意图+超过准备阶段(Beyond Preparation)+实施构成犯罪的行为。"},
+  {id: 75, category: "criminal", question: "正当防卫(Self-defence)的限度？", options: ["A. 无限度", "B. 合理必要程度 (Reasonable Force)", "C. 被动防御", "D. 需先报警"], correct: 1, analysis: "【答案】B\n\n【分析】正当防卫使用合理必要的武力(Reasonable Force)，不得超过必要限度。"},
+  {id: 76, category: "criminal", question: "紧急避险(necessity)的法律效力？", options: ["A. 永远免责", "B. 有限辩护理由 (Limited Defence)", "C. 不构成辩护", "D. 减轻责任"], correct: 1, analysis: "【答案】B\n\n【分析】紧急避险(Necessity)是有限辩护理由，仅在特定情况下可作为辩护，需满足严格条件。"},
+  {id: 77, category: "criminal", question: "刑事责任年龄(年龄多大承担刑事责任)？", options: ["A. 10岁以下", "B. 10岁以上 (10+ years)", "C. 14岁以上", "D. 18岁以上"], correct: 1, analysis: "【答案】B\n\n【分析】英国刑法规定10岁以下儿童绝对免责；10-14岁需证明有犯意(Doli Incapax)才能定罪。"},
+  {id: 78, category: "criminal", question: "精神失常(Insanity)作为辩护的法律标准？", options: ["A. 精神紧张", "B. 法律认知缺陷 (Disease of the Mind)", "C. 情绪激动", "D. 压力过大"], correct: 1, analysis: "【答案】B\n\n【分析】精神失常辩护需证明：精神疾病导致无法认知行为性质或违法性(M'Naghten Rules)。"},
+  {id: 79, category: "criminal", question: "减轻情节(Mitigating Factors)的作用？", options: ["A. 免除责任", "B. 从轻处罚 (Lighter Sentence)", "C. 无作用", "D. 加重责任"], correct: 1, analysis: "【答案】B\n\n【分析】减轻情节用于从轻处罚(Mitigating)，如自首、悔罪、犯罪时特殊情况等。"},
+  {id: 80, category: "criminal", question: "盗窃罪(Theft)的构成要件？", options: ["A. 仅需占有", "B. 永久性剥夺+ Dishonest + Intent to Steal", "C. 仅需使用", "D. 借用"], correct: 1, analysis: "【答案】B\n\n【分析】盗窃罪需满足：永久性剥夺财产(Appropriate)+欺诈故意(Dishonest)+永久剥夺意图(Defraud)。"},
+  {id: 81, category: "criminal", question: "欺诈罪(Fraud)的核心要素？", options: ["A. 仅需虚假陈述", "B. 虚假陈述+导致损失+故意", "C. 仅过失", "D. 无需故意"], correct: 1, analysis: "【答案】B\n\n【分析】欺诈需证明：虚假陈述(Make False Representation)、故意( intent to make gain or cause loss)、导致损失。"},
+  {id: 82, category: "criminal", question: "人身攻击(Assault)和殴打(Battery)的区别？", options: ["A. 无区别", "B. Assault是威胁，Battery是实际接触", "C. 仅Assault需意图", "D. 仅Battery有罪"], correct: 1, analysis: "【答案】B\n\n【分析】Assault(攻击)是威胁造成立即伤害；Battery(殴打)是实际非法接触他人身体。两者可独立成罪。"},
+  {id: 83, category: "criminal", question: "谋杀罪(Murder)的构成要件？", options: ["A. 仅过失", "B. 故意杀人或致人死亡 (Intent to Kill or Cause GBH)", "C. 仅伤害", "D. 无意图"], correct: 1, analysis: "【答案】B\n\n【分析】谋杀罪需证明：故意杀人或造成严重身体伤害(GBH)的意图+导致他人死亡。"},
+  {id: 84, category: "criminal", question: "误杀(Manslaughter)的类型包括？", options: ["A. 仅过失", "B. 自愿误杀+非自愿误杀 (Voluntary + Involuntary)", "C. 仅故意", "D. 无类型"], correct: 1, analysis: "【答案】B\n\n【分析】误杀分为自愿误杀(Voluntary，如一时冲动)和非自愿误杀(Involuntary，如过失)。"},
+  {id: 85, category: "criminal", question: "共谋(Conspiracy)的法律地位？", options: ["A. 需实际犯罪", "B. 独立犯罪 (Separate Crime)", "C. 仅道德问题", "D. 无责任"], correct: 1, analysis: "【答案】B\n\n【分析】共谋是独立犯罪(Statutory Conspiracy)，即使未实际实施犯罪，协议本身即构成犯罪。"},
+  {id: 86, category: "criminal", question: "藐视法庭(Contempt of Court)的形式？", options: ["A. 仅书面", "B. 民事+刑事 (Civil + Criminal)", "C. 仅口头", "D. 无形式"], correct: 1, analysis: "【答案】B\n\n【分析】藐视法庭分为民事藐视(不服从法院命令)和刑事藐视(干扰司法程序)。"},
+  {id: 87, category: "criminal", question: "洗钱(Money Laundering)的阶段包括？", options: ["A. 仅一个阶段", "B. 放置+分层+整合 (Placement + Layering + Integration)", "C. 仅整合", "D. 无阶段"], correct: 1, analysis: "【答案】B\n\n【分析】洗钱三阶段：放置(Placement)→分层(Layering)→整合(Integration)，每阶段均可独立成罪。"},
+  {id: 88, category: "criminal", question: "恐怖主义犯罪(Terrorism)的核心要素？", options: ["A. 仅暴力", "B. 政治目的+暴力或恐吓 (Political Purpose + Violence/Intimidation)", "C. 仅政治目的", "D. 无定义"], correct: 1, analysis: "【答案】B\n\n【分析】恐怖主义需证明：政治/宗教/意识形态目的+使用暴力或恐吓手段。"},
+  {id: 89, category: "criminal", question: "毒品犯罪(Drug Offences)的类型包括？", options: ["A. 仅持有", "B. 持有+供应+生产 (Possession + Supply + Production)", "C. 仅供应", "D. 无类型"], correct: 1, analysis: "【答案】B\n\n【分析】毒品犯罪类型：持有(Possession)、供应(Supply)、生产(Production)，每项有不同刑责。"},
+  {id: 90, category: "criminal", question: "网络犯罪(Cybercrime)的主要形式？", options: ["A. 仅黑客", "B. 黑客+欺诈+滥用 (Hacking + Fraud + Abuse)", "C. 仅欺诈", "D. 无形式"], correct: 1, analysis: "【答案】B\n\n【分析】网络犯罪包括：非法入侵(Hacking)、网络欺诈(Cyber Fraud)、滥用计算机(Computer Misuse)等。"},
+
+  // ============ 民事诉讼法 Civil Procedure ============
+  {id: 91, category: "procedure", question: "英国民事诉讼的基本原则？", options: ["A. 当事人主义", "B. 当事人主导+法院管理 (Party-led + Court Management)", "C. 法院主导", "D. 无原则"], correct: 1, analysis: "【答案】B\n\n【分析】英国民事诉讼由当事人主导，但法院有责任管理案件(Case Management)，确保公正高效。"},
+  {id: 92, category: "procedure", question: "诉讼时效(Limitation Period)的目的是？", options: ["A. 惩罚原告", "B. 促使及时起诉+证据保全", "C. 保护被告", "D. 无目的"], correct: 1, analysis: "【答案】B\n\n【分析】诉讼时效促使当事人及时起诉，避免证据灭失、记忆模糊，确保司法效率。"},
+  {id: 93, category: "procedure", question: "简易判决(Summary Judgment)的适用条件？", options: ["A. 任何案件", "B. 无实质争议 (No Real Prospect of Success)", "C. 仅小额", "D. 需开庭"], correct: 1, analysis: "【答案】B\n\n【分析】简易判决适用于案件无实质争议(No Real Prospect)，或对方无合理辩护可能。"},
+  {id: 94, category: "procedure", question: "证据开示(Discovery)的范围？", options: ["A. 仅相关", "B. 相关+对方文件 (Relevant + Opponent's Documents)", "C. 仅保密", "D. 无范围"], correct: 1, analysis: "【答案】B\n\n【分析】证据开示要求双方披露相关文件及对方文件，保障诉讼公平。"},
+  {id: 95, category: "procedure", question: "证人证词(Witness Statement)的要求？", options: ["A. 口头即可", "B. 书面+亲笔签署 (Written + Signed)", "C. 仅需出庭", "D. 无要求"], correct: 1, analysis: "【答案】B\n\n【分析】证人证词需书面形式，当事人签字确认，庭上证言通常基于书面证词。"},
+  {id: 96, category: "procedure", question: "专家证人(Expert Witness)的职责？", options: ["A. 为雇主服务", "B. 客观协助法院 (Assist the Court Objectively)", "C. 仅提供意见", "D. 无需资质"], correct: 1, analysis: "【答案】B\n\n【分析】专家证人职责是客观协助法院(CPR 35)，而非为委托方利益服务。"},
+  {id: 97, category: "procedure", question: "缺席判决(Default Judgment)的条件？", options: ["A. 被告不出庭", "B. 被告未抗辩+满足条件 (No Defence Filed)", "C. 仅不出庭", "D. 需证明"], correct: 1, analysis: "【答案】B\n\n【分析】缺席判决适用于被告未提出抗辩(Defence)，原告满足特定条件时。"},
+  {id: 98, category: "procedure", question: "中间禁令(Interim Injunction)的目的？", options: ["A. 最终判决", "B. 临时保全 (Preserve Status Quo)", "C. 惩罚", "D. 无目的"], correct: 1, analysis: "【答案】B\n\n【分析】中间禁令用于在诉讼期间临时保全财产或权利，防止无法弥补的损害。"},
+  {id: 99, category: "procedure", question: "管辖权(Jurisdiction)的确定原则？", options: ["A. 原告选择", "B. 被告住所+合同履行地+侵权行为地", "C. 法院决定", "D. 无规则"], correct: 1, analysis: "【答案】B\n\n【分析】管辖权基于：被告住所(Domicile)、合同履行地(Place of Performance)、侵权行为地(Place of Tort)等。"},
+  {id: 100, category: "procedure", question: "送达(Service)的法律要求？", options: ["A. 任意方式", "B. 法律规定方式 (CPR Compliant)", "C. 仅邮寄", "D. 无要求"], correct: 1, analysis: "【答案】B\n\n【分析】送达需符合CPR规定的方式，如面交、邮寄、替换送达等，确保被告知悉诉讼。"},
+  {id: 101, category: "procedure", question: "禁令(Injunction)的类型包括？", options: ["A. 仅临时", "B. 临时+永久 (Interim + Permanent)", "C. 仅永久", "D. 无类型"], correct: 1, analysis: "【答案】B\n\n【分析】禁令分为临时禁令(Interim/Preserving Status Quo)和永久禁令(Final/Prohibitory/Mandatory)。"},
+  {id: 102, category: "procedure", question: "损害赔偿(Damages)的计算原则？", options: ["A. 惩罚性", "B. 补偿性+回复原状 (Compensatory + Restitution)", "C. 象征性", "D. 无原则"], correct: 1, analysis: "【答案】B\n\n【分析】损害赔偿以补偿性为主(Compensatory)，旨在使原告回复到未受侵害的状态。"},
+  {id: 103, category: "procedure", question: "集体诉讼(Class Action)的适用条件？", options: ["A. 个人诉讼", "B. 共同问题+同类请求 (Common Issue + Similar Claims)", "C. 任意合并", "D. 无条件"], correct: 1, analysis: "【答案】B\n\n【分析】集体诉讼需满足：共同法律或事实问题(Common Issue)、同类请求(Similar Claims)。"},
+  {id: 104, category: "procedure", question: "上诉(Appeal)的标准？", options: ["A. 重新审理", "B. 法律错误+显著不公 (Error of Law + Serious Injustice)", "C. 仅法律错误", "D. 无标准"], correct: 1, analysis: "【答案】B\n\n【分析】上诉需证明：法律错误(Error of Law)或程序不公导致显著不公(Serious Injustice)。"},
+  {id: 105, category: "procedure", question: "强制执行(Enforcement)的方式包括？", options: ["A. 仅一种", "B. 查封+扣押+冻结 (Seizure + Attachment + Freezing)", "C. 仅冻结", "D. 无方式"], correct: 1, analysis: "【答案】B\n\n【分析】强制执行方式：查封财产(Seizure)、扣押收入(Attachment)、冻结银行账户(Freezing Order)等。"},
+
+  // ============ 宪法与行政法 Constitutional & Admin Law ============
+  {id: 106, category: "constitution", question: "英国宪法的特点？", options: ["A. 成文宪法", "B. 不成文宪法 (Uncodified)", "C. 法典", "D. 成文+不成文"], correct: 1, analysis: "【答案】B\n\n【分析】英国宪法是不成文宪法(Uncodified)，由制定法、判例法、习惯法组成。"},
+  {id: 107, category: "constitution", question: "议会主权(Parliamentary Sovereignty)的含义？", options: ["A. 君主主权", "B. 议会至上 (Supreme Parliament)", "C. 司法主权", "D. 民众主权"], correct: 1, analysis: "【答案】B\n\n【分析】议会主权(Parliamentary Sovereignty)指议会立法权至高无上，不受任何其他权力约束。"},
+  {id: 108, category: "constitution", question: "法治(Rule of Law)的核心要素？", options: ["A. 人治", "B. 法律至上+程序公正+权力限制", "C. 多数决", "D. 无核心"], correct: 1, analysis: "【答案】B\n\n【分析】法治核心：法律面前人人平等、司法独立、程序公正、权力受法律约束。"},
+  {id: 109, category: "constitution", question: "司法审查(Judicial Review)的依据？", options: ["A. 事实问题", "B. 程序合法+比例原则 (Procedural Ultra Vires + Proportionality)", "C. 仅实体", "D. 无依据"], correct: 1, analysis: "【答案】B\n\n【分析】司法审查基于程序合法(Procedural Ultra Vires)和实体审查，包括比例原则。"},
+  {id: 110, category: "constitution", question: "比例原则(Proportionality)的测试步骤？", options: ["A. 一步", "B. 合法目标+适当性+必要性+均衡", "C. 两步", "D. 无步骤"], correct: 1, analysis: "【答案】B\n\n【分析】比例原则测试：合法目标(Legitimate Aim)→适当性(Appropriateness)→必要性(Necessity)→均衡(Balance)。"},
+  {id: 111, category: "constitution", question: "人权法案(HRA 1998)的核心内容？", options: ["A. 创设权利", "B. 嵌入《欧洲人权公约》权利", "C. 废除权利", "D. 无内容"], correct: 1, analysis: "【答案】B\n\n【分析】《人权法案》将《欧洲人权公约》权利嵌入英国法律，赋予法院审查立法的权力。"},
+  {id: 112, category: "constitution", question: "公共利益豁免(Public Interest Immunity)的范围？", options: ["A. 无豁免", "B. 特定政府信息 (Certain Government Information)", "C. 全部豁免", "D. 无范围"], correct: 1, analysis: "【答案】B\n\n【分析】公共利益豁免允许政府在特定情况下拒绝披露敏感信息，如国家安全、外交事务。"},
+  {id: 113, category: "constitution", question: "行政决策的司法审查标准？", options: ["A. 重新决定", "B. 合法性审查 (Lawfulness)", "C. 仅程序", "D. 无审查"], correct: 1, analysis: "【答案】B\n\n【分析】司法审查不重新决定行政事项，而是审查其合法性(越权、程序不当、不合理)。"},
+  {id: 114, category: "constitution", question: "特许经营权(Prerogative Power)的性质？", options: ["A. 法定权力", "B. 剩余权力 (Residual Royal Power)", "C. 无限制", "D. 已废止"], correct: 1, analysis: "【答案】B\n\n【分析】特许经营权(Prerogative Power)是女王保留的剩余权力，虽受议会立法限制但仍存在。"},
+  {id: 115, category: "constitution", question: "权力下放(Devolution)的法律框架？", options: ["A. 单一制", "B. 权力下放立法 (Devolution Legislation)", "C. 联邦制", "D. 无框架"], correct: 1, analysis: "【答案】B\n\n【分析】权力下放通过《1998年苏格兰/威尔士/北爱尔兰法案》赋予地方议会立法权。"},
+
+  // ============ 金融与银行法 Banking & Finance Law ============
+  {id: 116, category: "banking", question: "银行与客户关系的性质？", options: ["A. 信托", "B. 合同+受信 (Contractual + Fiduciary)", "C. 代理", "D. 无特殊"], correct: 1, analysis: "【答案】B\n\n【分析】银行与客户关系兼具合同关系和受信关系，银行对客户资产负有谨慎义务。"},
+  {id: 117, category: "banking", question: "欺诈性转账(Fraudulent Transfer)的责任？", options: ["A. 客户自负", "B. 银行有义务核实 (Verification Duty)", "C. 无责任", "D. 各半"], correct: 1, analysis: "【答案】B\n\n【分析】银行有义务核实转账指令的真实性，否则对欺诈性转账承担责任。"},
+  {id: 118, category: "banking", question: "信用证(Letter of Credit)的独立原则？", options: ["A. 从属基础合同", "B. 独立于基础合同 (Independent Principle)", "C. 无关", "D. 无原则"], correct: 1, analysis: "【答案】B\n\n【分析】信用证独立于基础合同(Independent Principle)，银行仅凭单据付款，不介入合同争议。"},
+  {id: 119, category: "banking", question: "反洗钱(AML)的核心义务？", options: ["A. 可选", "B. 客户尽职调查+可疑交易报告 (CDD + SAR)", "C. 仅报告", "D. 无义务"], correct: 1, analysis: "【答案】B\n\n【分析】反洗钱义务：客户尽职调查(CDD)、可疑交易报告(SAR)、记录保存等。"},
+  {id: 120, category: "banking", question: "金融监管(FCA/PRA)的职责划分？", options: ["A. 单一监管", "B. 行为监管+审慎监管 (FCA Conduct + PRA Prudential)", "C. 无分工", "D. 无监管"], correct: 1, analysis: "【答案】B\n\n【分析】FCA负责行为监管(Conduct)，PRA负责审慎监管(Prudential)，共同构成双峰监管。"},
+  {id: 121, category: "banking", question: "内幕交易(Insider Dealing)的构成要素？", options: ["A. 仅需持有", "B. 内幕信息+交易 (Inside Information + Deal)", "C. 仅信息", "D. 无要素"], correct: 1, analysis: "【答案】B\n\n【分析】内幕交易需证明：持有内幕信息(Inside Information)+利用信息交易证券(Deal)。"},
+  {id: 122, category: "banking", question: "市场操纵(Market Manipulation)的形式？", options: ["A. 仅虚假", "B. 虚假交易+误导+持仓操纵", "C. 仅交易", "D. 无形式"], correct: 1, analysis: "【答案】B\n\n【分析】市场操纵包括：虚假交易(Wash Trade)、误导市场(Misleading)、持仓操纵(Trading in Concert)等。"},
+  {id: 123, category: "banking", question: "存款保护( FSCS)的覆盖范围？", options: ["A. 无保护", "B. 85,000英镑/人/机构", "C. 无限额", "D. 仅自有"], correct: 1, analysis: "【答案】B\n\n【分析】金融服务补偿计划(FSCS)为每位存户提供最高85,000英镑的存款保护。"},
+  {id: 124, category: "banking", question: "支付服务(PSR)的目的？", options: ["A. 限制支付", "B. 规范支付服务+保护消费者", "C. 无目的", "D. 仅规范"], correct: 1, analysis: "【答案】B\n\n【分析】支付服务法规(PSR)规范支付服务提供者行为，保护消费者权益和支付系统安全。"},
+  {id: 125, category: "banking", question: "电子货币(E-money)监管要求？", options: ["A. 无监管", "B. 审慎要求+消费者保护", "C. 仅税收", "D. 无要求"], correct: 1, analysis: "【答案】B\n\n【分析】电子货币发行需满足审慎要求，包括资本金、客户资产隔离、消费者保护等。"},
+
+  // ============ 知识产权法 Intellectual Property ============
+  {id: 126, category: "ip", question: "版权(Copyright)的保护对象？", options: ["A. 思想", "B. 表达 (Expression)", "C. 仅文字", "D. 无保护"], correct: 1, analysis: "【答案】B\n\n【分析】版权保护表达(Expression)而非思想(Idea)，如文学作品、音乐、艺术作品。"},
+  {id: 127, category: "ip", question: "专利(Patent)的授予条件？", options: ["A. 现有技术", "B. 新颖性+创造性+工业适用性", "C. 仅新颖", "D. 无条件"], correct: 1, analysis: "【答案】B\n\n【分析】专利需满足：新颖性(Novelty)、创造性(Inventive Step)、工业适用性(Industrial Applicability)。"},
+  {id: 128, category: "ip", question: "商标(Trade Mark)的保护期？", options: ["A. 5年", "B. 10年+可续期", "C. 永久", "D. 20年"], correct: 1, analysis: "【答案】B\n\n【分析】商标保护期10年，可无限续期，每次续期10年。"},
+  {id: 129, category: "ip", question: "商业秘密(Trade Secret)的保护条件？", options: ["A. 无条件", "B. 保密+价值+合理措施", "C. 仅保密", "D. 无保护"], correct: 1, analysis: "【答案】B\n\n【分析】商业秘密保护需满足：具有商业价值、采取合理保密措施、非公知信息。"},
+  {id: 130, category: "ip", question: "合理使用(Fair Dealing)的例外？", options: ["A. 无限", "B. 研究+评论+新闻报道", "C. 仅教育", "D. 无例外"], correct: 1, analysis: "【答案】B\n\n【分析】合理使用包括：研究、评论、新闻报道、教学、图书馆使用等有限例外。"},
+  {id: 131, category: "ip", question: "设计权(Registered Design)的保护期？", options: ["A. 5年", "B. 25年+可续期", "C. 永久", "D. 10年"], correct: 1, analysis: "【答案】B\n\n【分析】注册设计保护期25年，每5年续期一次，最长25年。"},
+  {id: 132, category: "ip", question: "专利侵权(Patent Infringement)的形式？", options: ["A. 仅制造", "B. 制造+使用+销售+进口", "C. 仅销售", "D. 无形式"], correct: 1, analysis: "【答案】B\n\n【分析】专利侵权包括：制造(Make)、使用(Use)、销售(Sell)、进口(Import)专利产品。"},
+  {id: 133, category: "ip", question: "版权侵权(Copyright Infringement)的判断标准？", options: ["A. 相同", "B. 实质相似+接触 (Substantial Similarity + Access)", "C. 仅接触", "D. 无标准"], correct: 1, analysis: "【答案】B\n\n【分析】版权侵权判断：实质相似(Substantial Similarity)+接触过原作品(Access)。"},
+  {id: 134, category: "ip", question: "植物新品种(Plant Varieties)的保护？", options: ["A. 无保护", "B. UPOV体系保护", "C. 专利保护", "D. 无体系"], correct: 1, analysis: "【答案】B\n\n【分析】植物新品种通过UPOV体系获得保护，不同于专利或植物专利。"},
+  {id: 135, category: "ip", question: "域名(Domain Name)争议的解决机制？", options: ["A. 法院诉讼", "B. UDRP仲裁 (Uniform Domain-Name Dispute-Resolution Policy)", "C. 无机制", "D. 仅ICANN"], correct: 1, analysis: "【答案】B\n\n【分析】域名争议通过UDRP仲裁解决，投诉人需证明：混淆性相似+无权利+恶意注册。"},
+
+  // ============ 竞争法 Competition Law ============
+  {id: 136, category: "competition", question: "竞争法的核心目标？", options: ["A. 保护大企业", "B. 保护消费者+促进竞争", "C. 限制竞争", "D. 无目标"], correct: 1, analysis: "【答案】B\n\n【分析】竞争法旨在保护消费者利益、促进市场有效竞争、防止垄断。"},
+  {id: 137, category: "competition", question: "禁止卡特尔(Cartel)的类型？", options: ["A. 仅价格", "B. 价格+产量+划分市场+串通投标", "C. 仅投标", "D. 无类型"], correct: 1, analysis: "【答案】B\n\n【分析】卡特尔包括：固定价格(Fix Prices)、限制产量(Limit Output)、划分市场(Market Sharing)、串通投标(Bid Rigging)。"},
+  {id: 138, category: "competition", question: "滥用市场支配地位(Abuse)的例子？", options: ["A. 低价", "B. 垄断定价+拒绝交易+独家限制", "C. 仅高价", "D. 无例子"], correct: 1, analysis: "【答案】B\n\n【分析】滥用市场支配地位包括：垄断定价(Excessive Pricing)、拒绝交易(Refusal to Deal)、独家交易(Exclusive Dealing)。"},
+  {id: 139, category: "competition", question: "合并(Merger)审查的标准？", options: ["A. 无标准", "B. 市场份额+竞争实质减少 (Market Share + Substantial Lessening)", "C. 仅金额", "D. 无审查"], correct: 1, analysis: "【答案】B\n\n【分析】合并审查标准：市场份额及是否导致竞争实质减少(Substantial Lessening of Competition)。"},
+  {id: 140, category: "competition", question: "纵向合并(Vertical Merger)的审查重点？", options: ["A. 市场封锁", "B. 封锁效应+杠杆效应", "C. 仅价格", "D. 无重点"], correct: 1, analysis: "【答案】B\n\n【分析】纵向合并审查重点：是否导致市场封锁(foreclosure)或杠杆效应(Leverage)。"},
+  {id: 141, category: "competition", question: "限制竞争协议(Anti-competitive Agreement)的豁免条件？", options: ["A. 无豁免", "B. 效率效益+消费者分享+必要限制", "C. 仅效率", "D. 无条件"], correct: 1, analysis: "【答案】B\n\n【分析】豁免条件：产生效率效益(Efficiency Gains)、消费者合理分享、必要限制(Not Indispensable)。"},
+  {id: 142, category: "competition", question: "市场支配地位(Dominant Position)的认定因素？", options: ["A. 仅份额", "B. 市场份额+进入壁垒+能力", "C. 仅壁垒", "D. 无因素"], correct: 1, analysis: "【答案】B\n\n【分析】市场支配地位认定：市场份额(Market Share)、进入壁垒(Barriers to Entry)、竞争者能力(Countervailing Power)。"},
+  {id: 143, category: "competition", question: "国家援助(State Aid)的合法性审查？", options: ["A. 全部合法", "B. 欧盟条约+成员国会商", "C. 无审查", "D. 仅国内"], correct: 1, analysis: "【答案】B\n\n【分析】国家援助需符合欧盟条约例外规定，通常需与欧盟委员会(State Aid)会商批准。"},
+  {id: 144, category: "competition", question: "竞争执法机构(CMA)的权力？", options: ["A. 无权力", "B. 调查+处罚+民事权力", "C. 仅调查", "D. 无权力"], correct: 1, analysis: "【答案】B\n\n【分析】竞争与市场管理局(CMA)有权：调查(Investigation)、处罚(Fines)、要求行为/结构救济。"},
+  {id: 145, category: "competition", question: "私人诉讼(Private Action)的作用？", options: ["A. 无作用", "B. 补充执法+赔偿", "C. 替代", "D. 无补充"], correct: 1, analysis: "【答案】B\n\n【分析】私人诉讼补充公共执法，受害方可提起损害赔偿诉讼(Private Competition Claims)。"},
+
+  // ============ 劳动法 Employment Law ============
+  {id: 146, category: "employment", question: "雇佣关系的形成条件？", options: ["A. 书面合同", "B. 劳动+控制+对价 (Labour + Control + Consideration)", "C. 仅劳动", "D. 无条件"], correct: 1, analysis: "【答案】B\n\n【分析】雇佣关系需满足：提供劳动(Service)、雇主控制(Control)、对价支付(Pay)。"},
+  {id: 147, category: "employment", question: "不公平解雇(Unfair Dismissal)的救济？", options: ["A. 无救济", "B. 复职+赔偿+推荐信", "C. 仅赔偿", "D. 无救济"], correct: 1, analysis: "【答案】B\n\n【分析】不公平解雇救济：复职(Reinstatement)、赔偿(Compensation)、推荐信(Character Reference)。"},
+  {id: 148, category: "employment", question: "歧视(Discrimination)的类型？", options: ["A. 仅性别", "B. 直接+间接+骚扰+受害", "C. 仅种族", "D. 无类型"], correct: 1, analysis: "【答案】B\n\n【分析】歧视类型：直接歧视(Direct)、间接歧视(Indirect)、骚扰(Harassment)、受害(Victimisation)。"},
+  {id: 149, category: "employment", question: "最低工资(National Living Wage)的标准？", options: ["A. 任意", "B. 按年龄分级", "C. 统一", "D. 无标准"], correct: 1, analysis: "【答案】B\n\n【分析】英国最低工资按年龄分级：25岁以上、21-24岁、18-20岁、16-17岁不同标准。"},
+  {id: 150, category: "employment", question: "工作时间的限制？", options: ["A. 无限制", "B. 48小时周上限 (Weekly Limit 48hrs)", "C. 60小时", "D. 无上限"], correct: 1, analysis: "【答案】B\n\n【分析】《工作时间法规》规定每周工作48小时上限，可选择退出(Opt-out)但需书面同意。"}
 ];
 
 // 词汇数据
@@ -1010,9 +1177,9 @@ function showQuestions() {
   questionsData.forEach(function(q) {
     html += '<div class="question"><h4>' + q.id + '. ' + q.question + '</h4><div class="options">';
     q.options.forEach(function(opt, i) {
-      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ')">' + opt + '</div>';
+      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ', ' + q.id + ')">' + opt + '</div>';
     });
-    html += '</div></div>';
+    html += '</div><div class="analysis" style="display:none;"></div></div>';
   });
   list.innerHTML = html;
 }
@@ -1025,19 +1192,29 @@ function filterQuestions() {
   filtered.forEach(function(q) {
     html += '<div class="question"><h4>' + q.id + '. ' + q.question + '</h4><div class="options">';
     q.options.forEach(function(opt, i) {
-      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ')">' + opt + '</div>';
+      html += '<div class="option" onclick="checkAnswer(this, ' + q.correct + ', ' + q.id + ')">' + opt + '</div>';
     });
-    html += '</div></div>';
+    html += '</div><div class="analysis" style="display:none;"></div></div>';
   });
   list.innerHTML = html;
 }
 
-function checkAnswer(el, correct) {
+function checkAnswer(el, correct, qId) {
   var opts = el.parentElement.querySelectorAll('.option');
-  opts.forEach(function(o) { o.classList.remove('correct'); });
+  var analysisBox = el.parentElement.parentElement.querySelector('.analysis');
+  opts.forEach(function(o) { o.classList.remove('correct'); o.classList.remove('wrong'); });
   var idx = Array.from(opts).indexOf(el);
   if (idx === correct) {
     el.classList.add('correct');
+  } else {
+    el.classList.add('wrong');
+    opts[correct].classList.add('correct');
+  }
+  // 显示分析
+  var q = questionsData.find(function(x) { return x.id === qId; });
+  if (q && q.analysis) {
+    analysisBox.innerHTML = q.analysis.replace(/\n/g, '<br>');
+    analysisBox.style.display = 'block';
   }
 }
 
