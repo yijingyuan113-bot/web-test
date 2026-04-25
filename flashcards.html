@@ -588,22 +588,30 @@
             }));
         }
 
+        // 获取筛选后的卡片总数（不排除已掌握的）
+        function getFilteredTotal() {
+            const category = categorySelect.value;
+            return flashcards.filter(card => {
+                if (category === 'all') return true;
+                return card.category === category;
+            }).length;
+        }
+
         // 筛选卡片
         function filterCards() {
             const category = categorySelect.value;
-            progress.reviewQueue = flashcards.filter(card => {
+            const allFiltered = flashcards.filter(card => {
                 if (category === 'all') return true;
                 return card.category === category;
             });
             
-            // 移除已掌握的卡片（随机模式除外）
-            if (!progress.shuffled) {
-                progress.reviewQueue = progress.reviewQueue.filter((_, idx) => 
-                    !progress.mastered.has(getOriginalIndex(idx))
-                );
-            }
+            // 显示总数
+            totalCardsEl.textContent = allFiltered.length;
             
-            totalCardsEl.textContent = progress.reviewQueue.length;
+            // 移除已掌握的卡片（随机模式除外）
+            progress.reviewQueue = allFiltered.filter((_, idx) => 
+                progress.shuffled || !progress.mastered.has(getOriginalIndex(idx))
+            );
         }
 
         // 获取原始索引
@@ -635,13 +643,15 @@
 
         // 更新统计
         function updateStats() {
-            const total = progress.reviewQueue.length;
+            const category = categorySelect.value;
+            const totalInCategory = getFilteredTotal();
             const mastered = progress.mastered.size;
-            const remaining = total - progress.currentIndex - 1 + (total - progress.currentIndex - 1 >= 0 ? 0 : 0);
+            const remaining = totalInCategory - mastered;
             
             masteredCountEl.textContent = mastered;
+            remainingCountEl.textContent = remaining;
             
-            const progressPercent = total > 0 ? ((progress.currentIndex + 1) / total) * 100 : 0;
+            const progressPercent = totalInCategory > 0 ? (mastered / totalInCategory) * 100 : 0;
             progressFill.style.width = progressPercent + '%';
         }
 
@@ -708,6 +718,7 @@
             progress.currentIndex = 0;
             progress.shuffled = false;
             filterCards();
+            updateStats();
             showCard();
         });
 
