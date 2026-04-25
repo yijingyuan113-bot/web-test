@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQE Flashcards - 记忆卡片</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #4ade80;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+        
+        .flashcard {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .card-front {
+            background: white;
+            color: #333;
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .card-label {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .card-back .card-label {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .card-content {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .card-content small {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .flip-hint {
+            position: absolute;
+            bottom: 15px;
+            color: #999;
+            font-size: 0.8rem;
+        }
+        
+        .card-back .flip-hint {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #4ade80;
+            color: #166534;
+        }
+        
+        .btn-success:hover {
+            background: #22c55e;
+        }
+        
+        .btn-danger {
+            background: #f87171;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ef4444;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #f3f4f6;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .category-select {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .category-select select {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .result-modal.show {
+            display: flex;
+        }
+        
+        .result-content {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+        }
+        
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .result-stats {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .celebrate {
+            animation: celebrate 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 SQE Flashcards</h1>
+            <p>英国遗嘱法 - 记忆卡片</p>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="currentCard">1</div>
+                <div class="stat-label">当前卡片</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalCards">0</div>
+                <div class="stat-label">总卡片数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="masteredCount">0</div>
+                <div class="stat-label">已掌握</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="remainingCount">0</div>
+                <div class="stat-label">待复习</div>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        
+        <div class="category-select">
+            <select id="categorySelect">
+                <option value="all">全部类别</option>
+                <option value="legacy">遗嘱赠与分类</option>
+                <option value="failure">遗赠失败规则</option>
+                <option value="alterations">遗嘱修改</option>
+            </select>
+        </div>
+        
+        <div class="card-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <span class="card-label">问题</span>
+                    <div class="card-content" id="questionContent">
+                        点击开始学习
+                    </div>
+                    <span class="flip-hint">点击卡片翻转查看答案</span>
+                </div>
+                <div class="card-face card-back">
+                    <span class="card-label">答案</span>
+                    <div class="card-content" id="answerContent">
+                        -
+                    </div>
+                    <span class="flip-hint">点击卡片翻转回问题</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-secondary" id="prevBtn">◀ 上一张</button>
+            <button class="btn btn-primary" id="shuffleBtn">🔀 随机复习</button>
+            <button class="btn btn-success" id="masteredBtn">✅ 掌握了</button>
+            <button class="btn btn-danger" id="retryBtn">🔄 再学一遍</button>
+            <button class="btn btn-secondary" id="nextBtn">下一张 ▶</button>
+        </div>
+    </div>
+    
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-icon" id="resultIcon">🎉</div>
+            <div class="result-title" id="resultTitle">恭喜完成!</div>
+            <div class="result-stats" id="resultStats"></div>
+            <button class="btn btn-primary" id="restartBtn">重新开始</button>
+        </div>
+    </div>
+
+    <script>
+        // SQE 遗嘱法 flashcards 数据
+        const flashcards = [
+            {
+                category: "legacy",
+                question: "什么是 Specific Legacy（特定遗赠）？",
+                answer: "指定赠与特定的物品，如'my diamond ring to Alice'。\n\n特点：\n• 必须是遗嘱人死亡时拥有的特定物品\n• 若物品不存在，赠与完全失效（adeems）\n• 关键词：'my' + 特定物品"
+            },
+            {
+                category: "legacy",
+                question: "什么是 General Legacy（一般遗赠）？",
+                answer: "赠与一定金额或数量，如'£1,000 to Bob'。\n\n特点：\n• 从遗产任何可用资产支付\n• 若遗产不足，仍需支付（可能削减）\n• 关键词：无'my'，金额/数量"
+            },
+            {
+                category: "legacy",
+                question: "什么是 Residuary Legacy（剩余遗赠）？",
+                answer: "赠与遗产剩余部分，如'All the rest of my estate to Carol'。\n\n特点：\n• 支付债务和所有其他赠与后的剩余部分\n• 必须包含，否则部分无遗嘱继承\n• 关键词：'all the rest'"
+            },
+            {
+                category: "legacy",
+                question: "Specific vs General Legacy 的核心区别？",
+                answer: "【核心区别】\n• Specific：必须有特定物品存在，否则失效\n• General：无论什么资产支付，只要遗产有钱\n\n【记忆口诀】\nSpecific = 我的东西\nGeneral = 多少钱"
+            },
+            {
+                category: "failure",
+                question: "什么是 Ademption（撤回）？",
+                answer: "特定遗赠的物品在遗嘱人死亡时不存在。\n\n例子：遗嘱说"把车留给儿子"，但车已经卖掉 → 遗赠失效\n\n【考点】：仅影响 Specific Legacy"
+            },
+            {
+                category: "failure",
+                question: "什么是 Lapse（失效）？",
+                answer: "受益人在遗嘱人之前去世，遗赠失效。\n\n例子：遗嘱说"给儿子 £10万"，但儿子先去世 → 遗赠失效\n\n【例外】：如果受益人有后代，后代可以代位继承"
+            },
+            {
+                category: "failure",
+                question: "什么是 Ademption by Extinction？",
+                answer: "特定物品在遗嘱人死后不存在（如已出售、损毁）。\n\n与 Ademption（生前已不存在）的区别：\n• Ademption：死前不存在\n• Ademption by Extinction：死后不存在"
+            },
+            {
+                category: "alterations",
+                question: "什么是 Codicil（遗嘱附录）？",
+                answer: "对现有遗嘱的修改或补充。\n\n要求：\n• 必须书面\n• 需要见证（与遗嘱相同）\n• 可以添加、修改或撤销部分条款\n• 不能完全重写遗嘱"
+            },
+            {
+                category: "alterations",
+                question: "遗嘱修改后原遗嘱的效力？",
+                answer: "【原则】\n• 与Codicil冲突的条款，以Codicil为准\n• 未修改的条款仍然有效\n\n【注意】\n• 完全废除：Codicil明确撤销\n• 部分冲突：后订的文件为准"
+            },
+            {
+                category: "legacy",
+                question: "Demonstrative Legacy 是什么？",
+                answer: "指定从特定资金来源支付的一般遗赠。\n\n例子：'£1,000 from my bank account to Alice'\n\n特点：\n• 有特定资金来源，但仍是General Legacy\n• 若指定账户不足，从其他资产支付\n• 兼具体Specific和General特点"
+            },
+            {
+                category: "failure",
+                question: "什么是 Survivorship Requirement？",
+                answer: "要求受益人在遗嘱人死后生存一定时间（通常30天）才能获得遗赠。\n\n目的：防止同时死亡导致的遗产纠纷\n\n【英国法】：默认30天 survivorship"
+            },
+            {
+                category: "legacy",
+                question: "Pecuniary Legacy 是什么？",
+                answer: "金钱遗赠（pecuniary = 金钱的）。\n\n例子：'£5,000 to my nephew'\n\n特点：\n• 属于General Legacy\n• 必须支付（即使遗产不足可能削减）\n• 从剩余遗产优先支付"
+            }
+        ];
+
+        // 学习进度
+        let progress = {
+            currentIndex: 0,
+            mastered: new Set(),
+            reviewQueue: [],
+            shuffled: false
+        };
+
+        // DOM 元素
+        const flashcard = document.getElementById('flashcard');
+        const questionContent = document.getElementById('questionContent');
+        const answerContent = document.getElementById('answerContent');
+        const currentCardEl = document.getElementById('currentCard');
+        const totalCardsEl = document.getElementById('totalCards');
+        const masteredCountEl = document.getElementById('masteredCount');
+        const remainingCountEl = document.getElementById('remainingCount');
+        const progressFill = document.getElementById('progressFill');
+        const categorySelect = document.getElementById('categorySelect');
+        const resultModal = document.getElementById('resultModal');
+
+        // 初始化
+        function init() {
+            loadProgress();
+            filterCards();
+            updateStats();
+            showCard();
+            
+            // 本地存储进度
+            saveProgress();
+        }
+
+        // 加载进度
+        function loadProgress() {
+            const saved = localStorage.getItem('sqe-flashcards-progress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                progress.mastered = new Set(data.mastered || []);
+                progress.currentIndex = data.currentIndex || 0;
+            }
+        }
+
+        // 保存进度
+        function saveProgress() {
+            localStorage.setItem('sqe-flashcards-progress', JSON.stringify({
+                mastered: Array.from(progress.mastered),
+                currentIndex: progress.currentIndex
+            }));
+        }
+
+        // 筛选卡片
+        function filterCards() {
+            const category = categorySelect.value;
+            progress.reviewQueue = flashcards.filter(card => {
+                if (category === 'all') return true;
+                return card.category === category;
+            });
+            
+            // 移除已掌握的卡片（随机模式除外）
+            if (!progress.shuffled) {
+                progress.reviewQueue = progress.reviewQueue.filter((_, idx) => 
+                    !progress.mastered.has(getOriginalIndex(idx))
+                );
+            }
+            
+            totalCardsEl.textContent = progress.reviewQueue.length;
+        }
+
+        // 获取原始索引
+        function getOriginalIndex(filteredIndex) {
+            const category = categorySelect.value;
+            if (category === 'all') return filteredIndex;
+            const filtered = flashcards.filter(c => c.category === category);
+            const card = filtered[filteredIndex];
+            return flashcards.indexOf(card);
+        }
+
+        // 显示卡片
+        function showCard() {
+            if (progress.reviewQueue.length === 0) {
+                showResult();
+                return;
+            }
+            
+            const card = progress.reviewQueue[progress.currentIndex];
+            questionContent.innerHTML = card.question;
+            answerContent.innerHTML = card.answer.replace(/\n/g, '<br>');
+            
+            // 翻转回正面
+            flashcard.classList.remove('flipped');
+            
+            currentCardEl.textContent = progress.currentIndex + 1;
+            updateStats();
+        }
+
+        // 更新统计
+        function updateStats() {
+            const total = progress.reviewQueue.length;
+            const mastered = progress.mastered.size;
+            const remaining = total - progress.currentIndex - 1 + (total - progress.currentIndex - 1 >= 0 ? 0 : 0);
+            
+            masteredCountEl.textContent = mastered;
+            
+            const progressPercent = total > 0 ? ((progress.currentIndex + 1) / total) * 100 : 0;
+            progressFill.style.width = progressPercent + '%';
+        }
+
+        // 翻转卡片
+        flashcard.addEventListener('click', () => {
+            flashcard.classList.toggle('flipped');
+        });
+
+        // 下一张
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (progress.currentIndex < progress.reviewQueue.length - 1) {
+                progress.currentIndex++;
+                showCard();
+                saveProgress();
+            } else {
+                showResult();
+            }
+        });
+
+        // 上一张
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (progress.currentIndex > 0) {
+                progress.currentIndex--;
+                showCard();
+                saveProgress();
+            }
+        });
+
+        // 随机复习
+        document.getElementById('shuffleBtn').addEventListener('click', () => {
+            progress.shuffled = true;
+            progress.reviewQueue = [...flashcards].sort(() => Math.random() - 0.5);
+            progress.currentIndex = 0;
+            showCard();
+            saveProgress();
+        });
+
+        // 掌握了
+        document.getElementById('masteredBtn').addEventListener('click', () => {
+            const originalIndex = getOriginalIndex(progress.currentIndex);
+            progress.mastered.add(originalIndex);
+            
+            if (progress.currentIndex < progress.reviewQueue.length - 1) {
+                progress.currentIndex++;
+                showCard();
+            } else {
+                showResult();
+            }
+            saveProgress();
+            updateStats();
+        });
+
+        // 再学一遍
+        document.getElementById('retryBtn').addEventListener('click', () => {
+            const currentCard = progress.reviewQueue[progress.currentIndex];
+            progress.reviewQueue.push(currentCard);
+            progress.currentIndex = progress.reviewQueue.length - 1;
+            showCard();
+            saveProgress();
+        });
+
+        // 类别筛选
+        categorySelect.addEventListener('change', () => {
+            progress.currentIndex = 0;
+            progress.shuffled = false;
+            filterCards();
+            showCard();
+        });
+
+        // 显示结果
+        function showResult() {
+            const mastered = progress.mastered.size;
+            const total = flashcards.length;
+            const percentage = Math.round((mastered / total) * 100);
+            
+            document.getElementById('resultIcon').textContent = percentage >= 80 ? '🎉' : '📚';
+            document.getElementById('resultTitle').textContent = percentage >= 80 ? '太棒了！' : '继续加油！';
+            document.getElementById('resultStats').innerHTML = `
+                <p>已掌握: ${mastered}/${total} 张</p>
+                <p>进度: ${percentage}%</p>
+            `;
+            resultModal.classList.add('show');
+        }
+
+        // 重新开始
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            resultModal.classList.remove('show');
+            progress.currentIndex = 0;
+            progress.shuffled = false;
+            filterCards();
+            showCard();
+        });
+
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                flashcard.classList.toggle('flipped');
+                e.preventDefault();
+            } else if (e.code === 'ArrowRight') {
+                document.getElementById('nextBtn').click();
+            } else if (e.code === 'ArrowLeft') {
+                document.getElementById('prevBtn').click();
+            }
+        });
+
+        // 启动
+        init();
+    </script>
+</body>
+</html>
